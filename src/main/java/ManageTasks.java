@@ -1,5 +1,7 @@
+import java.util.ArrayList;
+
 public class ManageTasks {
-    private final Task[] tasks;
+    private final ArrayList<Task> tasks;
     private int taskCount;
 
 
@@ -7,29 +9,36 @@ public class ManageTasks {
      * Constructor for ManageTasks
      */
     public ManageTasks() {
-        this.tasks = new Task[100];
-        this.taskCount = 0;
+        this.tasks = new ArrayList<>();
     }
 
     /**
-     * Adds a task to the array tasks
+     * Adds a task to the arraylist of tasks
      *
      * @param task the task to add.
      */
     public void addTask(Task task) {
-            tasks[taskCount] = task;
-            taskCount++;
+            tasks.add(task);
+    }
+
+
+    /**
+     * Deletes a task from the arraylist by index.
+     *
+     * @param index the index of the task to be deleted.
+     * @return the task that is deleted.
+     */
+    public Task deleteTask(int index) {
+        return tasks.remove(index);
     }
 
     /**
-     * Retrieves all tasks stored in the array
+     * Retrieves all tasks stored in the arraylist
      *
-     * @return an array of tasks.
+     * @return an arraylist of tasks.
      */
     public Task[] getTasks() {
-        Task[] currentTasks = new Task[taskCount];
-        System.arraycopy(tasks, 0, currentTasks, 0, taskCount);
-        return currentTasks;
+        return tasks.toArray(new Task[0]);
     }
 
     /**
@@ -39,7 +48,7 @@ public class ManageTasks {
      * @return the task at the specified index.
      */
     public Task getTask(int index) {
-            return tasks[index];
+            return tasks.get(index);
     }
 
 
@@ -49,7 +58,7 @@ public class ManageTasks {
      * @param index the index of the task to mark.
      */
     public void markTask(int index) {
-            tasks[index].mark();
+            tasks.get(index).mark();
     }
 
     /**
@@ -58,8 +67,7 @@ public class ManageTasks {
      * @param index the index of the task to unmark.
      */
     public void unmarkTask(int index) {
-            tasks[index].unmark();
+            tasks.get(index).unmark();
     }
-
-
+    
 }
