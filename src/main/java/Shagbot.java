@@ -4,7 +4,7 @@ public class Shagbot {
 
     private final String botName;
     private final Ui ui;
-    private final ManageTasks task;
+    private final ManageTasks manageTask;
     private final Parser parser;
 
     /**
@@ -15,8 +15,8 @@ public class Shagbot {
     public Shagbot(String name) {
         botName = name;
         this.ui = new Ui(name);
-        this.task = new ManageTasks();
-        this.parser = new Parser(task, ui);
+        this.manageTask = new ManageTasks();
+        this.parser = new Parser(manageTask, ui);
     }
 
     /**

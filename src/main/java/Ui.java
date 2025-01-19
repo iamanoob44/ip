@@ -45,9 +45,11 @@ public class Ui {
      *
      * @param task the task to add.
      */
-    public void printTaskAdded(String task) {
+    public void printTaskAdded(String task, int taskcount) {
         System.out.println("     ____________________________________________________________");
-        System.out.println("     added: " + task);
+        System.out.println("     Got it. I've added this task:");
+        System.out.println("       " + task);
+        System.out.println("     Now you have " + taskcount + " tasks in the list.");
         System.out.println("     ____________________________________________________________");
     }
 
@@ -59,19 +61,16 @@ public class Ui {
      */
     public void printTaskList(Task[] tasks) {
         System.out.println("     ____________________________________________________________");
-        if (tasks.length == 0) {
-            System.out.println("     No tasks found.");
-        } else {
-            for (int i = 0; i < tasks.length; i++) {
-                System.out.println("     " + (i + 1) + ". " + tasks[i]);
-            }
+        System.out.println("     Here are the tasks in your list:");
+        for (int i = 0; i < tasks.length; i++) {
+            System.out.println("     " + (i + 1) + "." + tasks[i]);
         }
         System.out.println("     ____________________________________________________________");
     }
 
 
     /**
-     * Prints a message indicating a task has been marked as done.
+     * Prints a message indicating that the task has been marked as done.
      *
      * @param task the task that was marked as done.
      */
@@ -83,7 +82,7 @@ public class Ui {
     }
 
     /**
-     * Prints a message indicating a task has been marked as not done.
+     * Prints message indicating that the task has been marked as not done.
      *
      * @param task the task that was marked as not done.
      */
@@ -94,6 +93,14 @@ public class Ui {
         System.out.println("     ____________________________________________________________");
     }
 
+    /**
+     * Prints a message for invalid commands/inputs
+     *
+     *
+     */
+    public void printInvalidCommand() {
+        System.out.println("     Invalid command. Please try again.");
+    }
 
 
 }

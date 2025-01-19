@@ -14,10 +14,10 @@ public class ManageTasks {
     /**
      * Adds a task to the array tasks
      *
-     * @param description the task to add.
+     * @param task the task to add.
      */
-    public void addTask(String description) {
-            tasks[taskCount] = new Task(description);
+    public void addTask(Task task) {
+            tasks[taskCount] = task;
             taskCount++;
     }
 

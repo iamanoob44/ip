@@ -29,9 +29,28 @@ public class Parser {
             handleMarkCommand(command, true);
         } else if (command.startsWith("unmark ")) {
             handleMarkCommand(command, false);
+        } else if (command.startsWith("todo ")) {
+            String description = command.substring(5).trim();
+            Todo todo = new Todo(description);
+            manageTasks.addTask(todo);
+            ui.printTaskAdded(todo.toString(), manageTasks.getTasks().length);
+        } else if (command.startsWith("deadline ")) {
+            String[] cmd = command.substring(9).split(" /by ");
+            String description = cmd[0].trim();
+            String byTiming = cmd[1].trim();
+            Deadline deadline = new Deadline(description, byTiming);
+            manageTasks.addTask(deadline);
+            ui.printTaskAdded(deadline.toString(), manageTasks.getTasks().length);
+        } else if (command.startsWith("event ")) {
+            String[] cmd = command.substring(6).split(" /from | /to ");
+            String description = cmd[0].trim();
+            String start = cmd[1].trim();
+            String end = cmd[2].trim();
+            Event event = new Event(description, start, end);
+            manageTasks.addTask(event);
+            ui.printTaskAdded(event.toString(), manageTasks.getTasks().length);
         } else {
-            manageTasks.addTask(command);
-            ui.printTaskAdded(command);
+            ui.printInvalidCommand();
         }
         return true;
     }
