@@ -103,5 +103,17 @@ public class Ui {
         System.out.println("     WOOP WOOP!!! " + message);
     }
 
-
+    /**
+     * Prints message indicating a task is deleted.
+     *
+     * @param task the task that was deleted.
+     * @param tasksSoFar the number of tasks that remains in the arraylist.
+     */
+    public void printTaskDeleted(Task task, int tasksSoFar) {
+        System.out.println("     ____________________________________________________________");
+        System.out.println("     Noted. I've removed this task:");
+        System.out.println("       " + task);
+        System.out.println("     Now you have " + tasksSoFar + " tasks in the list.");
+        System.out.println("     ____________________________________________________________");
+    }
 }

@@ -50,18 +50,19 @@ public class Parser {
                 Event event = new Event(description, start, end);
                 manageTasks.addTask(event);
                 ui.printTaskAdded(event.toString(), manageTasks.getTasks().length);
+            } else if (command.startsWith("delete ")) {
+                handleDeleteCommand(command);
             } else if (command.trim().isEmpty()) {
                 throw new ShagBotException("You did not enter anything... " +
                         "Please " +
                         "enter a valid input : todo, deadline, event, " +
-                        "mark, unmark, or bye!");
+                        "mark, unmark, delete or bye!");
             } else {
                 throw new ShagBotException("Oopsiee! Your input is" +
                         " invalid. Please try again by entering a valid input : todo, " +
                         "deadline, event, " +
-                        "mark, unmark, or bye!");
+                        "mark, unmark, delete or bye!");
             }
-
         } catch (ShagBotException e) {
             ui.printErrorMessage(e.getMessage());
         } catch (Exception e) {
@@ -74,8 +75,9 @@ public class Parser {
     /**
      * Mark or unmark the task.
      *
-     * @param command the command given.
+     * @param command the command given, that is, mark or unmark
      * @param isMark mark or unmark for a task.
+     * @throws ShagBotException throws an error for invalid inputs
      */
     private void handleMarkCommand(String command, boolean isMark) throws ShagBotException {
         try {
@@ -94,6 +96,25 @@ public class Parser {
             }
         } catch (NumberFormatException e) {
             throw new ShagBotException("Invalid task number entered. Please try again!!");
+        }
+    }
+
+    /**
+     *
+     * @param command the command given, that is, delete
+     * @throws ShagBotException throws an error for invalid inputs
+     */
+    private void handleDeleteCommand(String command) throws ShagBotException {
+        try {
+            int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
+            if (taskIndex < 0 || taskIndex >= manageTasks.getTasks().length) {
+                throw new ShagBotException("Task number is out of range! Enter a number " +
+                        "from 1 to " + manageTasks.getTasks().length + ".");
+            }
+            Task removedTask = manageTasks.deleteTask(taskIndex);
+            ui.printTaskDeleted(removedTask, manageTasks.getTasks().length);
+        } catch (NumberFormatException e) {
+            throw new ShagBotException("Invalid task number entered. Please try again!");
         }
     }
 
