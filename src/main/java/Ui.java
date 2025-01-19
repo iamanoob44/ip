@@ -93,13 +93,14 @@ public class Ui {
         System.out.println("     ____________________________________________________________");
     }
 
+
     /**
-     * Prints a message for invalid commands/inputs
+     * Prints messages when errors are encountered
      *
-     *
+     * @param message the error message
      */
-    public void printInvalidCommand() {
-        System.out.println("     Invalid command. Please try again.");
+    public void printErrorMessage(String message) {
+        System.out.println("     WOOP WOOP!!! " + message);
     }
 
 
