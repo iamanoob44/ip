@@ -5,6 +5,7 @@ public class Shagbot {
     private final String botName;
     private final Ui ui;
     private final ManageTasks task;
+    private final Parser parser;
 
     /**
      * Constructor for Shagbot
@@ -15,6 +16,7 @@ public class Shagbot {
         botName = name;
         this.ui = new Ui(name);
         this.task = new ManageTasks();
+        this.parser = new Parser(task, ui);
     }
 
     /**
@@ -26,14 +28,8 @@ public class Shagbot {
 
         while (true) {
             String userInput = scanner.nextLine().trim();
-            if (userInput.equalsIgnoreCase("Bye")) {
-                ui.printExit();
+            if (!parser.parseCommand(userInput)) {
                 break;
-            } else if (userInput.equalsIgnoreCase("List")){
-                ui.printTaskList(task.getTasks());
-            } else {
-                task.addTask(userInput);
-                ui.printTaskAdded(userInput);
             }
         }
         scanner.close();
@@ -46,7 +42,7 @@ public class Shagbot {
         shagbot.start();
     }
 
-    /*
+    /**
      * Returns the greeting.
      */
     public static String printGreeting() {
@@ -61,3 +57,4 @@ public class Shagbot {
     }
 
 }
+
