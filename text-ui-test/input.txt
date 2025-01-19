@@ -1,0 +1,12 @@
+todo borrow book
+deadline return book /by Thursday 6pm
+event student meeting /from Tues 2pm /to 6pm
+mark 2
+todo tutorial 2
+mark 3
+unmark 2
+list
+bye
+
+
+
