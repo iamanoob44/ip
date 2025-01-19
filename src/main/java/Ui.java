@@ -40,4 +40,33 @@ public class Ui {
         System.out.println("     ____________________________________________________________");
     }
 
+    /**
+     * Prints a message when task is added.
+     *
+     * @param task the task to add.
+     */
+    public void printTaskAdded(String task) {
+        System.out.println("     ____________________________________________________________");
+        System.out.println("     added: " + task);
+        System.out.println("     ____________________________________________________________");
+    }
+
+
+    /**
+     * Prints the list of tasks.
+     *
+     * @param tasks an array of added tasks to display.
+     */
+    public void printTaskList(String[] tasks) {
+        System.out.println("     ____________________________________________________________");
+        if (tasks.length == 0) {
+            System.out.println("     No tasks found.");
+        } else {
+            for (int i = 0; i < tasks.length; i++) {
+                System.out.println("     " + (i + 1) + ". " + tasks[i]);
+            }
+        }
+        System.out.println("     ____________________________________________________________");
+    }
+
 }

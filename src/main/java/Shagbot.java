@@ -30,9 +30,10 @@ public class Shagbot {
                 ui.printExit();
                 break;
             } else if (userInput.equalsIgnoreCase("List")){
-                ui.echo(userInput); // change for level 2
+                ui.printTaskList(task.getTasks());
             } else {
-                // change for level 2
+                task.addTask(userInput);
+                ui.printTaskAdded(userInput);
             }
         }
         scanner.close();
