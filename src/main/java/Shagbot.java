@@ -4,6 +4,7 @@ public class Shagbot {
 
     private final String botName;
     private final Ui ui;
+    private final Task task;
 
     /**
      * Constructor for Shagbot
@@ -13,6 +14,7 @@ public class Shagbot {
     public Shagbot(String name) {
         botName = name;
         this.ui = new Ui(name);
+        this.task = new Task();
     }
 
     /**
@@ -27,8 +29,10 @@ public class Shagbot {
             if (userInput.equalsIgnoreCase("Bye")) {
                 ui.printExit();
                 break;
+            } else if (userInput.equalsIgnoreCase("List")){
+                ui.echo(userInput); // change for level 2
             } else {
-                ui.echo(userInput);
+                // change for level 2
             }
         }
         scanner.close();
