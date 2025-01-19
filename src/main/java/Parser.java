@@ -107,10 +107,22 @@ public class Parser {
     private void handleDeleteCommand(String command) throws ShagBotException {
         try {
             int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
-            if (taskIndex < 0 || taskIndex >= manageTasks.getTasks().length) {
-                throw new ShagBotException("Task number is out of range! Enter a number " +
-                        "from 1 to " + manageTasks.getTasks().length + ".");
+            if (taskIndex < 0) {
+                if (taskIndex == -1) {
+                    throw new ShagBotException("Task number 0 is invalid! Task numbers start from 1.");
+                }
+                throw new ShagBotException("Task number cannot be less than 1! Please try again.");
             }
+
+            if (taskIndex >= manageTasks.getTasks().length) {
+                if (manageTasks.getTasks().length == 0) {
+                    throw new ShagBotException("No tasks at the moment.");
+                } else {
+                    throw new ShagBotException("Task number is out of range! Enter a number from 1 to " +
+                            manageTasks.getTasks().length + ".");
+                }
+            }
+
             Task removedTask = manageTasks.deleteTask(taskIndex);
             ui.printTaskDeleted(removedTask, manageTasks.getTasks().length);
         } catch (NumberFormatException e) {
