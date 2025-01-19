@@ -4,7 +4,7 @@ public class Shagbot {
 
     private final String botName;
     private final Ui ui;
-    private final Task task;
+    private final ManageTasks task;
 
     /**
      * Constructor for Shagbot
@@ -14,7 +14,7 @@ public class Shagbot {
     public Shagbot(String name) {
         botName = name;
         this.ui = new Ui(name);
-        this.task = new Task();
+        this.task = new ManageTasks();
     }
 
     /**
@@ -61,8 +61,3 @@ public class Shagbot {
     }
 
 }
-
-
-
-
-

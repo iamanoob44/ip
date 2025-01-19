@@ -1,24 +1,24 @@
-public class Task {
-    private final String[] tasks;
+public class ManageTasks {
+    private String[] tasks;
     private int taskCount;
 
 
-    /*
-     * Constructor for Task
+    /**
+     * Constructor for ManageTasks
      */
-    public Task() {
-        this.tasks = new String[100]; // Holds 100 tasks
+    public ManageTasks() {
+        this.tasks = new String[100];
         this.taskCount = 0;
     }
 
     /**
-     * Adds a task to the array tasks.
+     * Adds a task to the array tasks
      *
      * @param task the task to add.
      */
     public void addTask(String task) {
-            tasks[taskCount] = task;
-            taskCount++;
+        tasks[taskCount] = task;
+        taskCount++;
     }
 
     /**
@@ -35,7 +35,3 @@ public class Task {
     }
 
 }
-
-
-
-
