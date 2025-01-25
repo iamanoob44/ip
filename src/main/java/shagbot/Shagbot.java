@@ -3,7 +3,7 @@ package shagbot;
 import shagbot.tasks.Task;
 import shagbot.util.Parser;
 import shagbot.util.Storage;
-import shagbot.util.TaskList;
+import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 import java.io.IOException;
