@@ -1,6 +1,14 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 class Event extends Task {
-    private final String start;
-    private final String end;
+    private final LocalDateTime start;
+    private final LocalDateTime end;
+    private static final DateTimeFormatter INPUT_FORMATTER =
+            DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+    private static final DateTimeFormatter OUTPUT_FORMATTER =
+            DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
 
     /**
      * Constructor for the Event class.
@@ -11,15 +19,28 @@ class Event extends Task {
      */
     public Event(String desc, String start, String end) {
         super(desc);
-        this.start = start;
-        this.end = end;
+        this.start = parseStringToDateTime(start);
+        this.end = parseStringToDateTime(end);
     }
 
-    public String getStart() {
+    /**
+     *
+     * @param dateTimeStr The string representation of date and time.
+     * @return The date and timing represented in local date format.
+     */
+    private LocalDateTime parseStringToDateTime(String dateTimeStr) {
+        try {
+            return LocalDateTime.parse(dateTimeStr, INPUT_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format. Please use 'd/M/yyyy HHmm'.");
+        }
+    }
+
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public String getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
@@ -32,6 +53,7 @@ class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start + " to: " + end + ")";
+        return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER)+
+                " to: " + end.format(OUTPUT_FORMATTER) + ")";
     }
 }

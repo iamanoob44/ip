@@ -1,3 +1,7 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Parser {
     private final ManageTasks manageTasks;
     private final Ui ui;
@@ -36,32 +40,46 @@ public class Parser {
                 manageTasks.addTask(todo);
                 ui.printTaskAdded(todo.toString(), manageTasks.getTasks().length);
             } else if (command.startsWith("deadline ")) {
-                String[] cmd = command.substring(9).split(" /by ");
-                String description = cmd[0].trim();
-                String byTiming = cmd[1].trim();
-                Deadline deadline = new Deadline(description, byTiming);
-                manageTasks.addTask(deadline);
-                ui.printTaskAdded(deadline.toString(), manageTasks.getTasks().length);
+                String[] comd = command.substring(9).split(" /by ");
+                String description = comd[0].trim();
+                String byTiming = comd[1].trim();
+
+                try {
+                    Deadline deadline = new Deadline(description, byTiming);
+                    manageTasks.addTask(deadline);
+                    ui.printTaskAdded(deadline.toString(), manageTasks.getTasks().length);
+                } catch (IllegalArgumentException e) {
+                    ui.printErrorMessage(e.getMessage());
+                }
+
             } else if (command.startsWith("event ")) {
-                String[] cmd = command.substring(6).split(" /from | /to ");
-                String description = cmd[0].trim();
-                String start = cmd[1].trim();
-                String end = cmd[2].trim();
+                String[] comd = command.substring(6).split(" /from | /to ");
+                String description = comd[0].trim();
+                String start = comd[1].trim();
+                String end = comd[2].trim();
                 Event event = new Event(description, start, end);
                 manageTasks.addTask(event);
                 ui.printTaskAdded(event.toString(), manageTasks.getTasks().length);
             } else if (command.startsWith("delete ")) {
                 handleDeleteCommand(command);
+            } else if (command.startsWith("task on ")) {
+                String dateStr = command.substring(9).trim();
+                try {
+                    LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("d/M/yyyy"));
+                    ui.printTasksOnDate(date, manageTasks.getTasks());
+                } catch (DateTimeParseException e) {
+                    ui.printErrorMessage("Invalid date format. Please use 'dd/M/yyyy'.");
+                }
             } else if (command.trim().isEmpty()) {
                 throw new ShagBotException("You did not enter anything... " +
                         "Please " +
                         "enter a valid input : todo, deadline, event, " +
-                        "mark, unmark, delete or bye!");
+                        "mark, unmark, delete, task on or bye!");
             } else {
                 throw new ShagBotException("Oopsiee! Your input is" +
                         " invalid. Please try again by entering a valid input : todo, " +
                         "deadline, event, " +
-                        "mark, unmark, delete or bye!");
+                        "mark, unmark, delete, task on or bye!");
             }
         } catch (ShagBotException e) {
             ui.printErrorMessage(e.getMessage());

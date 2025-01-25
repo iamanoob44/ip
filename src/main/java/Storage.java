@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Storage {
@@ -86,14 +87,18 @@ public class Storage {
      * @return A string representing the task in file format.
      */
     private String taskToFileFormat(Task task) {
-        if (task instanceof Todo) {
-            return "T | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription();
-        } else if (task instanceof Deadline) {
-            return "D | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | " + ((Deadline) task).getByTiming();
+        if (task instanceof Deadline) {
+            return "D | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | " +
+                    ((Deadline) task).getByTiming().format(DateTimeFormatter.ofPattern("d/M/yyyy HHmm"));
         } else if (task instanceof Event) {
-            return "E | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | " + ((Event) task).getStart() + " | " + ((Event) task).getEnd();
+            return "E | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | " +
+                    ((Event) task).getStart().format(DateTimeFormatter.ofPattern("d/M/yyyy HHmm")) + " | " +
+                    ((Event) task).getEnd().format(DateTimeFormatter.ofPattern("d/M/yyyy HHmm"));
+        } else if (task instanceof Todo) {
+            return "T | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription();
+        } else {
+            throw new IllegalArgumentException("Invalid task type");
         }
-        return "";
     }
 
 }
