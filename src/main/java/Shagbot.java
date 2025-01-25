@@ -16,7 +16,7 @@ class Shagbot {
         this.ui = new Ui(name);
         this.manageTasks = new ManageTasks();
         this.parser = new Parser(manageTasks, ui);
-        this.storage = new Storage("./data/data.txt");
+        this.storage = new Storage("./data/dataoftasks.txt");
 
         // Load any saved tasks when startup
         try {
@@ -71,4 +71,5 @@ class Shagbot {
     }
 
 }
+
 
