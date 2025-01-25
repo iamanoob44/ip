@@ -1,4 +1,6 @@
-public class Todo extends Task{
+package Shagbot;
+
+public class Todo extends Task {
 
     /**
      * Constructor for the Todo class.

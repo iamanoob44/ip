@@ -1,8 +1,10 @@
+package Shagbot;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-class Event extends Task {
+public class Event extends Task {
     private final LocalDateTime start;
     private final LocalDateTime end;
     private static final DateTimeFormatter INPUT_FORMATTER =

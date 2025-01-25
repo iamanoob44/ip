@@ -1,9 +1,11 @@
+package Shagbot;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-class Shagbot {
+public class Shagbot {
 
     private final String botName;
     private final Ui ui;
@@ -71,5 +73,3 @@ class Shagbot {
     }
 
 }
-
-
