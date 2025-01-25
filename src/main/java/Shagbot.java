@@ -7,22 +7,22 @@ class Shagbot {
 
     private final String botName;
     private final Ui ui;
-    private final ManageTasks manageTasks;
+    private final TaskList taskList;
     private final Parser parser;
     private final Storage storage;
 
     public Shagbot(String name) {
         botName = name;
         this.ui = new Ui(name);
-        this.manageTasks = new ManageTasks();
-        this.parser = new Parser(manageTasks, ui);
+        this.taskList = new TaskList();
+        this.parser = new Parser(taskList, ui);
         this.storage = new Storage("./data/dataoftasks.txt");
 
         // Load any saved tasks when startup
         try {
             ArrayList<Task> tasks = storage.load();
             for (Task task : tasks) {
-                manageTasks.addTask(task);
+                taskList.addTask(task);
             }
         } catch (IOException e) {
             ui.printErrorMessage("Failed to load tasks: " + e.getMessage());
@@ -41,7 +41,7 @@ class Shagbot {
 
             // Save any tasks after each command
             try {
-                storage.save(new ArrayList<>(List.of(manageTasks.getTasks())));
+                storage.save(new ArrayList<>(List.of(taskList.getTasks())));
             } catch (IOException e) {
                 ui.printErrorMessage("Failed to save tasks: " + e.getMessage());
             }
