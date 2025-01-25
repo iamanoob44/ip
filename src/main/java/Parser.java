@@ -3,10 +3,10 @@ public class Parser {
     private final Ui ui;
 
     /**
-     * Constructor for Parser class
+     * Constructor for the Parser class.
      *
-     * @param manageTasks the ManageTasks to help manage tasks.
-     * @param ui the Ui to handle user interactions.
+     * @param manageTasks The ManageTasks class to help manage tasks.
+     * @param ui The Ui class to handle user interactions.
      */
     public Parser(ManageTasks manageTasks, Ui ui) {
         this.manageTasks = manageTasks;
@@ -16,8 +16,8 @@ public class Parser {
     /**
      * Parses a user command and executes the corresponding action.
      *
-     * @param command the user command to parse.
-     * @return true if Shagbot continues running, false to exit.
+     * @param command The user command to parse.
+     * @return Returns True if Shagbot continues running, false to exit.
      */
     public boolean parseCommand(String command) {
         try {
@@ -75,9 +75,9 @@ public class Parser {
     /**
      * Mark or unmark the task.
      *
-     * @param command the command given, that is, mark or unmark
-     * @param isMark mark or unmark for a task.
-     * @throws ShagBotException throws an error for invalid inputs
+     * @param command The command given, that is, mark or unmark.
+     * @param isMark Mark or unmark for a task.
+     * @throws ShagBotException Throws an error for invalid inputs.
      */
     private void handleMarkCommand(String command, boolean isMark) throws ShagBotException {
         try {
@@ -112,8 +112,8 @@ public class Parser {
 
     /**
      *
-     * @param command the command given, that is, delete
-     * @throws ShagBotException throws an error for invalid inputs
+     * @param command The command given, that is, delete
+     * @throws ShagBotException Throws an error for invalid inputs
      */
     private void handleDeleteCommand(String command) throws ShagBotException {
         try {
