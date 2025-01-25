@@ -1,3 +1,5 @@
+package Shagbot;
+
 import java.io.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -38,27 +40,27 @@ public class Storage {
                 String description = parts[2];
 
                 switch (type) {
-                case "T":
-                    Todo todo = new Todo(description);
-                    if (isDone) {
-                        todo.mark();
-                    }
-                    tasks.add(todo);
-                    break;
-                case "D":
-                    Deadline deadline = new Deadline(description, parts[3]);
-                    if (isDone) {
-                        deadline.mark();
-                    }
-                    tasks.add(deadline);
-                    break;
-                case "E":
-                    Event event = new Event(description, parts[3], parts[4]);
-                    if (isDone) {
-                        event.mark();
-                    }
-                    tasks.add(event);
-                    break;
+                    case "T":
+                        Todo todo = new Todo(description);
+                        if (isDone) {
+                            todo.mark();
+                        }
+                        tasks.add(todo);
+                        break;
+                    case "D":
+                        Deadline deadline = new Deadline(description, parts[3]);
+                        if (isDone) {
+                            deadline.mark();
+                        }
+                        tasks.add(deadline);
+                        break;
+                    case "E":
+                        Event event = new Event(description, parts[3], parts[4]);
+                        if (isDone) {
+                            event.mark();
+                        }
+                        tasks.add(event);
+                        break;
                 }
             }
         }

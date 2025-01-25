@@ -1,8 +1,10 @@
+package Shagbot;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-class Deadline extends Task {
+public class Deadline extends Task {
     private final LocalDateTime byTiming;
     private static final DateTimeFormatter INPUT_FORMATTER =
             DateTimeFormatter.ofPattern("d/M/yyyy HHmm");

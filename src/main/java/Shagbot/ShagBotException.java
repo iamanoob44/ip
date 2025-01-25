@@ -1,3 +1,5 @@
+package Shagbot;
+
 public class ShagBotException extends Exception{
 
     /**

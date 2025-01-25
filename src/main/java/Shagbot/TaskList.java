@@ -1,3 +1,5 @@
+package Shagbot;
+
 import java.util.ArrayList;
 
 public class TaskList {
@@ -17,7 +19,7 @@ public class TaskList {
      * @param task The task to add.
      */
     public void addTask(Task task) {
-            tasks.add(task);
+        tasks.add(task);
     }
 
 
@@ -47,7 +49,7 @@ public class TaskList {
      * @return The task at the specified index.
      */
     public Task getTask(int index) {
-            return tasks.get(index);
+        return tasks.get(index);
     }
 
 
@@ -57,7 +59,7 @@ public class TaskList {
      * @param index The index of the task to mark.
      */
     public void markTask(int index) {
-            tasks.get(index).mark();
+        tasks.get(index).mark();
     }
 
     /**
@@ -66,7 +68,7 @@ public class TaskList {
      * @param index The index of the task to unmark.
      */
     public void unmarkTask(int index) {
-            tasks.get(index).unmark();
+        tasks.get(index).unmark();
     }
 
 }
