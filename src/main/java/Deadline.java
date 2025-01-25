@@ -1,4 +1,4 @@
-public class Deadline extends Task {
+class Deadline extends Task {
     private final String byTiming;
 
     /**
@@ -10,6 +10,10 @@ public class Deadline extends Task {
     public Deadline(String desc, String byTiming) {
         super(desc);
         this.byTiming = byTiming;
+    }
+
+    public String getByTiming() {
+        return byTiming;
     }
 
     /**
