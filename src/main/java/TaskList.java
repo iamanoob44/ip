@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class ManageTasks {
+public class TaskList {
     private final ArrayList<Task> tasks;
 
 
     /**
-     * Constructor for ManageTasks class.
+     * Constructor for TaskList class.
      */
-    public ManageTasks() {
+    public TaskList() {
         this.tasks = new ArrayList<>();
     }
 

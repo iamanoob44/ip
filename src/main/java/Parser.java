@@ -3,17 +3,17 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Parser {
-    private final ManageTasks manageTasks;
+    private final TaskList taskList;
     private final Ui ui;
 
     /**
      * Constructor for the Parser class.
      *
-     * @param manageTasks The ManageTasks class to help manage tasks.
+     * @param taskList The TaskList class to help manage tasks.
      * @param ui The Ui class to handle user interactions.
      */
-    public Parser(ManageTasks manageTasks, Ui ui) {
-        this.manageTasks = manageTasks;
+    public Parser(TaskList taskList, Ui ui) {
+        this.taskList = taskList;
         this.ui = ui;
     }
 
@@ -29,7 +29,7 @@ public class Parser {
                 ui.printExit();
                 return false;
             } else if (command.equalsIgnoreCase("list")) {
-                ui.printTaskList(manageTasks.getTasks());
+                ui.printTaskList(taskList.getTasks());
             } else if (command.startsWith("mark ")) {
                 handleMarkCommand(command, true);
             } else if (command.startsWith("unmark ")) {
@@ -37,8 +37,8 @@ public class Parser {
             } else if (command.startsWith("todo ")) {
                 String description = command.substring(5).trim();
                 Todo todo = new Todo(description);
-                manageTasks.addTask(todo);
-                ui.printTaskAdded(todo.toString(), manageTasks.getTasks().length);
+                taskList.addTask(todo);
+                ui.printTaskAdded(todo.toString(), taskList.getTasks().length);
             } else if (command.startsWith("deadline ")) {
                 String[] comd = command.substring(9).split(" /by ");
                 String description = comd[0].trim();
@@ -46,8 +46,8 @@ public class Parser {
 
                 try {
                     Deadline deadline = new Deadline(description, byTiming);
-                    manageTasks.addTask(deadline);
-                    ui.printTaskAdded(deadline.toString(), manageTasks.getTasks().length);
+                    taskList.addTask(deadline);
+                    ui.printTaskAdded(deadline.toString(), taskList.getTasks().length);
                 } catch (IllegalArgumentException e) {
                     ui.printErrorMessage(e.getMessage());
                 }
@@ -58,15 +58,15 @@ public class Parser {
                 String start = comd[1].trim();
                 String end = comd[2].trim();
                 Event event = new Event(description, start, end);
-                manageTasks.addTask(event);
-                ui.printTaskAdded(event.toString(), manageTasks.getTasks().length);
+                taskList.addTask(event);
+                ui.printTaskAdded(event.toString(), taskList.getTasks().length);
             } else if (command.startsWith("delete ")) {
                 handleDeleteCommand(command);
             } else if (command.startsWith("task on ")) {
-                String dateStr = command.substring(9).trim();
+                String dateStr = command.substring(8).trim();
                 try {
                     LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("d/M/yyyy"));
-                    ui.printTasksOnDate(date, manageTasks.getTasks());
+                    ui.printTasksOnDate(date, taskList.getTasks());
                 } catch (DateTimeParseException e) {
                     ui.printErrorMessage("Invalid date format. Please use 'dd/M/yyyy'.");
                 }
@@ -100,7 +100,7 @@ public class Parser {
     private void handleMarkCommand(String command, boolean isMark) throws ShagBotException {
         try {
             int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
-            Integer numOfTask = manageTasks.getTasks().length;
+            Integer numOfTask = taskList.getTasks().length;
             if (taskIndex < 0) {
                 if (taskIndex == -1) {
                     throw new ShagBotException("Task number 0 is invalid! Task numbers start from 1.");
@@ -117,11 +117,11 @@ public class Parser {
             }
 
             if (isMark) {
-                manageTasks.markTask(taskIndex);
-                ui.printTaskMarked(manageTasks.getTask(taskIndex));
+                taskList.markTask(taskIndex);
+                ui.printTaskMarked(taskList.getTask(taskIndex));
             } else {
-                manageTasks.unmarkTask(taskIndex);
-                ui.printTaskUnmarked(manageTasks.getTask(taskIndex));
+                taskList.unmarkTask(taskIndex);
+                ui.printTaskUnmarked(taskList.getTask(taskIndex));
             }
         } catch (NumberFormatException e) {
             throw new ShagBotException("Invalid task number entered. Please try again!!");
@@ -143,21 +143,22 @@ public class Parser {
                 throw new ShagBotException("Task number cannot be less than 1! Please try again.");
             }
 
-            if (taskIndex >= manageTasks.getTasks().length) {
-                if (manageTasks.getTasks().length == 0) {
+            if (taskIndex >= taskList.getTasks().length) {
+                if (taskList.getTasks().length == 0) {
                     throw new ShagBotException("No tasks at the moment.");
                 } else {
                     throw new ShagBotException("Task number is out of range! Enter a number from 1 to " +
-                            manageTasks.getTasks().length + ".");
+                            taskList.getTasks().length + ".");
                 }
             }
 
-            Task removedTask = manageTasks.deleteTask(taskIndex);
-            ui.printTaskDeleted(removedTask, manageTasks.getTasks().length);
+            Task removedTask = taskList.deleteTask(taskIndex);
+            ui.printTaskDeleted(removedTask, taskList.getTasks().length);
         } catch (NumberFormatException e) {
             throw new ShagBotException("Invalid task number entered. Please try again!");
         }
     }
 
 }
+
 
