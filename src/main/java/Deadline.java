@@ -2,7 +2,7 @@ public class Deadline extends Task {
     private final String byTiming;
 
     /**
-     * Constructor for the Deadline class
+     * Constructor for the Deadline class.
      *
      * @param desc the description of the task.
      * @param byTiming the deadline for the task.
@@ -12,9 +12,15 @@ public class Deadline extends Task {
         this.byTiming = byTiming;
     }
 
+    /**
+     * Returns a string representation of the Deadline Task.
+     * The format includes the task type "[D]", the description from the
+     * parent Task class, and the deadline timing.
+     *
+     * @return A string representation of the Deadline Task.
+     */
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + byTiming + ")";
     }
 }
-
