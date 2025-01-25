@@ -1,4 +1,4 @@
-public class Event extends Task {
+class Event extends Task {
     private final String start;
     private final String end;
 
@@ -13,6 +13,14 @@ public class Event extends Task {
         super(desc);
         this.start = start;
         this.end = end;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public String getEnd() {
+        return end;
     }
 
     /**
