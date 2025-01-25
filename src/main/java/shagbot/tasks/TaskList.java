@@ -1,6 +1,4 @@
-package shagbot.util;
-
-import shagbot.tasks.Task;
+package shagbot.tasks;
 
 import java.util.ArrayList;
 
