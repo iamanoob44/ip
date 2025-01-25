@@ -1,27 +1,34 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class Shagbot {
+class Shagbot {
 
     private final String botName;
     private final Ui ui;
     private final ManageTasks manageTasks;
     private final Parser parser;
+    private final Storage storage;
 
-    /**
-     * Constructor for the Shagbot class.
-     *
-     * @param name The name of the chatbot.
-     */
     public Shagbot(String name) {
         botName = name;
         this.ui = new Ui(name);
         this.manageTasks = new ManageTasks();
         this.parser = new Parser(manageTasks, ui);
+        this.storage = new Storage("./data/data.txt");
+
+        // Load any saved tasks when startup
+        try {
+            ArrayList<Task> tasks = storage.load();
+            for (Task task : tasks) {
+                manageTasks.addTask(task);
+            }
+        } catch (IOException e) {
+            ui.printErrorMessage("Failed to load tasks: " + e.getMessage());
+        }
     }
 
-    /**
-     * Starts the chatbot and handles user input.
-     */
     public void start() {
         ui.printGreeting();
         Scanner scanner = new java.util.Scanner(System.in);
@@ -30,6 +37,13 @@ public class Shagbot {
             String userInput = scanner.nextLine().trim();
             if (!parser.parseCommand(userInput)) {
                 break;
+            }
+
+            // Save any tasks after each command
+            try {
+                storage.save(new ArrayList<>(List.of(manageTasks.getTasks())));
+            } catch (IOException e) {
+                ui.printErrorMessage("Failed to save tasks: " + e.getMessage());
             }
         }
         scanner.close();
