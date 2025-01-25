@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Ui {
     private final String botName;
     private static final String LINE_SEPARATOR =
@@ -120,4 +123,32 @@ public class Ui {
         System.out.println(LINE_SEPARATOR);
     }
 
+    /**
+     * Prints message if task is found for that specific date.
+     *
+     * @param date Date of the task.
+     * @param tasks The array of tasks.
+     */
+    public void printTasksOnDate(LocalDate date, Task[] tasks) {
+        System.out.println(LINE_SEPARATOR);
+        System.out.println("     Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+        boolean isTaskFound = false;
+
+        for (Task task : tasks) {
+            if (task instanceof Deadline && ((Deadline) task).getByTiming().toLocalDate().equals(date)) {
+                System.out.println("       " + task);
+                isTaskFound = true;
+            } else if (task instanceof Event &&
+                    (((Event) task).getStart().toLocalDate().equals(date) ||
+                            ((Event) task).getEnd().toLocalDate().equals(date))) {
+                System.out.println("       " + task);
+                isTaskFound = true;
+            }
+        }
+        if (!isTaskFound) {
+            System.out.println("       No tasks are found for this date.");
+        }
+        System.out.println(LINE_SEPARATOR);
+    }
 }
+
