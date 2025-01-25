@@ -3,9 +3,9 @@ public class Task {
     private boolean isDone;
 
     /**
-     * Constructor for Task class
+     * Constructor for the Task class.
      *
-     * @param desc the description of the task.
+     * @param desc The description of the task.
      */
     public Task(String desc) {
         this.description = desc;
@@ -27,9 +27,9 @@ public class Task {
     }
 
     /**
-     * Returns the string representation of the task.
+     * Returns a string representation of the task.
      *
-     * @return the string representation of the task.
+     * @return The string representation of the task.
      */
     @Override
     public String toString() {
@@ -37,4 +37,3 @@ public class Task {
     }
 
 }
-
