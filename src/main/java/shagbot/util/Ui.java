@@ -1,4 +1,8 @@
-package Shagbot;
+package shagbot.util;
+
+import shagbot.tasks.Deadline;
+import shagbot.tasks.Event;
+import shagbot.tasks.Task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

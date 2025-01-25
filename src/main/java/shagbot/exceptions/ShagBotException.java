@@ -1,4 +1,4 @@
-package Shagbot;
+package shagbot.exceptions;
 
 public class ShagBotException extends Exception{
 

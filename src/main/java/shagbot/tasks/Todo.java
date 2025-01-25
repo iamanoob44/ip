@@ -1,4 +1,4 @@
-package Shagbot;
+package shagbot.tasks;
 
 public class Todo extends Task {
 

@@ -1,4 +1,10 @@
-package Shagbot;
+package shagbot;
+
+import shagbot.tasks.Task;
+import shagbot.util.Parser;
+import shagbot.util.Storage;
+import shagbot.util.TaskList;
+import shagbot.util.Ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,7 +60,7 @@ public class Shagbot {
 
 
     public static void main(String[] args) {
-        Shagbot shagbot = new Shagbot("Shagbot");
+        Shagbot shagbot = new Shagbot("shagbot");
         shagbot.start();
     }
 
@@ -62,7 +68,7 @@ public class Shagbot {
      * Returns the greeting by the bot.
      */
     public static String printGreeting() {
-        return "Hello! I'm Shagbot\n" + "What can I do for you?\n";
+        return "Hello! I'm shagbot\n" + "What can I do for you?\n";
     }
 
     /**

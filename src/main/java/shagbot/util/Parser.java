@@ -1,4 +1,10 @@
-package Shagbot;
+package shagbot.util;
+
+import shagbot.exceptions.ShagBotException;
+import shagbot.tasks.Deadline;
+import shagbot.tasks.Event;
+import shagbot.tasks.Task;
+import shagbot.tasks.Todo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +29,7 @@ public class Parser {
      * Parses a user command and executes the corresponding action.
      *
      * @param command The user command to parse.
-     * @return Returns True if Shagbot continues running, false to exit.
+     * @return Returns True if shagbot continues running, false to exit.
      */
     public boolean parseCommand(String command) {
         try {
