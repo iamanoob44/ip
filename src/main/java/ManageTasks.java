@@ -2,20 +2,19 @@ import java.util.ArrayList;
 
 public class ManageTasks {
     private final ArrayList<Task> tasks;
-    private int taskCount;
 
 
     /**
-     * Constructor for ManageTasks
+     * Constructor for ManageTasks class.
      */
     public ManageTasks() {
         this.tasks = new ArrayList<>();
     }
 
     /**
-     * Adds a task to the arraylist of tasks
+     * Adds a task to the list of tasks.
      *
-     * @param task the task to add.
+     * @param task The task to add.
      */
     public void addTask(Task task) {
             tasks.add(task);
@@ -23,19 +22,19 @@ public class ManageTasks {
 
 
     /**
-     * Deletes a task from the arraylist by index.
+     * Deletes a task from the list by its index.
      *
-     * @param index the index of the task to be deleted.
-     * @return the task that is deleted.
+     * @param index The index of the task to be deleted.
+     * @return The task that is deleted.
      */
     public Task deleteTask(int index) {
         return tasks.remove(index);
     }
 
     /**
-     * Retrieves all tasks stored in the arraylist
+     * Retrieves all tasks as an array.
      *
-     * @return an arraylist of tasks.
+     * @return An array of all tasks in the list.
      */
     public Task[] getTasks() {
         return tasks.toArray(new Task[0]);
@@ -44,8 +43,8 @@ public class ManageTasks {
     /**
      * Retrieves a specific task by index.
      *
-     * @param index the index of the task to retrieve.
-     * @return the task at the specified index.
+     * @param index The index of the task to retrieve.
+     * @return The task at the specified index.
      */
     public Task getTask(int index) {
             return tasks.get(index);
@@ -55,7 +54,7 @@ public class ManageTasks {
     /**
      * Marks a task as done by index.
      *
-     * @param index the index of the task to mark.
+     * @param index The index of the task to mark.
      */
     public void markTask(int index) {
             tasks.get(index).mark();
@@ -64,7 +63,7 @@ public class ManageTasks {
     /**
      * Marks a task as not done by index.
      *
-     * @param index the index of the task to unmark.
+     * @param index The index of the task to unmark.
      */
     public void unmarkTask(int index) {
             tasks.get(index).unmark();

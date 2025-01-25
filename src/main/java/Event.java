@@ -5,9 +5,9 @@ public class Event extends Task {
     /**
      * Constructor for the Event class.
      *
-     * @param desc the description of the task.
-     * @param start the start time of the event.
-     * @param end the end time of the event.
+     * @param desc The description of the task.
+     * @param start The start time of the event.
+     * @param end The end time of the event.
      */
     public Event(String desc, String start, String end) {
         super(desc);
