@@ -1,17 +1,29 @@
 package shagbot.tasks;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TaskList {
     private final ArrayList<Task> tasks;
 
 
     /**
-     * Constructor for TaskList class.
+     * Default Constructor for TaskList class.
      */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
+
+    /**
+     * Constructor for TaskList used for JUnit Testing only.
+     *
+     * @param initialTasks accepts a task array used for JUnit Testing
+     */
+    public TaskList(Task[] initialTasks) {
+        this.tasks = new ArrayList<>(Arrays.asList(initialTasks));
+    }
+
+
 
     /**
      * Adds a task to the list of tasks.
@@ -50,6 +62,10 @@ public class TaskList {
      */
     public Task getTask(int index) {
         return tasks.get(index);
+    }
+
+    public ArrayList<Task> getTasksForTesting() {
+        return this.tasks;
     }
 
 

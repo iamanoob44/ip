@@ -15,7 +15,7 @@ public class Parser {
      * Constructor for the Parser class.
      *
      * @param taskList The TaskList class to help manage tasks.
-     * @param ui The Ui class to handle user interactions.
+     * @param ui       The Ui class to handle user interactions.
      */
     public Parser(TaskList taskList, Ui ui) {
         this.taskList = taskList;
@@ -99,10 +99,10 @@ public class Parser {
      * Mark or unmark the task.
      *
      * @param command The command given, that is, mark or unmark.
-     * @param isMark Mark or unmark for a task.
+     * @param isMark  Mark or unmark for a task.
      * @throws ShagBotException Throws an error for invalid inputs.
      */
-    private void handleMarkCommand(String command, boolean isMark) throws ShagBotException {
+    protected void handleMarkCommand(String command, boolean isMark) throws ShagBotException {
         try {
             int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
             Integer numOfTask = taskList.getTasks().length;
@@ -134,7 +134,6 @@ public class Parser {
     }
 
     /**
-     *
      * @param command The command given, that is, delete
      * @throws ShagBotException Throws an error for invalid inputs
      */
@@ -165,3 +164,4 @@ public class Parser {
     }
 
 }
+
