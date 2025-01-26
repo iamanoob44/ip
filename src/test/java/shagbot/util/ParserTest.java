@@ -1,12 +1,16 @@
 package shagbot.util;
 
-
-import shagbot.exceptions.ShagBotException;
-import shagbot.tasks.*;
 import org.junit.jupiter.api.Test;
 
+import shagbot.exceptions.ShagBotException;
+import shagbot.tasks.Task;
+import shagbot.tasks.TaskList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class ParserTest {
 
@@ -114,4 +118,5 @@ public class ParserTest {
     }
 
 }
+
 
