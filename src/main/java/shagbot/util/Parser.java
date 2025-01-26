@@ -3,6 +3,8 @@ package shagbot.util;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.Deadline;
@@ -79,6 +81,10 @@ public class Parser {
                 } catch (DateTimeParseException e) {
                     ui.printErrorMessage("Invalid date format. Please use 'dd/M/yyyy'.");
                 }
+            } else if (command.startsWith("find ")) {
+                String keyword = command.substring(5).trim();
+                Task[] foundTasks = searchForTasks(keyword);
+                ui.printAnyMatchingTasks(foundTasks);
             } else if (command.trim().isEmpty()) {
                 throw new ShagBotException("You did not enter anything... " +
                         "Please " +
@@ -167,6 +173,23 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new ShagBotException("Invalid task number entered. Please try again!");
         }
+    }
+
+
+    /**
+     * Finds any matching tasks containing the keyword entered and returns an array of these matched tasks.
+     *
+     * @param keyword The keyword that was used to filter through the list of tasks.
+     * @return An array of tasks that contains the keyword in their descriptions.
+     */
+    private Task[] searchForTasks(String keyword) {
+        List<Task> tasksMatched = new ArrayList<>();
+        for (Task task : taskList.getTasks()) {
+            if (task.getDescription().contains(keyword)) {
+                tasksMatched.add(task);
+            }
+        }
+        return tasksMatched.toArray(new Task[0]);
     }
 
 }
