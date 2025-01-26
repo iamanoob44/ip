@@ -1,6 +1,7 @@
 package shagbot.util;
 
 
+import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.*;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ParserTest {
 
     @Test
-    void testParseToDoCommand() {
+    void testParseCommandDoTasksCommand() {
         TaskList taskList = new TaskList();
         Ui ui = new Ui("Shagbot");
         Parser parser = new Parser(taskList, ui);
@@ -20,10 +21,11 @@ public class ParserTest {
                 "deadline Assignment /by 26/01/2025 1800",
                 "todo Sleep even more",
                 "deadline Project /by 28/01/2025 2000",
+                "blehhh", // invalid command
                 "event Holiday to Maldives /from 28/01/2025 2000 /to 30/01/2025 2000"
         };
 
-        String[] expectedDescriptions = {
+        String[] expectedDescriptionsForValidCommands = {
                 "Read a book",
                 "Assignment",
                 "Sleep even more",
@@ -41,13 +43,15 @@ public class ParserTest {
         assertEquals(numOfValidTasks, tasks.length,
                 "Task list should contain the correct number of valid tasks.");
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < numOfValidTasks; i++) {
             assertTrue(tasks[i] instanceof Task,
                     "Task at index " + i + " should be of type Task.");
-            assertEquals(expectedDescriptions[i], tasks[i].getDescription(),
+            assertEquals(expectedDescriptionsForValidCommands[i], tasks[i].getDescription(),
                     "Task description at index " + i + " should match.");
         }
     }
+
+
 
 
 
@@ -60,7 +64,53 @@ public class ParserTest {
         Parser parser = new Parser(taskList, ui);
 
         boolean result = parser.parseCommand("bye");
-        assertFalse(result, "The 'bye' command should return false.");
+        boolean secondResult = parser.parseCommand("Todo borrow");
+        boolean thirdResult = parser.parseCommand("Deadline ....");
+        boolean fourthResult = parser.parseCommand("mark 2");
+
+        assertFalse(result, "The 'bye' command should return false after executing.");
+        assertTrue(secondResult, "Todo command should return true after executing.");
+        assertTrue(thirdResult, "Deadline command should return true after executing.");
+        assertTrue(fourthResult, "Mark/Unmark command should return true after executing.");
+
+    }
+
+    @Test
+    public void testHandleMarkCommand() {
+        TaskList taskList = new TaskList();
+        Ui ui = new Ui("Shagbot");
+        Parser parser = new Parser(taskList, ui);
+
+        taskList.getTasksForTesting().add(new Task("Task 1"));
+        taskList.getTasksForTesting().add(new Task("Task 2"));
+        taskList.getTasksForTesting().add(new Task("Task 3"));
+
+        String validCommand = "mark 1";
+        parser.parseCommand(validCommand);
+        assertTrue(taskList.getTasksForTesting().get(0).isDone(),
+                "Task 1 should be marked as done.");
+
+        String markCommand = "mark 2";
+        parser.parseCommand(markCommand);
+        assertTrue(taskList.getTasksForTesting().get(0).isDone(),
+                "Task 2 should be marked as done.");
+
+        String unmarkCommand = "unmark 2";
+        parser.parseCommand(unmarkCommand);
+        assertFalse(taskList.getTasksForTesting().get(1).isDone(),
+                "Task 2 should be unmarked.");
+
+        parser.parseCommand("unmark 3");
+        assertFalse(taskList.getTasksForTesting().get(2).isDone(),
+                "Task 3 should be unmarked.");
+
+        String negativeCommand = "mark -2";
+        ShagBotException exceptionForNegative = assertThrows(ShagBotException.class, () ->
+                parser.handleMarkCommand(negativeCommand, true)
+        );
+        assertEquals("Task number cannot be less than 1! Please try again.",
+                exceptionForNegative.getMessage(), "Negative task numbers are not allowed");
+
     }
 
 }
