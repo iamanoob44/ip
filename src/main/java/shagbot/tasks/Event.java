@@ -15,9 +15,9 @@ public class Event extends Task {
     /**
      * Constructor for the Event class.
      *
-     * @param desc The description of the task.
+     * @param desc  The description of the task.
      * @param start The start time of the event.
-     * @param end The end time of the event.
+     * @param end   The end time of the event.
      */
     public Event(String desc, String start, String end) {
         super(desc);
@@ -26,7 +26,6 @@ public class Event extends Task {
     }
 
     /**
-     *
      * @param dateTimeStr The string representation of date and time.
      * @return The date and timing represented in local date format.
      */
@@ -55,7 +54,7 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER)+
+        return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER) +
                 " to: " + end.format(OUTPUT_FORMATTER) + ")";
     }
 }

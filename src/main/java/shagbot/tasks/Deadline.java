@@ -14,7 +14,7 @@ public class Deadline extends Task {
     /**
      * Constructor for the Deadline class.
      *
-     * @param desc The description of the task.
+     * @param desc     The description of the task.
      * @param byTiming The deadline for the task.
      */
     public Deadline(String desc, String byTiming) {
@@ -23,7 +23,6 @@ public class Deadline extends Task {
     }
 
     /**
-     *
      * @param dateTimeStr The string representation of date and time.
      * @return The date and timing represented in local date format.
      */
@@ -36,7 +35,6 @@ public class Deadline extends Task {
     }
 
     /**
-     *
      * @return The date and timing of task.
      */
     public LocalDateTime getByTiming() {
