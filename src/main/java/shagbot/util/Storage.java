@@ -14,17 +14,18 @@ public class Storage {
 
     /**
      * Constructor for the Storage class.
-     * @param filePath The relative filepath of data.txt file.
+     *
+     * @param filePath The relative filepath to the file where saved tasks are stored.
      */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
     /**
-     * Loads tasks from the file.
+     * Loads saved tasks from the file.
      *
      * @return An ArrayList of saved tasks loaded from the file.
-     * @throws IOException If an I/O error occurs.
+     * @throws IOException If an I/O error occurs while reading the file.
      */
     public ArrayList<Task> load() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -73,10 +74,10 @@ public class Storage {
     }
 
     /**
-     * Saves the tasks to the file.
+     * Saves the lists of tasks to the file.
      *
-     * @param tasks The list of tasks to save.
-     * @throws IOException If an I/O error occurs.
+     * @param tasks The Arraylist of tasks to save.
+     * @throws IOException If an I/O error occurs while writing tasks to file.
      */
     public void save(ArrayList<Task> tasks) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
@@ -88,10 +89,11 @@ public class Storage {
     }
 
     /**
-     * Converts a Task object into the file format.
+     * Converts a Task object into file format.
      *
      * @param task The task to convert to the data.txt file.
-     * @return A string representing the task in file format.
+     * @return A string representation of the task in file format.
+     * @throws IllegalArgumentException If task type is invalid and not supported.
      */
     private String taskToFileFormat(Task task) {
         if (task instanceof Deadline) {
@@ -109,3 +111,4 @@ public class Storage {
     }
 
 }
+

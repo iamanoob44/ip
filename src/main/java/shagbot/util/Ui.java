@@ -14,7 +14,7 @@ public class Ui {
 
 
     /**
-     * Constructor for Ui object for the given chatbot name.
+     * Constructor for Ui class for the given chatbot name.
      *
      * @param botName The name of the chatbot.
      */
@@ -23,7 +23,7 @@ public class Ui {
     }
 
     /**
-     * Returns the greeting.
+     * Prints the message of the greeting.
      */
     public void printGreeting() {
         System.out.println(LINE_SEPARATOR);
@@ -33,13 +33,14 @@ public class Ui {
     }
 
     /**
-     * Returns the exit message.
+     * Prints the exit message.
      */
     public void printExit() {
         System.out.println(LINE_SEPARATOR);
         System.out.println("     Bye. Hope to see you again soon!");
         System.out.println(LINE_SEPARATOR);
     }
+
 
     /**
      * Echoes input by user back to the user.
@@ -55,7 +56,8 @@ public class Ui {
     /**
      * Prints a message when the task is added.
      *
-     * @param task The task to add.
+     * @param task The task that was added.
+     * @param taskCount The total number of tasks in the list after adding.
      */
     public void printTaskAdded(String task, int taskCount) {
         System.out.println(LINE_SEPARATOR);
@@ -109,7 +111,7 @@ public class Ui {
     /**
      * Prints messages when errors are encountered.
      *
-     * @param message The error message.
+     * @param message The error message to display.
      */
     public void printErrorMessage(String message) {
         System.out.println("     WOOP WOOP!!! " + message);
@@ -130,10 +132,10 @@ public class Ui {
     }
 
     /**
-     * Prints message if task is found for that specific date.
+     * Prints message for tasks scheduled on that specific date.
      *
-     * @param date Date of the task.
-     * @param tasks The array of tasks.
+     * @param date Date of the task that was filtered through.
+     * @param tasks The array of tasks to filter through using the specified date.
      */
     public void printTasksOnDate(LocalDate date, Task[] tasks) {
         System.out.println(LINE_SEPARATOR);
@@ -157,4 +159,5 @@ public class Ui {
         System.out.println(LINE_SEPARATOR);
     }
 }
+
 

@@ -11,6 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class represents Shagbot, which is a chatbot program.
+ * <p>
+ * The Shagbot class serves as the main starting point to run the chatbot. It initialises
+ * essential classes such as the UI, TaskList, Parser and Storage Classes.
+ * This class also handles the main execution loop for user interaction with Shagbot.
+ *
+ * @author Chin Chong
+ */
 public class Shagbot {
 
     private final String botName;
@@ -19,6 +28,13 @@ public class Shagbot {
     private final Parser parser;
     private final Storage storage;
 
+    /**
+     * Constructor for the Shagbot class with its specified chatbot name.
+     * Initialises the Ui, taskList, parser and storage objects.
+     * It also loads any previously saved tasks from the specified file.
+     *
+     * @param name The name of the chatbot.
+     */
     public Shagbot(String name) {
         botName = name;
         this.ui = new Ui(name);
@@ -37,6 +53,9 @@ public class Shagbot {
         }
     }
 
+    /**
+     * Starts Shagbot's user-interaction loop.
+     */
     public void start() {
         ui.printGreeting();
         Scanner scanner = new java.util.Scanner(System.in);
@@ -65,17 +84,22 @@ public class Shagbot {
     }
 
     /**
-     * Returns the greeting by the bot.
+     * Returns the greeting message from Shagbot.
+     *
+     * @return The greeting by Shagbot.
      */
     public static String printGreeting() {
         return "Hello! I'm shagbot\n" + "What can I do for you?\n";
     }
 
     /**
-     * Returns the exit message by the bot.
+     * Returns the exit message from Shagbot.
+     *
+     * @return The exit message by Shagbot.
      */
     public static String printExit() {
         return "Bye. Hope to see you again soon!\n";
     }
 
 }
+

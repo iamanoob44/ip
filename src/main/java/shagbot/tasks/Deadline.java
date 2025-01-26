@@ -12,7 +12,8 @@ public class Deadline extends Task {
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
 
     /**
-     * Constructor for the Deadline class.
+     * Constructor for the Deadline class with specified description
+     * of task and its deadline.
      *
      * @param desc The description of the task.
      * @param byTiming The deadline for the task.
@@ -23,9 +24,11 @@ public class Deadline extends Task {
     }
 
     /**
+     * Parse a string representation of date and time into a LocalDateTime Object.
      *
      * @param dateTimeStr The string representation of date and time.
-     * @return The date and timing represented in local date format.
+     * @return The parsed LocalDateTime object representing the deadline.
+     * @throws IllegalArgumentException if provided date or time is invalid.
      */
     private LocalDateTime parseStringtoDateTime(String dateTimeStr) {
         try {
@@ -36,8 +39,9 @@ public class Deadline extends Task {
     }
 
     /**
+     * Retrieves the date and time associated with the task.
      *
-     * @return The date and timing of task.
+     * @return The LocalDateTime object representing the task's deadline.
      */
     public LocalDateTime getByTiming() {
         return byTiming;
@@ -46,7 +50,7 @@ public class Deadline extends Task {
     /**
      * Returns a string representation of the Deadline Task.
      * The format includes the task type "[D]", the description from the
-     * parent Task class, and the deadline date and timing.
+     * parent Task class, and the date and timing of the deadline.
      *
      * @return A string representation of the Deadline Task.
      */
@@ -55,3 +59,4 @@ public class Deadline extends Task {
         return "[D]" + super.toString() + " (by: " + byTiming.format(OUTPUT_FORMATTER) + ")";
     }
 }
+
