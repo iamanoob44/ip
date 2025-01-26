@@ -1,8 +1,8 @@
 package shagbot.tasks;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.LocalDateTime;
 
 public class Event extends Task {
     private final LocalDateTime start;
@@ -16,9 +16,9 @@ public class Event extends Task {
      * Constructor for the Event class with the specified description of event,
      * start timing and end timing of the event.
      *
-     * @param desc The description of the task.
+     * @param desc  The description of the task.
      * @param start The start time of the event.
-     * @param end The end time of the event.
+     * @param end   The end time of the event.
      */
     public Event(String desc, String start, String end) {
         super(desc);
@@ -68,8 +68,9 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER)+
+        return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER) +
                 " to: " + end.format(OUTPUT_FORMATTER) + ")";
     }
 
 }
+

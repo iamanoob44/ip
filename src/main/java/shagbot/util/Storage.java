@@ -1,13 +1,19 @@
 package shagbot.util;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 import shagbot.tasks.Deadline;
 import shagbot.tasks.Event;
 import shagbot.tasks.Task;
 import shagbot.tasks.Todo;
 
-import java.io.*;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class Storage {
     private final String filePath;
@@ -46,27 +52,29 @@ public class Storage {
                 String description = parts[2];
 
                 switch (type) {
-                    case "T":
-                        Todo todo = new Todo(description);
-                        if (isDone) {
-                            todo.mark();
-                        }
-                        tasks.add(todo);
-                        break;
-                    case "D":
-                        Deadline deadline = new Deadline(description, parts[3]);
-                        if (isDone) {
-                            deadline.mark();
-                        }
-                        tasks.add(deadline);
-                        break;
-                    case "E":
-                        Event event = new Event(description, parts[3], parts[4]);
-                        if (isDone) {
-                            event.mark();
-                        }
-                        tasks.add(event);
-                        break;
+                case "T":
+                    Todo todo = new Todo(description);
+                    if (isDone) {
+                        todo.mark();
+                    }
+                    tasks.add(todo);
+                    break;
+                case "D":
+                    Deadline deadline = new Deadline(description, parts[3]);
+                    if (isDone) {
+                        deadline.mark();
+                    }
+                    tasks.add(deadline);
+                    break;
+                case "E":
+                    Event event = new Event(description, parts[3], parts[4]);
+                    if (isDone) {
+                        event.mark();
+                    }
+                    tasks.add(event);
+                    break;
+                default:
+                    break; // Do nothing for unsupported task type.
                 }
             }
         }
@@ -111,4 +119,5 @@ public class Storage {
     }
 
 }
+
 

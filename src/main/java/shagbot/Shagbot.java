@@ -1,15 +1,15 @@
 package shagbot;
 
-import shagbot.tasks.Task;
-import shagbot.util.Parser;
-import shagbot.util.Storage;
-import shagbot.tasks.TaskList;
-import shagbot.util.Ui;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import shagbot.tasks.Task;
+import shagbot.tasks.TaskList;
+import shagbot.util.Parser;
+import shagbot.util.Storage;
+import shagbot.util.Ui;
 
 /**
  * This class represents Shagbot, which is a chatbot program.
@@ -76,8 +76,6 @@ public class Shagbot {
         scanner.close();
     }
 
-
-
     public static void main(String[] args) {
         Shagbot shagbot = new Shagbot("shagbot");
         shagbot.start();
@@ -102,4 +100,5 @@ public class Shagbot {
     }
 
 }
+
 

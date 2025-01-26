@@ -1,11 +1,15 @@
 package shagbot.util;
 
-import shagbot.exceptions.ShagBotException;
-import shagbot.tasks.*;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import shagbot.exceptions.ShagBotException;
+import shagbot.tasks.Deadline;
+import shagbot.tasks.Event;
+import shagbot.tasks.Task;
+import shagbot.tasks.TaskList;
+import shagbot.tasks.Todo;
 
 public class Parser {
     private final TaskList taskList;

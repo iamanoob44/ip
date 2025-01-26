@@ -1,11 +1,12 @@
 package shagbot.util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import shagbot.tasks.Deadline;
 import shagbot.tasks.Event;
 import shagbot.tasks.Task;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Ui {
     private final String botName;
@@ -120,7 +121,7 @@ public class Ui {
     /**
      * Prints message indicating a task is deleted.
      *
-     * @param task The task that was deleted.
+     * @param task       The task that was deleted.
      * @param tasksSoFar The number of tasks that remains in the arraylist.
      */
     public void printTaskDeleted(Task task, int tasksSoFar) {
@@ -159,5 +160,6 @@ public class Ui {
         System.out.println(LINE_SEPARATOR);
     }
 }
+
 
 

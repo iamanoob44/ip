@@ -15,12 +15,12 @@ public class Deadline extends Task {
      * Constructor for the Deadline class with specified description
      * of task and its deadline.
      *
-     * @param desc The description of the task.
+     * @param desc     The description of the task.
      * @param byTiming The deadline for the task.
      */
     public Deadline(String desc, String byTiming) {
         super(desc);
-        this.byTiming = parseStringtoDateTime(byTiming);
+        this.byTiming = parseStringToDateTime(byTiming);
     }
 
     /**
@@ -30,7 +30,7 @@ public class Deadline extends Task {
      * @return The parsed LocalDateTime object representing the deadline.
      * @throws IllegalArgumentException if provided date or time is invalid.
      */
-    private LocalDateTime parseStringtoDateTime(String dateTimeStr) {
+    private LocalDateTime parseStringToDateTime(String dateTimeStr) {
         try {
             return LocalDateTime.parse(dateTimeStr, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
@@ -59,4 +59,5 @@ public class Deadline extends Task {
         return "[D]" + super.toString() + " (by: " + byTiming.format(OUTPUT_FORMATTER) + ")";
     }
 }
+
 
