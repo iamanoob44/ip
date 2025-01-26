@@ -1,8 +1,8 @@
 package shagbot.tasks;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.LocalDateTime;
 
 public class Deadline extends Task {
     private final LocalDateTime byTiming;
@@ -58,6 +58,7 @@ public class Deadline extends Task {
     public String toString() {
         return "[D]" + super.toString() + " (by: " + byTiming.format(OUTPUT_FORMATTER) + ")";
     }
+
 }
 
 
