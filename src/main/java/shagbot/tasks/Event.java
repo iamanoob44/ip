@@ -13,7 +13,8 @@ public class Event extends Task {
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
 
     /**
-     * Constructor for the Event class.
+     * Constructor for the Event class with the specified description of event,
+     * start timing and end timing of the event.
      *
      * @param desc The description of the task.
      * @param start The start time of the event.
@@ -26,9 +27,11 @@ public class Event extends Task {
     }
 
     /**
+     * Parse a string representation of date and time into a LocalDateTime Object.
      *
      * @param dateTimeStr The string representation of date and time.
-     * @return The date and timing represented in local date format.
+     * @return The parsed LocalDateTime object representing the deadline.
+     * @throws IllegalArgumentException if provided date or time is invalid.
      */
     private LocalDateTime parseStringToDateTime(String dateTimeStr) {
         try {
@@ -38,10 +41,20 @@ public class Event extends Task {
         }
     }
 
+    /**
+     * Retrieve the start timing of the event.
+     *
+     * @return The LocalDateTime object representing the event's start time.
+     */
     public LocalDateTime getStart() {
         return start;
     }
 
+    /**
+     * Retrieve the end timing of the event.
+     *
+     * @return The LocalDateTime object representing the event's end time.
+     */
     public LocalDateTime getEnd() {
         return end;
     }
@@ -58,4 +71,5 @@ public class Event extends Task {
         return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER)+
                 " to: " + end.format(OUTPUT_FORMATTER) + ")";
     }
+
 }

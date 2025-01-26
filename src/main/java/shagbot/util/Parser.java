@@ -14,8 +14,8 @@ public class Parser {
     /**
      * Constructor for the Parser class.
      *
-     * @param taskList The TaskList class to help manage tasks.
-     * @param ui       The Ui class to handle user interactions.
+     * @param taskList The TaskList instance to help manage tasks.
+     * @param ui       The Ui instance to handle user interactions.
      */
     public Parser(TaskList taskList, Ui ui) {
         this.taskList = taskList;
@@ -25,8 +25,8 @@ public class Parser {
     /**
      * Parses a user command and executes the corresponding action.
      *
-     * @param command The user command to parse.
-     * @return Returns True if shagbot continues running, false to exit.
+     * @param command The user command to parse and process accordingly.
+     * @return Returns True if shagbot continues running, false for exit.
      */
     public boolean parseCommand(String command) {
         try {
@@ -96,11 +96,11 @@ public class Parser {
 
 
     /**
-     * Mark or unmark the task.
+     * Mark or unmark the task based on user's command.
      *
-     * @param command The command given, that is, mark or unmark.
-     * @param isMark  Mark or unmark for a task.
-     * @throws ShagBotException Throws an error for invalid inputs.
+     * @param command The user's command indicating mark or unmark.
+     * @param isMark  True for Mark or False for unmark, for a task.
+     * @throws ShagBotException If there are invalid inputs.
      */
     protected void handleMarkCommand(String command, boolean isMark) throws ShagBotException {
         try {
@@ -134,8 +134,10 @@ public class Parser {
     }
 
     /**
-     * @param command The command given, that is, delete
-     * @throws ShagBotException Throws an error for invalid inputs
+     * Deletes a task based on the user's command.
+     *
+     * @param command The user's command indicating which task to delete.
+     * @throws ShagBotException If there are invalid inputs.
      */
     private void handleDeleteCommand(String command) throws ShagBotException {
         try {
@@ -164,4 +166,6 @@ public class Parser {
     }
 
 }
+
+
 

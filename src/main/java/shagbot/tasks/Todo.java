@@ -3,7 +3,7 @@ package shagbot.tasks;
 public class Todo extends Task {
 
     /**
-     * Constructor for the Todo class.
+     * Constructor for the Todo class with the specified description of the Todo task.
      *
      * @param desc The description of the task.
      */
@@ -24,3 +24,4 @@ public class Todo extends Task {
     }
 
 }
+

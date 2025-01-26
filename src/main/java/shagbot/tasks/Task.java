@@ -5,7 +5,8 @@ public class Task {
     private boolean isDone;
 
     /**
-     * Constructor for the Task class.
+     * Constructor for the Task class with specified description and
+     * the completion status of the task, initially marked as not done.
      *
      * @param desc The description of the task.
      */
@@ -28,16 +29,28 @@ public class Task {
         this.isDone = false;
     }
 
+    /**
+     * Getter function to retrieve the descripton of the task.
+     *
+     * @return The description of the task.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Getter function to retrieve the completion status of the task.
+     *
+     * @return True for task that is marked and false for unmarked.
+     */
     public boolean isDone() {
         return isDone;
     }
 
     /**
      * Returns a string representation of the task.
+     * The format includes the completion status (marked as "X" for done, or a space for not done)
+     * and the task's description.
      *
      * @return The string representation of the task.
      */
