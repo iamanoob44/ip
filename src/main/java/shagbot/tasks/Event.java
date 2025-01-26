@@ -1,8 +1,8 @@
 package shagbot.tasks;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.LocalDateTime;
 
 public class Event extends Task {
     private final LocalDateTime start;

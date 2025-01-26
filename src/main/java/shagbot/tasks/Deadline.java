@@ -19,7 +19,7 @@ public class Deadline extends Task {
      */
     public Deadline(String desc, String byTiming) {
         super(desc);
-        this.byTiming = parseStringtoDateTime(byTiming);
+        this.byTiming = parseStringToDateTime(byTiming);
     }
 
     /**
@@ -27,7 +27,7 @@ public class Deadline extends Task {
      * @param dateTimeStr The string representation of date and time.
      * @return The date and timing represented in local date format.
      */
-    private LocalDateTime parseStringtoDateTime(String dateTimeStr) {
+    private LocalDateTime parseStringToDateTime(String dateTimeStr) {
         try {
             return LocalDateTime.parse(dateTimeStr, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
