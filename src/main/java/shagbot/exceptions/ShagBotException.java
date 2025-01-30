@@ -1,6 +1,9 @@
 package shagbot.exceptions;
 
-public class ShagBotException extends Exception{
+/**
+ * Represents a shagbotexception due to invalid commands or inputs.
+ */
+public class ShagBotException extends Exception {
 
     /**
      * Constructor for the {@code ShagBotException} class for specified exceptions.
