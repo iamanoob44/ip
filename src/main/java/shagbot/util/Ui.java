@@ -15,7 +15,7 @@ public class Ui {
 
 
     /**
-     * Constructor for Ui class for the given chatbot name.
+     * Constructor for {@code Ui} class for the given chatbot name.
      *
      * @param botName The name of the chatbot.
      */
@@ -179,6 +179,7 @@ public class Ui {
     }
 
 }
+
 
 
 

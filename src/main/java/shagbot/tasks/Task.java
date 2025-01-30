@@ -5,7 +5,7 @@ public class Task {
     private boolean isDone;
 
     /**
-     * Constructor for the Task class with specified description and
+     * Constructor for the {@code Task} class with specified description and
      * the completion status of the task, initially marked as not done.
      *
      * @param desc The description of the task.
@@ -30,7 +30,7 @@ public class Task {
     }
 
     /**
-     * Getter function to retrieve the descripton of the task.
+     * Retrieves the description of the task.
      *
      * @return The description of the task.
      */
@@ -39,7 +39,7 @@ public class Task {
     }
 
     /**
-     * Getter function to retrieve the completion status of the task.
+     * Retrieves the completion status of the task.
      *
      * @return True for task that is marked and false for unmarked.
      */
@@ -60,3 +60,4 @@ public class Task {
     }
 
 }
+

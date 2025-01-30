@@ -18,10 +18,10 @@ public class Parser {
     private final Ui ui;
 
     /**
-     * Constructor for the Parser class.
+     * Constructor for the {@code Parser} class.
      *
-     * @param taskList The TaskList instance to help manage tasks.
-     * @param ui       The Ui instance to handle user interactions.
+     * @param taskList The {@link TaskList} instance to help manage tasks.
+     * @param ui       The {@link Ui} instance to handle user interactions.
      */
     public Parser(TaskList taskList, Ui ui) {
         this.taskList = taskList;
@@ -32,7 +32,7 @@ public class Parser {
      * Parses a user command and executes the corresponding action.
      *
      * @param command The user command to parse and process accordingly.
-     * @return Returns True if shagbot continues running, false for exit.
+     * @return Returns True if {@link shagbot.Shagbot} continues running, false for exit.
      */
     public boolean parseCommand(String command) {
         try {
@@ -106,7 +106,7 @@ public class Parser {
 
 
     /**
-     * Mark or unmark the task based on user's command.
+     * Marks or unmarks the task based on user's command.
      *
      * @param command The user's command indicating mark or unmark.
      * @param isMark  True for Mark or False for unmark, for a task.

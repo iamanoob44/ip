@@ -19,7 +19,7 @@ public class Storage {
     private final String filePath;
 
     /**
-     * Constructor for the Storage class.
+     * Constructor for the {@code Storage} class.
      *
      * @param filePath The relative filepath to the file where saved tasks are stored.
      */
@@ -29,11 +29,15 @@ public class Storage {
 
     /**
      * Loads saved tasks from the file.
+     * <p>
+     * This method also utilises try-with-resources to ensure the {@code BufferedReader} is
+     * automatically closed after reading the file, increasing maintainability.
+     * </p>
      *
-     * @return An ArrayList of saved tasks loaded from the file.
+     * @return An {@link ArrayList} of saved tasks loaded from the file.
      * @throws IOException If an I/O error occurs while reading the file.
      */
-    public ArrayList<Task> load() throws IOException {
+    public ArrayList<Task> loadSavedTasks() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
 
@@ -83,11 +87,15 @@ public class Storage {
 
     /**
      * Saves the lists of tasks to the file.
+     * <p>
+     * This method also utilises try-with-resources to ensure the {@code BufferedReader} is
+     * automatically closed after writing to the file, increasing maintainability.
+     * </p>
      *
      * @param tasks The Arraylist of tasks to save.
      * @throws IOException If an I/O error occurs while writing tasks to file.
      */
-    public void save(ArrayList<Task> tasks) throws IOException {
+    public void saveTasksToFile(ArrayList<Task> tasks) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Task task : tasks) {
                 writer.write(taskToFileFormat(task));
@@ -97,9 +105,9 @@ public class Storage {
     }
 
     /**
-     * Converts a Task object into file format.
+     * Converts a {@code Task} object into a file format for saving to file.
      *
-     * @param task The task to convert to the data.txt file.
+     * @param task The {@code Todo}, {@code Event}, or {@code Deadline} task to convert to the data.txt file.
      * @return A string representation of the task in file format.
      * @throws IllegalArgumentException If task type is invalid and not supported.
      */
@@ -119,5 +127,6 @@ public class Storage {
     }
 
 }
+
 
 

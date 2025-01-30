@@ -8,7 +8,7 @@ public class TaskList {
 
 
     /**
-     * Default Constructor for TaskList class.
+     * Default Constructor for {@code TaskList} class.
      * Constructs an empty TaskList.
      *
      */
@@ -17,8 +17,8 @@ public class TaskList {
     }
 
     /**
-     * Constructor for TaskList used for JUnit Testing only.
-     * Constructs a TaskList with an initial set of tasks.
+     * Constructor for {@code TasKList} used for JUnit Testing only.
+     * Constructs an {@code ArrayList} array with an initial set of tasks.
      *
      * @param initialTasks Accepts a task array used for JUnit Testing.
      */
@@ -66,7 +66,7 @@ public class TaskList {
     }
 
     /**
-     * Getter function to retrieves the list of tasks.
+     * Retrieves the list of tasks.
      * This method is primarily intended for JUnit testing only.
      *
      * @return The ArrayList of tasks.

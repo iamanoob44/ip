@@ -13,7 +13,7 @@ public class Event extends Task {
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
 
     /**
-     * Constructor for the Event class with the specified description of event,
+     * Constructor for the {@code Event} class with the specified description of event,
      * start timing and end timing of the event.
      *
      * @param desc  The description of the task.
@@ -27,10 +27,10 @@ public class Event extends Task {
     }
 
     /**
-     * Parse a string representation of date and time into a LocalDateTime Object.
+     * Parses a string representation of date and time into a {@link LocalDateTime} Object.
      *
      * @param dateTimeStr The string representation of date and time.
-     * @return The parsed LocalDateTime object representing the deadline.
+     * @return The parsed {@link LocalDateTime} object representing the deadline.
      * @throws IllegalArgumentException if provided date or time is invalid.
      */
     private LocalDateTime parseStringToDateTime(String dateTimeStr) {
@@ -42,27 +42,27 @@ public class Event extends Task {
     }
 
     /**
-     * Retrieve the start timing of the event.
+     * Retrieves the start timing of the event.
      *
-     * @return The LocalDateTime object representing the event's start time.
+     * @return The {@link LocalDateTime} object representing the event's start time.
      */
     public LocalDateTime getStart() {
         return start;
     }
 
     /**
-     * Retrieve the end timing of the event.
+     * Retrieves the end timing of the event.
      *
-     * @return The LocalDateTime object representing the event's end time.
+     * @return The {@link LocalDateTime} object representing the event's end time.
      */
     public LocalDateTime getEnd() {
         return end;
     }
 
     /**
-     * Returns a string representation of the Event Task.
+     * Returns a string representation of the {@code Event} Task.
      * The format includes the task type "[E]", the description from the
-     * parent Task class, and the start and end timings.
+     * parent {@link Task} class, and the start and end timings.
      *
      * @return A string representation of the Event Task.
      */

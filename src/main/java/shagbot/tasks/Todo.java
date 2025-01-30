@@ -3,7 +3,7 @@ package shagbot.tasks;
 public class Todo extends Task {
 
     /**
-     * Constructor for the Todo class with the specified description of the Todo task.
+     * Constructor for the {@code Todo} class with the specified description of that task.
      *
      * @param desc The description of the task.
      */
@@ -12,11 +12,11 @@ public class Todo extends Task {
     }
 
     /**
-     * Returns a string representation of the Todo Task.
+     * Returns a string representation of the {@code Todo} task.
      * The format includes the task type "[T]" and the description from the
-     * parent Task class.
+     * parent {@link Task} class.
      *
-     * @return A string representation of the Todo Task.
+     * @return A string representation of the {@code Todo} task.
      */
     @Override
     public String toString() {
@@ -24,4 +24,5 @@ public class Todo extends Task {
     }
 
 }
+
 

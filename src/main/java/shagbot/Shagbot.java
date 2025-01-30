@@ -17,6 +17,7 @@ import shagbot.util.Ui;
  * The Shagbot class serves as the main starting point to run the chatbot. It initialises
  * essential classes such as the UI, TaskList, Parser and Storage Classes.
  * This class also handles the main execution loop for user interaction with Shagbot.
+ * </p>
  *
  * @author Chin Chong
  */
@@ -29,7 +30,7 @@ public class Shagbot {
     private final Storage storage;
 
     /**
-     * Constructor for the Shagbot class with its specified chatbot name.
+     * Constructor for the {@code Shagbot} class with its specified chatbot name.
      * Initialises the Ui, taskList, parser and storage objects.
      * It also loads any previously saved tasks from the specified file.
      *
@@ -42,9 +43,9 @@ public class Shagbot {
         this.parser = new Parser(taskList, ui);
         this.storage = new Storage("./data/dataoftasks.txt");
 
-        // Load any saved tasks when startup
+        // Load any saved tasks when startup the program
         try {
-            ArrayList<Task> tasks = storage.load();
+            ArrayList<Task> tasks = storage.loadSavedTasks();
             for (Task task : tasks) {
                 taskList.addTask(task);
             }
@@ -66,9 +67,9 @@ public class Shagbot {
                 break;
             }
 
-            // Save any tasks after each command
+            // Save any tasks after each command given
             try {
-                storage.save(new ArrayList<>(List.of(taskList.getTasks())));
+                storage.saveTasksToFile(new ArrayList<>(List.of(taskList.getTasks())));
             } catch (IOException e) {
                 ui.printErrorMessage("Failed to save tasks: " + e.getMessage());
             }
@@ -81,24 +82,8 @@ public class Shagbot {
         shagbot.start();
     }
 
-    /**
-     * Returns the greeting message from Shagbot.
-     *
-     * @return The greeting by Shagbot.
-     */
-    public static String printGreeting() {
-        return "Hello! I'm shagbot\n" + "What can I do for you?\n";
-    }
-
-    /**
-     * Returns the exit message from Shagbot.
-     *
-     * @return The exit message by Shagbot.
-     */
-    public static String printExit() {
-        return "Bye. Hope to see you again soon!\n";
-    }
-
 }
+
+
 
 
