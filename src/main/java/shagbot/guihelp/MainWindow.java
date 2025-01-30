@@ -1,4 +1,4 @@
-package shagbot;
+package shagbot.guihelp;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import shagbot.Shagbot;
 
 /**
  * Controller for the main GUI.
@@ -27,9 +28,13 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private Image shagBotImage = new Image(this.getClass().getResourceAsStream("/images/shagbot.png"));
 
+    /**
+     * Initialise the GUI
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.getStyleClass().add("dialog-container");
     }
 
     /**

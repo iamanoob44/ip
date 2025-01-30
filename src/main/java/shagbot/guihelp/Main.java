@@ -1,4 +1,4 @@
-package shagbot;
+package shagbot.guihelp;
 
 import java.io.IOException;
 
@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import shagbot.Shagbot;
 
 /**
  * A GUI for Duke using FXML.
@@ -22,6 +23,8 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setMinHeight(400);
+            stage.setMinWidth(700);
             fxmlLoader.<MainWindow>getController().setShagbot(shagbot); // inject the Shagbot instance
             stage.show();
         } catch (IOException e) {

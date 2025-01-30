@@ -1,4 +1,4 @@
-package shagbot;
+package shagbot.guihelp;
 
 import java.io.IOException;
 import java.util.Collections;
