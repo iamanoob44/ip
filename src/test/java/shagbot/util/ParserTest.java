@@ -1,15 +1,15 @@
 package shagbot.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.Task;
 import shagbot.tasks.TaskList;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class ParserTest {
@@ -21,20 +21,20 @@ public class ParserTest {
         Parser parser = new Parser(taskList, ui);
 
         String[] commands = {
-                "todo Read a book",
-                "deadline Assignment /by 26/01/2025 1800",
-                "todo Sleep even more",
-                "deadline Project /by 28/01/2025 2000",
-                "blehhh", // invalid command
-                "event Holiday to Maldives /from 28/01/2025 2000 /to 30/01/2025 2000"
+            "todo Read a book",
+            "deadline Assignment /by 26/01/2025 1800",
+            "todo Sleep even more",
+            "deadline Project /by 28/01/2025 2000",
+            "blehhh", // invalid command
+            "event Holiday to Maldives /from 28/01/2025 2000 /to 30/01/2025 2000"
         };
 
         String[] expectedDescriptionsForValidCommands = {
-                "Read a book",
-                "Assignment",
-                "Sleep even more",
-                "Project",
-                "Holiday to Maldives"
+            "Read a book",
+            "Assignment",
+            "Sleep even more",
+            "Project",
+            "Holiday to Maldives"
         };
 
         // Execute each every commands

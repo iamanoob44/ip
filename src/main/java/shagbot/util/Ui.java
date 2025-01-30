@@ -7,13 +7,13 @@ import shagbot.tasks.Deadline;
 import shagbot.tasks.Event;
 import shagbot.tasks.Task;
 
-
+/**
+ * Represents an Ui class that handles the user interactions with Shagbot.
+ */
 public class Ui {
-    private final String botName;
     private static final String LINE_SEPARATOR =
             "     ____________________________________________________________";
-
-
+    private final String botName;
     /**
      * Constructor for {@code Ui} class for the given chatbot name.
      *
@@ -147,9 +147,9 @@ public class Ui {
             if (task instanceof Deadline && ((Deadline) task).getByTiming().toLocalDate().equals(date)) {
                 System.out.println("       " + task);
                 isTaskFound = true;
-            } else if (task instanceof Event &&
-                    (((Event) task).getStart().toLocalDate().equals(date) ||
-                            ((Event) task).getEnd().toLocalDate().equals(date))) {
+            } else if (task instanceof Event
+                    && (((Event) task).getStart().toLocalDate().equals(date)
+                    || ((Event) task).getEnd().toLocalDate().equals(date))) {
                 System.out.println("       " + task);
                 isTaskFound = true;
             }

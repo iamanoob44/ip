@@ -1,8 +1,8 @@
 package shagbot.util;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +13,9 @@ import shagbot.tasks.Task;
 import shagbot.tasks.TaskList;
 import shagbot.tasks.Todo;
 
+/**
+ * Represents a parser class to handle users' commands and inputs.
+ */
 public class Parser {
     private final TaskList taskList;
     private final Ui ui;
@@ -86,15 +89,15 @@ public class Parser {
                 Task[] foundTasks = searchForTasks(keyword);
                 ui.printAnyMatchingTasks(foundTasks);
             } else if (command.trim().isEmpty()) {
-                throw new ShagBotException("You did not enter anything... " +
-                        "Please " +
-                        "enter a valid input : todo, deadline, event, " +
-                        "mark, unmark, delete, task on or bye!");
+                throw new ShagBotException("You did not enter anything... "
+                        + "Please "
+                        + "enter a valid input : todo, deadline, event, "
+                        + "mark, unmark, delete, task on or bye!");
             } else {
-                throw new ShagBotException("Oopsiee! Your input is" +
-                        " invalid. Please try again by entering a valid input : todo, " +
-                        "deadline, event, " +
-                        "mark, unmark, delete, task on or bye!");
+                throw new ShagBotException("Oopsiee! Your input is"
+                        + " invalid. Please try again by entering a valid input : todo, "
+                        + "deadline, event, "
+                        + "mark, unmark, delete, task on or bye!");
             }
         } catch (ShagBotException e) {
             ui.printErrorMessage(e.getMessage());
@@ -115,7 +118,7 @@ public class Parser {
     protected void handleMarkCommand(String command, boolean isMark) throws ShagBotException {
         try {
             int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
-            Integer numOfTask = taskList.getTasks().length;
+            int numOfTask = taskList.getTasks().length;
             if (taskIndex < 0) {
                 if (taskIndex == -1) {
                     throw new ShagBotException("Task number 0 is invalid! Task numbers start from 1.");
@@ -126,8 +129,8 @@ public class Parser {
                 if (numOfTask == 0) {
                     throw new ShagBotException("No tasks at the moment.");
                 } else {
-                    throw new ShagBotException("Task number is out of range! Enter a number from 1 to " +
-                            numOfTask + ".");
+                    throw new ShagBotException("Task number is out of range! Enter a number from 1 to "
+                            + numOfTask + ".");
                 }
             }
 
@@ -163,8 +166,8 @@ public class Parser {
                 if (taskList.getTasks().length == 0) {
                     throw new ShagBotException("No tasks at the moment.");
                 } else {
-                    throw new ShagBotException("Task number is out of range! Enter a number from 1 to " +
-                            taskList.getTasks().length + ".");
+                    throw new ShagBotException("Task number is out of range! Enter a number from 1 to "
+                            + taskList.getTasks().length + ".");
                 }
             }
 
