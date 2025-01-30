@@ -8,12 +8,12 @@ import shagbot.tasks.Event;
 import shagbot.tasks.Task;
 
 /**
- * Represents an Ui class that handles the user interactions with Shagbot.
+ * Represents a Ui class that handles user interactions with Shagbot.
  */
 public class Ui {
-    private static final String LINE_SEPARATOR =
-            "     ____________________________________________________________";
     private final String botName;
+    private String lastMessage; // Stores the latest message for GUI display
+
     /**
      * Constructor for {@code Ui} class for the given chatbot name.
      *
@@ -21,53 +21,67 @@ public class Ui {
      */
     public Ui(String botName) {
         this.botName = botName;
+        this.lastMessage = "";
     }
 
     /**
-     * Prints the message of the greeting.
+     * Sets a new message to be retrieved by GUI.
+     *
+     * @param message The message to store.
+     */
+    private void setLastMessage(String message) {
+        lastMessage = message;
+    }
+
+    /**
+     * Returns the last message for GUI display.
+     *
+     * @return The last stored message.
+     */
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    /**
+     * Prints the greeting message.
      */
     public void printGreeting() {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     Hello! I'm " + botName);
-        System.out.println("     What can I do for you?");
-        System.out.println(LINE_SEPARATOR);
+        String message = "Hello! I'm " + botName + "\nWhat can I do for you?";
+        setLastMessage(message);
+        System.out.println(message);
     }
 
     /**
      * Prints the exit message.
      */
     public void printExit() {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     Bye. Hope to see you again soon!");
-        System.out.println(LINE_SEPARATOR);
+        String message = "Bye. Hope to see you again soon!";
+        setLastMessage(message);
+        System.out.println(message);
     }
 
-
     /**
-     * Echoes input by user back to the user.
+     * Echoes user input back to them.
      *
-     * @param input Input by user to echo.
+     * @param input The user input.
      */
     public void echo(String input) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     " + input);
-        System.out.println(LINE_SEPARATOR);
+        setLastMessage(input);
+        System.out.println(input);
     }
 
     /**
-     * Prints a message when the task is added.
+     * Prints a message when a task is added.
      *
-     * @param task The task that was added.
-     * @param taskCount The total number of tasks in the list after adding.
+     * @param task The task added.
+     * @param taskCount Total number of tasks after adding.
      */
     public void printTaskAdded(String task, int taskCount) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     Got it. I've added this task:");
-        System.out.println("       " + task);
-        System.out.println("     Now you have " + taskCount + " tasks in the list.");
-        System.out.println(LINE_SEPARATOR);
+        String message = "Got it. I've added this task:\n  " + task +
+                "\nNow you have " + taskCount + " tasks in the list.";
+        setLastMessage(message);
+        System.out.println(message);
     }
-
 
     /**
      * Prints the list of tasks.
@@ -75,109 +89,110 @@ public class Ui {
      * @param tasks An array of added tasks to display.
      */
     public void printTaskList(Task[] tasks) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     Here are the tasks in your list:");
-        for (int i = 0; i < tasks.length; i++) {
-            System.out.println("     " + (i + 1) + "." + tasks[i]);
+        if (tasks.length == 0) {
+            setLastMessage("Your task list is empty!");
+        } else {
+            StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
+            for (int i = 0; i < tasks.length; i++) {
+                sb.append((i + 1)).append(". ").append(tasks[i]).append("\n");
+            }
+            setLastMessage(sb.toString().trim());
         }
-        System.out.println(LINE_SEPARATOR);
+        System.out.println(lastMessage);
     }
 
-
     /**
-     * Prints a message indicating that the task has been marked as done.
+     * Prints a message when a task is marked as done.
      *
-     * @param task The task that was marked as done.
+     * @param task The task marked as done.
      */
     public void printTaskMarked(Task task) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     Nice! I've marked this task as done:");
-        System.out.println("     " + task);
-        System.out.println(LINE_SEPARATOR);
+        String message = "Nice! I've marked this task as done:\n" + task;
+        setLastMessage(message);
+        System.out.println(message);
     }
 
     /**
-     * Prints message indicating that the task has been marked as not done.
+     * Prints a message when a task is unmarked.
      *
-     * @param task The task that was marked as not done.
+     * @param task The task marked as not done.
      */
     public void printTaskUnmarked(Task task) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     OK, I've marked this task as not done yet:");
-        System.out.println("     " + task);
-        System.out.println(LINE_SEPARATOR);
+        String message = "OK, I've marked this task as not done yet:\n" + task;
+        setLastMessage(message);
+        System.out.println(message);
     }
 
-
     /**
-     * Prints messages when errors are encountered.
+     * Prints an error message.
      *
-     * @param message The error message to display.
+     * @param message The error message.
      */
     public void printErrorMessage(String message) {
-        System.out.println("     WOOP WOOP!!! " + message);
+        String errorMessage = "WOOP WOOP!!! " + message;
+        setLastMessage(errorMessage);
+        System.out.println(errorMessage);
     }
 
     /**
-     * Prints message indicating a task is deleted.
+     * Prints a message when a task is deleted.
      *
-     * @param task       The task that was deleted.
-     * @param tasksSoFar The number of tasks that remains in the arraylist.
+     * @param task The deleted task.
+     * @param tasksSoFar The number of remaining tasks.
      */
     public void printTaskDeleted(Task task, int tasksSoFar) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     Noted. I've removed this task:");
-        System.out.println("       " + task);
-        System.out.println("     Now you have " + tasksSoFar + " tasks in the list.");
-        System.out.println(LINE_SEPARATOR);
+        String message = "Noted. I've removed this task:\n  " + task +
+                "\nNow you have " + tasksSoFar + " tasks in the list.";
+        setLastMessage(message);
+        System.out.println(message);
     }
 
     /**
-     * Prints message for tasks scheduled on that specific date.
+     * Prints tasks scheduled for a specific date.
      *
-     * @param date Date of the task that was filtered through.
-     * @param tasks The array of tasks to filter through using the specified date.
+     * @param date The date to filter tasks by.
+     * @param tasks The task list.
      */
     public void printTasksOnDate(LocalDate date, Task[] tasks) {
-        System.out.println(LINE_SEPARATOR);
-        System.out.println("     Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+        StringBuilder sb = new StringBuilder("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":\n");
         boolean isTaskFound = false;
 
         for (Task task : tasks) {
             if (task instanceof Deadline && ((Deadline) task).getByTiming().toLocalDate().equals(date)) {
-                System.out.println("       " + task);
+                sb.append("  ").append(task).append("\n");
                 isTaskFound = true;
             } else if (task instanceof Event
                     && (((Event) task).getStart().toLocalDate().equals(date)
                     || ((Event) task).getEnd().toLocalDate().equals(date))) {
-                System.out.println("       " + task);
+                sb.append("  ").append(task).append("\n");
                 isTaskFound = true;
             }
         }
         if (!isTaskFound) {
-            System.out.println("       No tasks are found for this date.");
+            sb.append("  No tasks are found for this date.");
         }
-        System.out.println(LINE_SEPARATOR);
+
+        setLastMessage(sb.toString().trim());
+        System.out.println(lastMessage);
     }
 
     /**
-     * Prints the matched tasks through the keyword.
+     * Prints matching tasks based on keyword search.
      *
-     * @param tasks An array of matched tasks to display to user.
+     * @param tasks An array of matched tasks.
      */
     public void printAnyMatchingTasks(Task[] tasks) {
-        System.out.println(LINE_SEPARATOR);
         if (tasks.length == 0) {
-            System.out.println("     No matching tasks found.");
+            setLastMessage("No matching tasks found.");
         } else {
-            System.out.println("     Here are the matching tasks in your list:");
+            StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
             for (int i = 0; i < tasks.length; i++) {
-                System.out.println("     " + (i + 1) + "." + tasks[i]);
+                sb.append((i + 1)).append(". ").append(tasks[i]).append("\n");
             }
+            setLastMessage(sb.toString().trim());
         }
-        System.out.println(LINE_SEPARATOR);
+        System.out.println(lastMessage);
     }
-
 }
 
 
