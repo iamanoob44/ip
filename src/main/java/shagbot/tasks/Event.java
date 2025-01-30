@@ -1,17 +1,19 @@
 package shagbot.tasks;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.LocalDateTime;
 
+/**
+ * Represents a task that is of the 'Event' category.
+ */
 public class Event extends Task {
-    private final LocalDateTime start;
-    private final LocalDateTime end;
     private static final DateTimeFormatter INPUT_FORMATTER =
             DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
-
+    private final LocalDateTime start;
+    private final LocalDateTime end;
     /**
      * Constructor for the {@code Event} class with the specified description of event,
      * start timing and end timing of the event.
@@ -68,8 +70,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER) +
-                " to: " + end.format(OUTPUT_FORMATTER) + ")";
+        return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER)
+                + " to: " + end.format(OUTPUT_FORMATTER) + ")";
     }
 
 }

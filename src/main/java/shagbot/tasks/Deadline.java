@@ -1,16 +1,18 @@
 package shagbot.tasks;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.LocalDateTime;
 
+/**
+ * Represents a task that is of the 'Deadline' category.
+ */
 public class Deadline extends Task {
-    private final LocalDateTime byTiming;
     private static final DateTimeFormatter INPUT_FORMATTER =
             DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
-
+    private final LocalDateTime byTiming;
     /**
      * Constructor for the {@code Deadline} class with specified description
      * of task and its deadline.

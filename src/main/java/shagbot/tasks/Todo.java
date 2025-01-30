@@ -1,5 +1,8 @@
 package shagbot.tasks;
 
+/**
+ * Represents a task that is of the 'Todo' category.
+ */
 public class Todo extends Task {
 
     /**

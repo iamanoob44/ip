@@ -1,5 +1,8 @@
 package shagbot.tasks;
 
+/**
+ * Represents the Parent class to handle all task types: todos, deadlines and events.
+ */
 public class Task {
     private final String description;
     private boolean isDone;

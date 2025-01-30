@@ -3,6 +3,9 @@ package shagbot.tasks;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A class that helps to manage the tasks in Shagbot.
+ */
 public class TaskList {
     private final ArrayList<Task> tasks;
 
