@@ -34,7 +34,12 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        dialogContainer.getStyleClass().add("dialog-container");
+        dialogContainer.setStyle("-fx-background-color: #0A192F;");
+        scrollPane.setStyle("-fx-background-color: #0A192F;");
+        this.setStyle("-fx-background-color: #0A192F;");
+        dialogContainer.getChildren().add(
+                DialogBox.getShagBotDialog("Hello! Shagbot at your service. What can I do for you?", shagBotImage)
+        );
     }
 
     /**

@@ -36,6 +36,11 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+        dialog.setStyle("-fx-text-fill: white;");
+        dialog.setWrapText(true);
+        dialog.setMaxWidth(280);
+        dialog.setStyle("-fx-background-color: #334; -fx-text-fill: white; "
+                + "-fx-padding: 15px; -fx-background-radius: 15px;");
     }
 
     /**
