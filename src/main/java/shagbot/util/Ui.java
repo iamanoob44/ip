@@ -77,8 +77,8 @@ public class Ui {
      * @param taskCount Total number of tasks after adding.
      */
     public void printTaskAdded(String task, int taskCount) {
-        String message = "Got it. I've added this task:\n  " + task +
-                "\nNow you have " + taskCount + " tasks in the list.";
+        String message = "Got it. I've added this task:\n  " + task
+                + "\nNow you have " + taskCount + " tasks in the list.";
         setLastMessage(message);
         System.out.println(message);
     }
@@ -141,8 +141,8 @@ public class Ui {
      * @param tasksSoFar The number of remaining tasks.
      */
     public void printTaskDeleted(Task task, int tasksSoFar) {
-        String message = "Noted. I've removed this task:\n  " + task +
-                "\nNow you have " + tasksSoFar + " tasks in the list.";
+        String message = "Noted. I've removed this task:\n  " + task
+                + "\nNow you have " + tasksSoFar + " tasks in the list.";
         setLastMessage(message);
         System.out.println(message);
     }
@@ -154,7 +154,8 @@ public class Ui {
      * @param tasks The task list.
      */
     public void printTasksOnDate(LocalDate date, Task[] tasks) {
-        StringBuilder sb = new StringBuilder("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":\n");
+        StringBuilder sb = new StringBuilder("Tasks on "
+                + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":\n");
         boolean isTaskFound = false;
 
         for (Task task : tasks) {
