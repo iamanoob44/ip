@@ -82,7 +82,7 @@ public class Parser {
                     LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("d/M/yyyy"));
                     ui.printTasksOnDate(date, taskList.getTasks());
                 } catch (DateTimeParseException e) {
-                    ui.printErrorMessage("Invalid date format. Please use 'dd/M/yyyy'.");
+                    ui.printErrorMessage("Invalid date format. Please use 'dd/M/yyyy' hhmm.");
                 }
             } else if (command.startsWith("find ")) {
                 String keyword = command.substring(5).trim();
@@ -106,6 +106,8 @@ public class Parser {
         }
         return true;
     }
+
+
 
 
     /**

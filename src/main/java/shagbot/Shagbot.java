@@ -3,7 +3,7 @@ package shagbot;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+// import java.util.Scanner;
 
 import shagbot.tasks.Task;
 import shagbot.tasks.TaskList;
@@ -54,35 +54,56 @@ public class Shagbot {
         }
     }
 
+    // This code commented works for text-based UI setup of Shagbot
+    //    /**
+    //     * Starts Shagbot's user-interaction loop for text-based UI.
+    //     */
+    //    public void start() {
+    //        ui.printGreeting();
+    //        Scanner scanner = new java.util.Scanner(System.in);
+    //
+    //        while (true) {
+    //            String userInput = scanner.nextLine().trim();
+    //            if (!parser.parseCommand(userInput)) {
+    //                break;
+    //            }
+    //
+    //            // Save any tasks after each command given
+    //            try {
+    //                storage.saveTasksToFile(new ArrayList<>(List.of(taskList.getTasks())));
+    //            } catch (IOException e) {
+    //                ui.printErrorMessage("Failed to save tasks: " + e.getMessage());
+    //            }
+    //        }
+    //        scanner.close();
+    //    }
+    //
+    //    public static void main(String[] args) {
+    //        Shagbot shagbot = new Shagbot("shagbot");
+    //        shagbot.start();
+    //    }
+    //
+
     /**
-     * Starts Shagbot's user-interaction loop.
+     * Retrieves the response based on the user's input.
+     * @param input The command entered by the user.
+     * @return The response retrieved, which is of string representation.
      */
-    public void start() {
-        ui.printGreeting();
-        Scanner scanner = new java.util.Scanner(System.in);
-
-        while (true) {
-            String userInput = scanner.nextLine().trim();
-            if (!parser.parseCommand(userInput)) {
-                break;
+    public String getResponse(String input) {
+        try {
+            // Execute the command and return the response
+            if (!parser.parseCommand(input)) {
+                // Printed on terminal if run on IntelliJ, else , GUI app will close by itself
+                return "Bye! Hope to see you again soon!";
             }
-
-            // Save any tasks after each command given
-            try {
-                storage.saveTasksToFile(new ArrayList<>(List.of(taskList.getTasks())));
-            } catch (IOException e) {
-                ui.printErrorMessage("Failed to save tasks: " + e.getMessage());
-            }
+            storage.saveTasksToFile(new ArrayList<>(List.of(taskList.getTasks())));
+            return ui.getLastMessage(); // Fetches the last response from Shagbot
+        } catch (IOException e) {
+            return "Failed to save tasks: " + e.getMessage();
         }
-        scanner.close();
     }
-
-    public static void main(String[] args) {
-        Shagbot shagbot = new Shagbot("shagbot");
-        shagbot.start();
-    }
-
 }
+
 
 
 
