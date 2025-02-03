@@ -112,7 +112,7 @@ public class ParserTest {
         ShagBotException exceptionForNegative = assertThrows(ShagBotException.class, () ->
                 parser.handleMarkCommand(negativeCommand, true)
         );
-        assertEquals("Task number cannot be less than 1! Please try again.",
+        assertEquals("OOPSIE!! Task number cannot be less than 1! Please try again.",
                 exceptionForNegative.getMessage(), "Negative task numbers are not allowed");
 
     }
