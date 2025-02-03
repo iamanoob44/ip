@@ -116,11 +116,11 @@ public class Storage {
     private String taskToFileFormat(Task task) {
         if (task instanceof Deadline) {
             return "D | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | "
-                    + ((Deadline) task).getByTiming().format(DateTimeFormatter.ofPattern("d/M/yyyy HHmm"));
+                    + ((Deadline) task).getByTiming().format(DateTimeFormatter.ofPattern("dd/M/yyyy HHmm"));
         } else if (task instanceof Event) {
             return "E | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | "
-                    + ((Event) task).getStart().format(DateTimeFormatter.ofPattern("d/M/yyyy HHmm")) + " | "
-                    + ((Event) task).getEnd().format(DateTimeFormatter.ofPattern("d/M/yyyy HHmm"));
+                    + ((Event) task).getStart().format(DateTimeFormatter.ofPattern("dd/M/yyyy HHmm")) + " | "
+                    + ((Event) task).getEnd().format(DateTimeFormatter.ofPattern("dd/M/yyyy HHmm"));
         } else if (task instanceof Todo) {
             return "T | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription();
         } else {

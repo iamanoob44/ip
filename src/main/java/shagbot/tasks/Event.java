@@ -9,7 +9,7 @@ import java.time.format.DateTimeParseException;
  */
 public class Event extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER =
-            DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+            DateTimeFormatter.ofPattern("dd/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
     private final LocalDateTime start;
@@ -39,7 +39,7 @@ public class Event extends Task {
         try {
             return LocalDateTime.parse(dateTimeStr, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Please use 'd/M/yyyy HHmm'.");
+            throw new IllegalArgumentException("Invalid date format. Please use 'dd/M/yyyy HHmm'.");
         }
     }
 
