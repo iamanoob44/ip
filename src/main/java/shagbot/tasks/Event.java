@@ -12,6 +12,7 @@ public class Event extends Task {
             DateTimeFormatter.ofPattern("dd/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
+    private static final String INVALID_DATE_FORMAT = "Invalid date format. Please use 'dd/M/yyyy HHmm'.";
     private final LocalDateTime start;
     private final LocalDateTime end;
     /**
@@ -28,7 +29,7 @@ public class Event extends Task {
         assert desc != null && !desc.trim().isEmpty() : "Description of event cannot be null or empty.";
         assert start != null && !start.trim().isEmpty() : "Start time cannot be null or empty.";
         assert end != null && !end.trim().isEmpty() : "End time cannot be null or empty.";
-        // Parse start and end times.
+        // Parse start and end times
         this.start = parseStringToDateTime(start);
         this.end = parseStringToDateTime(end);
     }
@@ -44,7 +45,7 @@ public class Event extends Task {
         try {
             return LocalDateTime.parse(dateTimeStr, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Please use 'dd/M/yyyy HHmm'.");
+            throw new IllegalArgumentException(INVALID_DATE_FORMAT);
         }
     }
 
