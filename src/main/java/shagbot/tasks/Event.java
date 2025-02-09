@@ -24,6 +24,11 @@ public class Event extends Task {
      */
     public Event(String desc, String start, String end) {
         super(desc);
+        // Assert statements
+        assert desc != null && !desc.trim().isEmpty() : "Description of event cannot be null or empty.";
+        assert start != null && !start.trim().isEmpty() : "Start time cannot be null or empty.";
+        assert end != null && !end.trim().isEmpty() : "End time cannot be null or empty.";
+        // Parse start and end times.
         this.start = parseStringToDateTime(start);
         this.end = parseStringToDateTime(end);
     }
@@ -70,6 +75,9 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
+        //Assert statements
+        assert start != null : "Start time should not be null.";
+        assert end != null : "End time should not be null.";
         return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER)
                 + " to: " + end.format(OUTPUT_FORMATTER) + ")";
     }

@@ -27,6 +27,8 @@ public class TaskList {
      */
     public TaskList(Task[] initialTasks) {
         this.tasks = new ArrayList<>(Arrays.asList(initialTasks));
+        // Assert statement
+        assert this.tasks != null : "Task list should be initialized properly.";
     }
 
 
@@ -36,6 +38,7 @@ public class TaskList {
      * @param task The task to add.
      */
     public void addTask(Task task) {
+        assert task != null : "Task cannot be of null value.";
         tasks.add(task);
     }
 

@@ -26,6 +26,7 @@ public class Storage {
      * @param filePath The relative filepath to the file where saved tasks are stored.
      */
     public Storage(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty() : "File path cannot be null or empty.";
         this.filePath = filePath;
     }
 
@@ -80,7 +81,7 @@ public class Storage {
                     tasks.add(event);
                     break;
                 default:
-                    break; // Do nothing for unsupported task type.
+                    assert false : "Task type not supported";
                 }
             }
         }
@@ -114,6 +115,7 @@ public class Storage {
      * @throws IllegalArgumentException If task type is invalid and not supported.
      */
     private String taskToFileFormat(Task task) {
+        assert task != null : "Task cannot be null";
         if (task instanceof Deadline) {
             return "D | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | "
                     + ((Deadline) task).getByTiming().format(DateTimeFormatter.ofPattern("dd/M/yyyy HHmm"));
@@ -127,7 +129,6 @@ public class Storage {
             throw new IllegalArgumentException("Invalid task type");
         }
     }
-
 }
 
 
