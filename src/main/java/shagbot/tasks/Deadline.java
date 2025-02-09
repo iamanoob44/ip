@@ -23,6 +23,9 @@ public class Deadline extends Task {
      */
     public Deadline(String desc, String byTiming) {
         super(desc);
+        // Assert statements
+        assert desc != null && !desc.trim().isEmpty() : "Description of deadline task cannot be null or empty.";
+        assert byTiming != null && !byTiming.trim().isEmpty() : "Deadline timing cannot be null or empty.";
         this.byTiming = parseStringToDateTime(byTiming);
     }
 
@@ -59,9 +62,9 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
+        assert this.byTiming != null : "byTiming should never be null when calling toString.";
         return "[D]" + super.toString() + " (by: " + byTiming.format(OUTPUT_FORMATTER) + ")";
     }
-
 }
 
 

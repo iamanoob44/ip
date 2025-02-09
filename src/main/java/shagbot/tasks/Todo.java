@@ -12,6 +12,7 @@ public class Todo extends Task {
      */
     public Todo(String desc) {
         super(desc);
+        assert desc != null && !desc.trim().isEmpty() : "Description of Todo task cannot be null or empty.";
     }
 
     /**
@@ -25,7 +26,6 @@ public class Todo extends Task {
     public String toString() {
         return "[T]" + super.toString();
     }
-
 }
 
 

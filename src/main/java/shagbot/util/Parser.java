@@ -27,6 +27,9 @@ public class Parser {
      * @param ui       The {@link Ui} instance to handle user interactions.
      */
     public Parser(TaskList taskList, Ui ui) {
+        assert taskList != null : "TaskList instance cannot be null.";
+        assert ui != null : "Ui instance cannot be null.";
+        // Initialise the variables.
         this.taskList = taskList;
         this.ui = ui;
     }
@@ -189,6 +192,7 @@ public class Parser {
      * @throws ShagBotException If the description format is invalid.
      */
     private void handleTodoCommand(String description) throws ShagBotException {
+        assert description != null : "Description of Todo task cannot be null.";
         if (description.isEmpty()) {
             throw new ShagBotException("OOPSIE!! Description for 'todo' task cannot be empty.");
         }
@@ -204,6 +208,7 @@ public class Parser {
      * @throws ShagBotException If the description format is invalid.
      */
     private void handleDeadlineCommand(String description) throws ShagBotException {
+        assert description != null : "Description of Deadline task cannot be null.";
         String[] parts = description.split(" /by ", 2);
         if (parts.length < 2) {
             throw new ShagBotException("OOPSIE!! Invalid format. Use: deadline <description> /by <dd/M/yyyy hhmm>.");
@@ -224,6 +229,7 @@ public class Parser {
      * @throws ShagBotException If the description format is invalid.
      */
     private void handleEventCommand(String description) throws ShagBotException {
+        assert description != null : "Description of Event task cannot be null.";
         String[] parts = description.split(" /from | /to ", 3);
         if (parts.length < 3) {
             throw new ShagBotException("OOPSIE!! Invalid 'event' format. "
@@ -254,6 +260,7 @@ public class Parser {
      * @param keyword The specified keyword used to filter out and search for in task descriptions.
      */
     private void handleFindCommand(String keyword) {
+        assert keyword != null : "Search keyword cannot be null.";
         if (keyword.isEmpty()) {
             ui.printErrorMessage("OOPSIE!! Please enter 'find' <something> again.");
             return;
@@ -269,6 +276,7 @@ public class Parser {
      * @return The array of tasks, as a {@link Task} array, that contains that keyword.
      */
     private Task[] searchForTasks(String keyword) {
+        assert keyword != null : "Search keyword cannot be null.";
         List<Task> retrievedTasks = new ArrayList<>();
         for (Task task : taskList.getTasks()) {
             if (task.getDescription().contains(keyword)) {

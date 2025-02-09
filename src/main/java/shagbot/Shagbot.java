@@ -90,6 +90,7 @@ public class Shagbot {
      * @return The response retrieved, which is of string representation.
      */
     public String getResponse(String input) {
+        assert input != null : "input cannot be null";
         try {
             // Execute the command and return the response
             if (!parser.parseCommand(input)) {
