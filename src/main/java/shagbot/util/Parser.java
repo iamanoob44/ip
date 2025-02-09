@@ -17,6 +17,36 @@ import shagbot.tasks.Todo;
  * Represents a parser class to handle users' commands and inputs.
  */
 public class Parser {
+    private static final String INVALID_FIND_ERROR_MESSAGE = "OOPSIE!! Please enter 'find' <something> again.";
+    private static final String INVALID_DATE_FORMAT_ERROR_MESSAGE = "OOPSIE!! Invalid date format: "
+            + "Please use 'dd/M/yyyy'.";
+    private static final String DATE_FORMAT = "dd/M/yyyy";
+    private static final String INVALID_EVENT_ERROR_MESSAGE = "OOPSIE!! Invalid 'event' format. "
+            + "Use: event <description> /from dd/M/yyyy hhmm /to dd/M/yy hhmm.";
+    private static final String INVALID_DEADLINE_ERROR_MESSAGE = "OOPSIE!! Invalid format. Use: deadline <description>"
+            + " /by <dd/M/yyyy hhmm>.";
+    private static final String INVALID_TODO_ERROR_MESSAGE = "OOPSIE!! Description for 'todo' task cannot be empty.";
+    private static final String TASK_INDEX_IS_ZERO_ERROR_MESSAGE = "OOPSIE!! Task number 0 is invalid! "
+            + "Task numbers start from 1.";
+    private static final String TASK_INDEX_IS_NEGATIVE_ERROR_MESSAGE = "OOPSIE!! Task number cannot be less than 1! "
+            + "Please try again.";
+    private static final String NO_TASKS_AT_THE_MOMENT_ERROR_MESSAGE = "No tasks at the moment.";
+    private static final String INVALID_COMMANDS_ERROR_MESSAGE = "OOPSIE!! Unknown command. "
+            + "Consider only these valid commands: list, todo, deadline, event, "
+            + "mark, unmark, delete, task on, find, or bye.";
+    private static final String UNEXPECTED_ERROR_MESSAGE = "OOPSIE!! Unexpected error occurred... "
+            + "Please contact help services.";
+    private static final String NO_INPUT_ERROR_MESSAGE = "No input provided. Please enter a valid command.";
+    private static final String INVALID_TASK_COMMAND_ERROR_MESSAGE = "OOPSIE!! Invalid 'task' command."
+            + " Did you mean 'task on <date>'?";
+    private static final String ENTER_A_NUMBER_ERROR_MESSAGE = "OOPSIE!! Please enter a number behind.";
+    private static final String INVALID_TASK_NUMBER_ERROR_MESSAGE = "OOPSIE!! Invalid task number entered."
+            + " Please try again!!";
+    private static final String TASK_NUMBER_IS_ZERO_ERROR_MESSAGE = "OOPSIE!! Task number 0 is invalid! "
+            + "Task numbers start from 1.";
+    private static final String TASK_NUMBER_IS_NEGATIVE_ERROR_MESSAGE = "OOPSIE!! Task number cannot be less than 1! "
+            + "Please try again.";
+    private static final String NO_NUMBER_BEHIND_ERROR_MESSAGE = "OOPSIE!! Please enter a number behind";
     private final TaskList taskList;
     private final Ui ui;
 
@@ -43,7 +73,7 @@ public class Parser {
     public boolean parseCommand(String command) {
         try {
             if (command == null || command.trim().isEmpty()) {
-                throw new ShagBotException("No input provided. Please enter a valid command.");
+                throw new ShagBotException(NO_INPUT_ERROR_MESSAGE);
             }
 
             String[] splitCommand = command.split(" ", 2);
@@ -87,7 +117,7 @@ public class Parser {
                 if (description.startsWith("on ")) {
                     handleTaskOnCommand(description.substring(3).trim());
                 } else {
-                    throw new ShagBotException("OOPSIE!! Invalid 'task' command. Did you mean 'task on <date>'?");
+                    throw new ShagBotException(INVALID_TASK_COMMAND_ERROR_MESSAGE);
                 }
                 break;
 
@@ -96,14 +126,12 @@ public class Parser {
                 break;
 
             default:
-                throw new ShagBotException("OOPSIE!! Unknown command. "
-                        + "Consider only these valid commands: list, todo, deadline, event, "
-                        + "mark, unmark, delete, task on, find, or bye.");
+                throw new ShagBotException(INVALID_COMMANDS_ERROR_MESSAGE);
             }
         } catch (ShagBotException e) {
             ui.printErrorMessage(e.getMessage());
         } catch (Exception e) {
-            ui.printErrorMessage("OOPSIE!! Unexpected error occurred... Please contact help services.");
+            ui.printErrorMessage(UNEXPECTED_ERROR_MESSAGE);
         }
         return true;
     }
@@ -117,40 +145,67 @@ public class Parser {
      * @throws ShagBotException If there are invalid inputs.
      */
     protected void handleMarkCommand(String command, boolean isMark) throws ShagBotException {
-        try {
-            if (command.trim().equalsIgnoreCase("MARK")
-                    || command.trim().equalsIgnoreCase("UNMARK")) {
-                throw new ShagBotException("OOPSIE!! Please enter a number behind.");
-            }
-            int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
-            int numOfTask = taskList.getTasks().length;
-            if (taskIndex < 0) {
-                if (taskIndex == -1) {
-                    throw new ShagBotException("OOPSIE!! Task number 0 is invalid! Task numbers start from 1.");
-                }
-                throw new ShagBotException("OOPSIE!! Task number cannot be less than 1! Please try again.");
-            }
-            if (taskIndex >= numOfTask) {
-                if (numOfTask == 0) {
-                    throw new ShagBotException("No tasks at the moment.");
-                } else {
-                    throw new ShagBotException("OOPSIE!! Task number is out of range! Enter a number from 1 to "
-                            + numOfTask + ".");
-                }
-            }
+        handleInvalidMarkCommands(command);
+        int taskIndex = parseTaskIndex(command);
+        validateTaskIndex(taskIndex);
 
-            if (isMark) {
-                taskList.markTask(taskIndex);
-                ui.printTaskMarked(taskList.getTask(taskIndex));
-            } else {
-                taskList.unmarkTask(taskIndex);
-                ui.printTaskUnmarked(taskList.getTask(taskIndex));
-            }
-        } catch (NumberFormatException e) {
-            throw new ShagBotException("OOPSIE!! Invalid task number entered. Please try again!!");
+        Task task = taskList.getTask(taskIndex);
+        if (isMark) {
+            task.mark();
+            ui.printTaskMarked(task);
+        } else {
+            task.unmark();
+            ui.printTaskUnmarked(task);
         }
     }
 
+    /**
+     * Parses a command string to extract the task index.
+     *
+     * @param command The user's command, which must contain a numeric task index.
+     * @return The task index extracted from the command
+     * @throws ShagBotException If command does not contain valid numerical index.
+     */
+    protected int parseTaskIndex(String command) throws ShagBotException {
+        try {
+            return Integer.parseInt(command.split(" ")[1]) - 1;
+        } catch (NumberFormatException e) {
+            throw new ShagBotException(INVALID_TASK_NUMBER_ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Validates if the task index is valid or not.
+     *
+     * @param taskIndex The index of the task.
+     * @throws ShagBotException If the task index is zero or less than zero.
+     */
+    private void validateTaskIndex(int taskIndex) throws ShagBotException {
+        int numOfTasks = taskList.getTasks().length;
+
+        if (taskIndex < 0) {
+            throw new ShagBotException(taskIndex == -1
+                    ? TASK_INDEX_IS_ZERO_ERROR_MESSAGE : TASK_INDEX_IS_NEGATIVE_ERROR_MESSAGE);
+        }
+
+        if (taskIndex >= numOfTasks) {
+            throw new ShagBotException(numOfTasks == 0
+                    ? NO_TASKS_AT_THE_MOMENT_ERROR_MESSAGE : "OOPSIE!! Task number is out of range! "
+                    + "Enter a number from 1 to " + numOfTasks + ".");
+        }
+    }
+    /**
+     * Handle invalid entries due to user forgetting to put a number behind.
+     *
+     * @param command "Mark" or "Unmark"
+     * @throws ShagBotException If the user forgots to enter a number behind "Mark" or "Unmark".
+     */
+    private static void handleInvalidMarkCommands(String command) throws ShagBotException {
+        if (command.trim().equalsIgnoreCase("MARK")
+                || command.trim().equalsIgnoreCase("UNMARK")) {
+            throw new ShagBotException(ENTER_A_NUMBER_ERROR_MESSAGE);
+        }
+    }
     /**
      * Deletes a task based on the user's command.
      *
@@ -160,32 +215,17 @@ public class Parser {
     private void handleDeleteCommand(String command) throws ShagBotException {
         try {
             if (command.trim().equalsIgnoreCase("DELETE")) {
-                throw new ShagBotException("OOPSIE!! Please enter a number behind");
+                throw new ShagBotException(NO_NUMBER_BEHIND_ERROR_MESSAGE);
             }
             int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
-            if (taskIndex < 0) {
-                if (taskIndex == -1) {
-                    throw new ShagBotException("OOPSIE!! Task number 0 is invalid! Task numbers start from 1.");
-                }
-                throw new ShagBotException("OOPSIE!! Task number cannot be less than 1! Please try again.");
-            }
-
-            if (taskIndex >= taskList.getTasks().length) {
-                if (taskList.getTasks().length == 0) {
-                    throw new ShagBotException("No tasks at the moment.");
-                } else {
-                    throw new ShagBotException("OOPSIE!! Task number is out of range! Enter a number from 1 to "
-                            + taskList.getTasks().length + ".");
-                }
-            }
+            validateTaskIndex(taskIndex);
 
             Task removedTask = taskList.deleteTask(taskIndex);
             ui.printTaskDeleted(removedTask, taskList.getTasks().length);
         } catch (NumberFormatException e) {
-            throw new ShagBotException("OOPSIE!! Invalid task number entered. Please try again!");
+            throw new ShagBotException(INVALID_TASK_NUMBER_ERROR_MESSAGE);
         }
     }
-
     /**
      * Handles a {@link Todo} task after parsing the description of the todo task.
      * @param description The description of the todo task.
@@ -194,7 +234,7 @@ public class Parser {
     private void handleTodoCommand(String description) throws ShagBotException {
         assert description != null : "Description of Todo task cannot be null.";
         if (description.isEmpty()) {
-            throw new ShagBotException("OOPSIE!! Description for 'todo' task cannot be empty.");
+            throw new ShagBotException(INVALID_TODO_ERROR_MESSAGE);
         }
         Todo todo = new Todo(description);
         taskList.addTask(todo);
@@ -211,7 +251,7 @@ public class Parser {
         assert description != null : "Description of Deadline task cannot be null.";
         String[] parts = description.split(" /by ", 2);
         if (parts.length < 2) {
-            throw new ShagBotException("OOPSIE!! Invalid format. Use: deadline <description> /by <dd/M/yyyy hhmm>.");
+            throw new ShagBotException(INVALID_DEADLINE_ERROR_MESSAGE);
         }
         try {
             Deadline deadline = new Deadline(parts[0].trim(), parts[1].trim());
@@ -232,8 +272,7 @@ public class Parser {
         assert description != null : "Description of Event task cannot be null.";
         String[] parts = description.split(" /from | /to ", 3);
         if (parts.length < 3) {
-            throw new ShagBotException("OOPSIE!! Invalid 'event' format. "
-                    + "Use: event <description> /from dd/M/yyyy hhmm /to dd/M/yy hhmm.");
+            throw new ShagBotException(INVALID_EVENT_ERROR_MESSAGE);
         }
         Event event = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
         taskList.addTask(event);
@@ -247,10 +286,10 @@ public class Parser {
      */
     private void handleTaskOnCommand(String dateString) {
         try {
-            LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd/M/yyyy"));
+            LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(DATE_FORMAT));
             ui.printTasksOnDate(date, taskList.getTasks());
         } catch (DateTimeParseException e) {
-            ui.printErrorMessage("OOPSIE!! Invalid date format: Please use 'dd/M/yyyy'.");
+            ui.printErrorMessage(INVALID_DATE_FORMAT_ERROR_MESSAGE);
         }
     }
 
@@ -262,7 +301,7 @@ public class Parser {
     private void handleFindCommand(String keyword) {
         assert keyword != null : "Search keyword cannot be null.";
         if (keyword.isEmpty()) {
-            ui.printErrorMessage("OOPSIE!! Please enter 'find' <something> again.");
+            ui.printErrorMessage(INVALID_FIND_ERROR_MESSAGE);
             return;
         }
         Task[] foundTasks = searchForTasks(keyword);

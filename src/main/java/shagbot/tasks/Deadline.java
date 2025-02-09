@@ -13,6 +13,7 @@ public class Deadline extends Task {
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM"
                     + " dd yyyy, h:mma");
+    private static final String INVALID_DATE_MESSAGE = "Invalid date format. Please use 'dd/M/yyyy HHmm'.";
     private final LocalDateTime byTiming;
     /**
      * Constructor for the {@code Deadline} class with specified description
@@ -40,7 +41,7 @@ public class Deadline extends Task {
         try {
             return LocalDateTime.parse(dateTimeStr, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Please use 'dd/M/yyyy HHmm'.");
+            throw new IllegalArgumentException(INVALID_DATE_MESSAGE);
         }
     }
 

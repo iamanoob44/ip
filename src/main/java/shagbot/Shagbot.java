@@ -23,6 +23,8 @@ import shagbot.util.Ui;
  */
 public class Shagbot {
 
+    private static final String BYE_MESSAGE = "Bye! Hope to see you again soon!";
+    private static final String FAILED_TO_SAVE_TASKS_MESSAGE = "Failed to save tasks: ";
     private final String botName;
     private final Ui ui;
     private final TaskList taskList;
@@ -95,12 +97,12 @@ public class Shagbot {
             // Execute the command and return the response
             if (!parser.parseCommand(input)) {
                 // Printed on terminal if run on IntelliJ, else , GUI app will close by itself
-                return "Bye! Hope to see you again soon!";
+                return BYE_MESSAGE;
             }
             storage.saveTasksToFile(new ArrayList<>(List.of(taskList.getTasks())));
             return ui.getLastMessage(); // Fetches the last response from Shagbot
         } catch (IOException e) {
-            return "Failed to save tasks: " + e.getMessage();
+            return FAILED_TO_SAVE_TASKS_MESSAGE + e.getMessage();
         }
     }
 }
