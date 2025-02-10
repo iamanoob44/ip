@@ -87,7 +87,7 @@ public class TaskList {
      *
      * @param index The index of the task to mark.
      */
-    public void markTask(int index) {
+    protected void markTask(int index) {
         tasks.get(index).mark();
     }
 
@@ -96,7 +96,7 @@ public class TaskList {
      *
      * @param index The index of the task to unmark.
      */
-    public void unmarkTask(int index) {
+    protected void unmarkTask(int index) {
         tasks.get(index).unmark();
     }
 }

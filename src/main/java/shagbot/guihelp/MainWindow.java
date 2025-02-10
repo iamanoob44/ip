@@ -45,7 +45,7 @@ public class MainWindow extends AnchorPane {
     /**
      * Injects the Shagbot instance
      */
-    public void setShagbot(Shagbot s) {
+    protected void setShagbot(Shagbot s) {
         shagbot = s;
     }
 

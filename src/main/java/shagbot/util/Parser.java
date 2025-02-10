@@ -182,7 +182,7 @@ public class Parser {
     /**
      * Displays the exit message when users wishes to stop using the program.
      */
-    protected void handleByeCommand() {
+    private void handleByeCommand() {
         ui.printExit();
     }
     /**
@@ -214,7 +214,7 @@ public class Parser {
      * @return The task index extracted from the command
      * @throws ShagBotException If command does not contain valid numerical index.
      */
-    protected int parseTaskIndex(String command) throws ShagBotException {
+    private int parseTaskIndex(String command) throws ShagBotException {
         try {
             return Integer.parseInt(command.split(" ")[1]) - 1;
         } catch (NumberFormatException e) {
