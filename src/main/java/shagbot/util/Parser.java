@@ -47,6 +47,16 @@ public class Parser {
     private static final String TASK_NUMBER_IS_NEGATIVE_ERROR_MESSAGE = "OOPSIE!! Task number cannot be less than 1! "
             + "Please try again.";
     private static final String NO_NUMBER_BEHIND_ERROR_MESSAGE = "OOPSIE!! Please enter a number behind";
+    private static final String BYE = "bye";
+    private static final String LIST = "list";
+    private static final String MARK = "mark";
+    private static final String UNMARK = "unmark";
+    private static final String TODO = "todo";
+    private static final String DEADLINE = "deadline";
+    private static final String EVENT = "event";
+    private static final String DELETE = "delete";
+    private static final String TASK = "task";
+    private static final String FIND = "find";
     private final TaskList taskList;
     private final Ui ui;
 
@@ -67,67 +77,13 @@ public class Parser {
     /**
      * Parses a user command and executes the corresponding action.
      *
-     * @param command The user command to parse and process accordingly.
-     * @return Returns True if {@link shagbot.Shagbot} continues running, false for exit.
+     * @param command The user's command to parse and process accordingly.
+     * @return True if {@link shagbot.Shagbot} continues running, False for exit
      */
     public boolean parseCommand(String command) {
         try {
-            if (command == null || command.trim().isEmpty()) {
-                throw new ShagBotException(NO_INPUT_ERROR_MESSAGE);
-            }
-
-            String[] splitCommand = command.split(" ", 2);
-            String mainCommand = splitCommand[0];
-            String description = splitCommand.length > 1 ? splitCommand[1].trim() : "";
-
-            switch (mainCommand) {
-            case "bye":
-                ui.printExit();
-                return false;
-
-            case "list":
-                ui.printTaskList(taskList.getTasks());
-                break;
-
-            case "mark":
-                handleMarkCommand(command, true);
-                break;
-
-            case "unmark":
-                handleMarkCommand(command, false);
-                break;
-
-            case "todo":
-                handleTodoCommand(description);
-                break;
-
-            case "deadline":
-                handleDeadlineCommand(description);
-                break;
-
-            case "event":
-                handleEventCommand(description);
-                break;
-
-            case "delete":
-                handleDeleteCommand(command);
-                break;
-
-            case "task":
-                if (description.startsWith("on ")) {
-                    handleTaskOnCommand(description.substring(3).trim());
-                } else {
-                    throw new ShagBotException(INVALID_TASK_COMMAND_ERROR_MESSAGE);
-                }
-                break;
-
-            case "find":
-                handleFindCommand(description);
-                break;
-
-            default:
-                throw new ShagBotException(INVALID_COMMANDS_ERROR_MESSAGE);
-            }
+            String[] parsedInput = parseUserCommand(command);
+            return executeCommand(parsedInput[0], parsedInput[1]);
         } catch (ShagBotException e) {
             ui.printErrorMessage(e.getMessage());
         } catch (Exception e) {
@@ -137,6 +93,103 @@ public class Parser {
     }
 
 
+
+    /**
+     * Executes the command based on parsed input.
+     *
+     * @param mainCommand The main command keyword entered by user.
+     * @param description The command description (if any).
+     * @return False If the command entered is "bye", otherwise True.
+     * @throws ShagBotException If the command is invalid.
+     */
+    private boolean executeCommand(String mainCommand, String description) throws ShagBotException {
+        switch (mainCommand) {
+        case BYE:
+            handleByeCommand();
+            return false;
+
+        case LIST:
+            handleListCommand();
+            break;
+
+        case MARK:
+            handleMarkCommand(mainCommand + " " + description, true);
+            break;
+
+        case UNMARK:
+            handleMarkCommand(mainCommand + " " + description, false);
+            break;
+
+        case TODO:
+            handleTodoCommand(description);
+            break;
+
+        case DEADLINE:
+            handleDeadlineCommand(description);
+            break;
+
+        case EVENT:
+            handleEventCommand(description);
+            break;
+
+        case DELETE:
+            handleDeleteCommand(mainCommand + " " + description);
+            break;
+
+        case TASK:
+            findTaskOnDateCommand(description);
+            break;
+
+        case FIND:
+            handleFindCommand(description);
+            break;
+
+        default:
+            throw new ShagBotException(INVALID_COMMANDS_ERROR_MESSAGE);
+        }
+        return true;
+    }
+
+    /**
+     * Parses user input into a command and its description.
+     *
+     * @param command The raw input command entered by user.
+     * @return A two-element String array: [command, description].
+     * @throws ShagBotException If the command is empty.
+     */
+    private String[] parseUserCommand(String command) throws ShagBotException {
+        if (command == null || command.trim().isEmpty()) {
+            throw new ShagBotException(NO_INPUT_ERROR_MESSAGE);
+        }
+        String[] splitCommand = command.split(" ", 2);
+        String mainCommand = splitCommand[0];
+        String description = splitCommand.length > 1 ? splitCommand[1].trim() : "";
+        return new String[]{mainCommand, description};
+    }
+
+
+
+    private void findTaskOnDateCommand(String description) throws ShagBotException {
+        if (description.startsWith("on ")) {
+            handleTaskOnCommand(description.substring(3).trim());
+        } else {
+            throw new ShagBotException(INVALID_TASK_COMMAND_ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Prints the lists of tasks so far.
+     */
+    private void handleListCommand() {
+        ui.printTaskList(taskList.getTasks());
+    }
+
+    /**
+     * Displays the exit message when users wishes to stop using the program.
+     */
+    protected void handleByeCommand() {
+        ui.printExit();
+    }
     /**
      * Marks or unmarks the task based on user's command.
      *
@@ -183,16 +236,23 @@ public class Parser {
     private void validateTaskIndex(int taskIndex) throws ShagBotException {
         int numOfTasks = taskList.getTasks().length;
 
+        if (taskIndex == -1) {
+            throw new ShagBotException(TASK_INDEX_IS_ZERO_ERROR_MESSAGE);
+        }
+
         if (taskIndex < 0) {
-            throw new ShagBotException(taskIndex == -1
-                    ? TASK_INDEX_IS_ZERO_ERROR_MESSAGE : TASK_INDEX_IS_NEGATIVE_ERROR_MESSAGE);
+            throw new ShagBotException(TASK_INDEX_IS_NEGATIVE_ERROR_MESSAGE);
+        }
+
+        if (numOfTasks == 0) {
+            throw new ShagBotException(NO_TASKS_AT_THE_MOMENT_ERROR_MESSAGE);
         }
 
         if (taskIndex >= numOfTasks) {
-            throw new ShagBotException(numOfTasks == 0
-                    ? NO_TASKS_AT_THE_MOMENT_ERROR_MESSAGE : "OOPSIE!! Task number is out of range! "
-                    + "Enter a number from 1 to " + numOfTasks + ".");
+            throw new ShagBotException("OOPSIE!! Task number is out of range! Enter a number from 1 to "
+                    + numOfTasks + ".");
         }
+
     }
     /**
      * Handle invalid entries due to user forgetting to put a number behind.
