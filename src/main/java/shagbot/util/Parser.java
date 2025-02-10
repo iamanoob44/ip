@@ -3,8 +3,7 @@ package shagbot.util;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.Deadline;
@@ -42,10 +41,6 @@ public class Parser {
     private static final String ENTER_A_NUMBER_ERROR_MESSAGE = "OOPSIE!! Please enter a number behind.";
     private static final String INVALID_TASK_NUMBER_ERROR_MESSAGE = "OOPSIE!! Invalid task number entered."
             + " Please try again!!";
-    private static final String TASK_NUMBER_IS_ZERO_ERROR_MESSAGE = "OOPSIE!! Task number 0 is invalid! "
-            + "Task numbers start from 1.";
-    private static final String TASK_NUMBER_IS_NEGATIVE_ERROR_MESSAGE = "OOPSIE!! Task number cannot be less than 1! "
-            + "Please try again.";
     private static final String NO_NUMBER_BEHIND_ERROR_MESSAGE = "OOPSIE!! Please enter a number behind";
     private static final String BYE = "bye";
     private static final String LIST = "list";
@@ -376,13 +371,10 @@ public class Parser {
      */
     private Task[] searchForTasks(String keyword) {
         assert keyword != null : "Search keyword cannot be null.";
-        List<Task> retrievedTasks = new ArrayList<>();
-        for (Task task : taskList.getTasks()) {
-            if (task.getDescription().contains(keyword)) {
-                retrievedTasks.add(task);
-            }
-        }
-        return retrievedTasks.toArray(new Task[0]);
+
+        return Arrays.stream(taskList.getTasks()).distinct()
+                .filter(task -> task.getDescription().contains(keyword))
+                .toArray(Task[]::new);
     }
 }
 
