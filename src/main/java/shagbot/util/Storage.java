@@ -18,6 +18,8 @@ import shagbot.tasks.Todo;
  * Represents a storage class used to load and save tasks to the txt file.
  */
 public class Storage {
+    private static final String DATE_FORMAT = "dd/M/yyyy HHmm";
+    private static final String INVALID_TASK_TYPE_ERROR_MESSAGE = "Invalid task type";
     private final String filePath;
 
     /**
@@ -60,25 +62,13 @@ public class Storage {
 
                 switch (type) {
                 case "T":
-                    Todo todo = new Todo(description);
-                    if (isDone) {
-                        todo.mark();
-                    }
-                    tasks.add(todo);
+                    tasks.add(createTodo(description, isDone));
                     break;
                 case "D":
-                    Deadline deadline = new Deadline(description, parts[3]);
-                    if (isDone) {
-                        deadline.mark();
-                    }
-                    tasks.add(deadline);
+                    tasks.add(createDeadline(description, parts[3], isDone));
                     break;
                 case "E":
-                    Event event = new Event(description, parts[3], parts[4]);
-                    if (isDone) {
-                        event.mark();
-                    }
-                    tasks.add(event);
+                    tasks.add(createEvent(description, parts[3], parts[4], isDone));
                     break;
                 default:
                     assert false : "Task type not supported";
@@ -87,6 +77,55 @@ public class Storage {
         }
         return tasks;
     }
+
+    /**
+     * Creates a new Todo task.
+     *
+     * @param description The description of Todo task.
+     * @param isDone Whether the task is completed or not.
+     * @return The created Todo task.
+     */
+    private Todo createTodo(String description, boolean isDone) {
+        Todo todo = new Todo(description);
+        if (isDone) {
+            todo.mark();
+        }
+        return todo;
+    }
+
+    /**
+     * Creates a new Deadline task.
+     *
+     * @param description The description of the deadline task.
+     * @param by The deadline timing.
+     * @param isDone Whether the task is completed or not.
+     * @return The created Deadline task.
+     */
+    private Deadline createDeadline(String description, String by, boolean isDone) {
+        Deadline deadline = new Deadline(description, by);
+        if (isDone) {
+            deadline.mark();
+        }
+        return deadline;
+    }
+
+    /**
+     * Creates a new Event task.
+     *
+     * @param description The description of event task.
+     * @param start The start time of the event.
+     * @param end The end time of the event.
+     * @param isDone Whether the task is completed or not.
+     * @return The created Event task.
+     */
+    private Event createEvent(String description, String start, String end, boolean isDone) {
+        Event event = new Event(description, start, end);
+        if (isDone) {
+            event.mark();
+        }
+        return event;
+    }
+
 
     /**
      * Saves the lists of tasks to the file.
@@ -116,18 +155,28 @@ public class Storage {
      */
     private String taskToFileFormat(Task task) {
         assert task != null : "Task cannot be null";
-        if (task instanceof Deadline) {
-            return "D | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | "
-                    + ((Deadline) task).getByTiming().format(DateTimeFormatter.ofPattern("dd/M/yyyy HHmm"));
-        } else if (task instanceof Event) {
-            return "E | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription() + " | "
-                    + ((Event) task).getStart().format(DateTimeFormatter.ofPattern("dd/M/yyyy HHmm")) + " | "
-                    + ((Event) task).getEnd().format(DateTimeFormatter.ofPattern("dd/M/yyyy HHmm"));
+        var completionStatus = (task.isDone() ? "1" : "0") + " | " + task.getDescription();
+
+        if (task instanceof Deadline deadline) {
+            return "D | " + completionStatus + " | " + formattedDateOfTask(deadline.getByTiming());
+        } else if (task instanceof Event event) {
+            return "E | " + completionStatus + " | " + formattedDateOfTask(event.getStart()) + " | "
+                    + formattedDateOfTask(event.getEnd());
         } else if (task instanceof Todo) {
-            return "T | " + (task.isDone() ? "1" : "0") + " | " + task.getDescription();
+            return "T | " + completionStatus;
         } else {
-            throw new IllegalArgumentException("Invalid task type");
+            throw new IllegalArgumentException(INVALID_TASK_TYPE_ERROR_MESSAGE);
         }
+    }
+
+    /**
+     * Formats date using the predefined date format specified.
+     *
+     * @param date The date to format for deadline and event tasks..
+     * @return A formatted date string.
+     */
+    private String formattedDateOfTask(java.time.LocalDateTime date) {
+        return date.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
     }
 }
 
