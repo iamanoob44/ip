@@ -13,8 +13,8 @@ public class Event extends Task {
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
     private static final String INVALID_DATE_FORMAT = "Invalid date format. Please use 'dd/M/yyyy HHmm'.";
-    private final LocalDateTime start;
-    private final LocalDateTime end;
+    private LocalDateTime start;
+    private LocalDateTime end;
     /**
      * Constructor for the {@code Event} class with the specified description of event,
      * start timing and end timing of the event.
@@ -83,5 +83,20 @@ public class Event extends Task {
                 + " to: " + end.format(OUTPUT_FORMATTER) + ")";
     }
 
+    /**
+     * Set new start timing for the event in the list.
+     * @param newStart The {@link LocalDateTime} object representing the event task's new start time.
+     */
+    public void setStart(LocalDateTime newStart) {
+        this.start = newStart;
+    }
+
+    /**
+     * Set new end timing for the event in the list.
+     * @param newEnd The {@link LocalDateTime} object representing the event task's new end time.
+     */
+    public void setEnd(LocalDateTime newEnd) {
+        this.end = newEnd;
+    }
 }
 
