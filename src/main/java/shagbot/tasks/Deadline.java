@@ -14,7 +14,7 @@ public class Deadline extends Task {
             DateTimeFormatter.ofPattern("MMM"
                     + " dd yyyy, h:mma");
     private static final String INVALID_DATE_MESSAGE = "Invalid date format. Please use 'dd/M/yyyy HHmm'.";
-    private final LocalDateTime byTiming;
+    private LocalDateTime byTiming;
     /**
      * Constructor for the {@code Deadline} class with specified description
      * of task and its deadline.
@@ -65,6 +65,13 @@ public class Deadline extends Task {
     public String toString() {
         assert this.byTiming != null : "byTiming should never be null when calling toString.";
         return "[D]" + super.toString() + " (by: " + byTiming.format(OUTPUT_FORMATTER) + ")";
+    }
+    /**
+     * Set new timing for the deadline task through the Snooze/Reschedule feature.
+     * @param newByTiming The {@link LocalDateTime} object representing the task's new deadline.
+     */
+    public void setByTiming(LocalDateTime newByTiming) {
+        this.byTiming = newByTiming;
     }
 }
 

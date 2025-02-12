@@ -1,6 +1,7 @@
 package shagbot.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ public class Parser {
     private static final String INVALID_DATE_FORMAT_ERROR_MESSAGE = "OOPSIE!! Invalid date format: "
             + "Please use 'dd/M/yyyy'.";
     private static final String DATE_FORMAT = "dd/M/yyyy";
+    private static final String DATE_FORMAT_WITH_TIME = "dd/M/yyyy HHmm";
     private static final String INVALID_EVENT_ERROR_MESSAGE = "OOPSIE!! Invalid 'event' format. "
             + "Use: event <description> /from dd/M/yyyy hhmm /to dd/M/yy hhmm.";
     private static final String INVALID_DEADLINE_ERROR_MESSAGE = "OOPSIE!! Invalid format. Use: deadline <description>"
@@ -32,7 +34,7 @@ public class Parser {
     private static final String NO_TASKS_AT_THE_MOMENT_ERROR_MESSAGE = "No tasks at the moment.";
     private static final String INVALID_COMMANDS_ERROR_MESSAGE = "OOPSIE!! Unknown command. "
             + "Consider only these valid commands: list, todo, deadline, event, "
-            + "mark, unmark, delete, task on, find, or bye.";
+            + "mark, unmark, delete, task on, find, snooze or bye.";
     private static final String UNEXPECTED_ERROR_MESSAGE = "OOPSIE!! Unexpected error occurred... "
             + "Please contact help services.";
     private static final String NO_INPUT_ERROR_MESSAGE = "No input provided. Please enter a valid command.";
@@ -52,6 +54,19 @@ public class Parser {
     private static final String DELETE = "delete";
     private static final String TASK = "task";
     private static final String FIND = "find";
+    private static final String SNOOZE = "snooze";
+    private static final String SPECIFY_TASK_TO_SNOOZE_ERROR_MESSAGE = "OOPSIE!! Please specify which task to snooze.";
+    private static final String SPECIFY_TASK_TO_SNOOZE_AND_NEW_DATE_ERROR_MESSAGE = "OOPSIE!! Please specify which "
+            + "task to snooze and new date/time.";
+    private static final String CANNOT_SNOZE_TODO_ERROR_MESSAGE = "We only can snooze/reschedule deadlines or events.";
+    private static final String SNOOZE_DEADLINE_FAIL_ERROR_MESSAGE = "To snooze a deadline, use: snooze <index> "
+            + "/by dd/M/yyyy HHmm";
+    private static final String DEADLINE_HAS_BEEN_RESCHEDULED_TO = "  , deadline of this task has been rescheduled "
+            + "to: ";
+    private static final String SNOOZE_EVENT_FAIL_ERROR_MESSAGE = "To snooze an event, use: snooze <index> "
+            + "/from dd/M/yyyy HHmm /to dd/M/yyyy HHmm";
+    private static final String TASK_INDEX_OUT_OF_RANGE_ERROR_MESSAGE = "OOPSIE!! Task number is out of range! "
+            + "Enter a number from 1 to ";
     private final TaskList taskList;
     private final Ui ui;
 
@@ -139,6 +154,10 @@ public class Parser {
             handleFindCommand(description);
             break;
 
+        case SNOOZE:
+            handleSnoozeCommand(description);
+            break;
+
         default:
             throw new ShagBotException(INVALID_COMMANDS_ERROR_MESSAGE);
         }
@@ -163,7 +182,12 @@ public class Parser {
     }
 
 
-
+    /**
+     * Look for matching tasks with the specified description.
+     *
+     * @param description Description of the task.
+     * @throws ShagBotException If command entered to manage task is invalid.
+     */
     private void findTaskOnDateCommand(String description) throws ShagBotException {
         if (description.startsWith("on ")) {
             handleTaskOnCommand(description.substring(3).trim());
@@ -244,10 +268,9 @@ public class Parser {
         }
 
         if (taskIndex >= numOfTasks) {
-            throw new ShagBotException("OOPSIE!! Task number is out of range! Enter a number from 1 to "
+            throw new ShagBotException(TASK_INDEX_OUT_OF_RANGE_ERROR_MESSAGE
                     + numOfTasks + ".");
         }
-
     }
     /**
      * Handle invalid entries due to user forgetting to put a number behind.
@@ -256,8 +279,8 @@ public class Parser {
      * @throws ShagBotException If the user forgots to enter a number behind "Mark" or "Unmark".
      */
     private static void handleInvalidMarkCommands(String command) throws ShagBotException {
-        if (command.trim().equalsIgnoreCase("MARK")
-                || command.trim().equalsIgnoreCase("UNMARK")) {
+        if (command.trim().equalsIgnoreCase(MARK.toUpperCase())
+                || command.trim().equalsIgnoreCase(UNMARK.toUpperCase())) {
             throw new ShagBotException(ENTER_A_NUMBER_ERROR_MESSAGE);
         }
     }
@@ -269,7 +292,7 @@ public class Parser {
      */
     private void handleDeleteCommand(String command) throws ShagBotException {
         try {
-            if (command.trim().equalsIgnoreCase("DELETE")) {
+            if (command.trim().equalsIgnoreCase(DELETE.toUpperCase())) {
                 throw new ShagBotException(NO_NUMBER_BEHIND_ERROR_MESSAGE);
             }
             int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
@@ -362,7 +385,118 @@ public class Parser {
         Task[] foundTasks = searchForTasks(keyword);
         ui.printAnyMatchingTasks(foundTasks);
     }
+    /**
+     * Handles the snooze command by parsing and validating the user's input.
+     *
+     * @param description The String representation following the "snooze" command, containing task index
+     *                    and new time info.
+     * @throws ShagBotException If the format for "snooze" is invalid.
+     */
+    private void handleSnoozeCommand(String description) throws ShagBotException {
+        validateSnoozeCommand(description);
+        String[] snoozeSplitCommand = splitCommand(description);
 
+        int taskIndex = parseTaskIndex(SNOOZE + " " + snoozeSplitCommand[0]);
+        validateTaskIndex(taskIndex);
+        String dateTimeInfo = snoozeSplitCommand[1].trim();
+        Task taskToSnooze = taskList.getTask(taskIndex);
+        if (taskToSnooze instanceof Deadline) {
+            snoozeDeadline((Deadline) taskToSnooze, dateTimeInfo);
+            return;
+        }
+        if (taskToSnooze instanceof Event) {
+            snoozeEvent((Event) taskToSnooze, dateTimeInfo);
+            return;
+        }
+        throw new ShagBotException(CANNOT_SNOZE_TODO_ERROR_MESSAGE);
+    }
+
+    /**
+     * Validates if the input is not null or not empty.
+     *
+     * @param input The String input to validate.
+     * @throws ShagBotException If the input is invalid (null or empty).
+     */
+    private void validateSnoozeCommand(String input) throws ShagBotException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new ShagBotException(SPECIFY_TASK_TO_SNOOZE_ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Splits the given string input, using the 'snooze' command, into tokens.
+     *
+     * @param input The input string to split.
+     * @return A {@link String} array containing the split segments or tokens.
+     * @throws ShagBotException If input by the user is invalid.
+     */
+    private String[] splitCommand(String input) throws ShagBotException {
+        String[] tokensForSnooze = input.split(" ", 2);
+        int expectedParts = 2;
+        if (tokensForSnooze.length < expectedParts) {
+            throw new ShagBotException(SPECIFY_TASK_TO_SNOOZE_AND_NEW_DATE_ERROR_MESSAGE);
+        }
+        return tokensForSnooze;
+    }
+
+    /**
+     * Reschedules or snoozes a given deadline task with a new due date and time.
+     *
+     * @param deadline The {@link shagbot.tasks.Deadline} task to be rescheduled or snoozed.
+     * @param dateTimePart A string representation of the new due date and time.
+     * @throws ShagBotException if {@code dateTimePart} does not start with {@code "/by "} or/and if the
+     *        new date and time string is not following a valid format.
+     */
+    private void snoozeDeadline(Deadline deadline, String dateTimePart) throws ShagBotException {
+        if (!dateTimePart.startsWith("/by ")) {
+            throw new ShagBotException(SNOOZE_DEADLINE_FAIL_ERROR_MESSAGE);
+        }
+        String newDateStr = dateTimePart.substring(4).trim();
+        LocalDateTime newByTiming;
+        try {
+            newByTiming = LocalDateTime.parse(newDateStr, DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_TIME));
+        } catch (DateTimeParseException e) {
+            throw new ShagBotException(INVALID_DATE_FORMAT_ERROR_MESSAGE);
+        }
+        deadline.setByTiming(newByTiming);
+        var snoozeDeadlineMessage = "For this task: " + deadline.getDescription() + DEADLINE_HAS_BEEN_RESCHEDULED_TO
+                + newByTiming.format(DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_TIME));
+        ui.displayMessage(snoozeDeadlineMessage);
+    }
+
+    /**
+     * Reschedules or snoozes a given event task with the new start and end times.
+     *
+     * @param event The {@link shagbot.tasks.Event} task to be rescheduled.
+     * @param dateTimePart A string representation of the new start and end times of the event.
+     * @throws ShagBotException if {@code dateTimePart} does not start with {@code "/from "} or/ and lacks a proper
+     *       {@code "/to "} section or/and if the new date and time string is not following a valid format.
+     *
+     */
+    private void snoozeEvent(Event event, String dateTimePart) throws ShagBotException {
+        String[] parts = dateTimePart.split(" /to ");
+        if (!parts[0].startsWith("/from ") || parts.length < 2) {
+            throw new ShagBotException(SNOOZE_EVENT_FAIL_ERROR_MESSAGE);
+        }
+        String startString = parts[0].substring(6).trim();
+        String endString = parts[1].trim();
+
+        DateTimeFormatter formattedDateAndTime = DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_TIME);
+        LocalDateTime newStart;
+        LocalDateTime newEnd;
+        try {
+            newStart = LocalDateTime.parse(startString, formattedDateAndTime);
+            newEnd = LocalDateTime.parse(endString, formattedDateAndTime);
+        } catch (DateTimeParseException e) {
+            throw new ShagBotException(SNOOZE_EVENT_FAIL_ERROR_MESSAGE);
+        }
+        event.setStart(newStart);
+        event.setEnd(newEnd);
+
+        var snoozeEventMessage = "This event has been rescheduled:  " + event.getDescription() + "\n\nFrom:"
+                + newStart.format(formattedDateAndTime) + "\nTo: " + newEnd.format(formattedDateAndTime);
+        ui.displayMessage(snoozeEventMessage);
+    }
     /**
      * Searches for tasks that contain the given keyword in their description.
      *
