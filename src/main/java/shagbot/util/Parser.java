@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.Deadline;
@@ -67,6 +69,9 @@ public class Parser {
             + "/from dd/M/yyyy HHmm /to dd/M/yyyy HHmm";
     private static final String TASK_INDEX_OUT_OF_RANGE_ERROR_MESSAGE = "OOPSIE!! Task number is out of range! "
             + "Enter a number from 1 to ";
+    private static final String REMINDER = "reminder";
+    private static final String NO_UPCOMING_TASKS_REMINDER_ERROR = "No upcoming tasks within the next 48 hours.";
+    private static final String UPCOMING_TASKS_WITHIN_THE_NEXT_48_HOURS = "Upcoming tasks within the next 48 hours:\n";
     private final TaskList taskList;
     private final Ui ui;
 
@@ -158,6 +163,9 @@ public class Parser {
             handleSnoozeCommand(description);
             break;
 
+        case REMINDER:
+            handleReminderCommand();
+            break;
         default:
             throw new ShagBotException(INVALID_COMMANDS_ERROR_MESSAGE);
         }
@@ -497,6 +505,94 @@ public class Parser {
                 + newStart.format(formattedDateAndTime) + "\nTo: " + newEnd.format(formattedDateAndTime);
         ui.displayMessage(snoozeEventMessage);
     }
+    /**
+     * Handles the 'reminder' command by finding upcoming tasks within the next 48 hours.
+     */
+    private void handleReminderCommand() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime timePeriod = currentTime.plusHours(48);
+
+        List<Task> upcomingTasks = getUpcomingTasks(currentTime, timePeriod);
+        String reminderMessage = buildReminderMessage(upcomingTasks);
+        ui.displayMessage(reminderMessage);
+    }
+
+    /**
+     * Retrieves tasks based on the relevant date and time within the specified window period.
+     *
+     * @param currentTime  The current time of the interface used.
+     * @param windowPeriod The end of the reminder window.
+     * @return A {@link List} of tasks scheduled between current time and the end time of the window period.
+     */
+    private List<Task> getUpcomingTasks(LocalDateTime currentTime, LocalDateTime windowPeriod) {
+        List<Task> upcomingTasks = new ArrayList<>();
+
+        for (Task task : taskList.getTasks()) {
+            LocalDateTime taskTime = getTasksWithinWindow(task);
+            if (taskTime == null) {
+                continue;
+            }
+            validateWindowPeriod(currentTime, windowPeriod, task, taskTime, upcomingTasks);
+        }
+        return upcomingTasks;
+    }
+
+    /**
+     * Checks whether the specified task time falls within the defined time window. If so,
+     * add the task into the list of upcoming tasks.
+     *
+     * @param currentTime The current time now, which is the lower bound of the window.
+     * @param windowPeriod The upper bound of the time window.
+     * @param task The task to be evaluated.
+     * @param taskTime Time associated with the task.
+     * @param upcomingTasks The list of tasks that occurs during that window frame.
+     */
+    private void validateWindowPeriod(LocalDateTime currentTime, LocalDateTime windowPeriod, Task task,
+                                      LocalDateTime taskTime, List<Task> upcomingTasks) {
+        if (taskTime.isAfter(currentTime) && taskTime.isBefore(windowPeriod)) {
+            upcomingTasks.add(task);
+        }
+    }
+
+    /**
+     * Returns the date/time that is relevant for reminders from a task.
+     * For Deadline tasks, it would be based on its due date.
+     * For Event tasks, it would be based on its start time.
+     *
+     * @param task The {@link Task} task to extract the relevant time from.
+     * @return The {@link LocalDateTime} representing the task's reminder time, or {@code null} if
+     *         the following task, such as {@link Todo} task, is not applicable for reminders.
+     */
+    private LocalDateTime getTasksWithinWindow(Task task) {
+        if (task instanceof Deadline) {
+            return ((Deadline) task).getByTiming();
+        }
+        if (task instanceof Event) {
+            return ((Event) task).getStart();
+        }
+        return null;
+    }
+
+    /**
+     * Builds the reminder message based on the {@link List} of tasks to display to users.
+     *
+     * @param tasks The list of upcoming tasks within the window period of 48 hours.
+     * @return A formatted string with the list of upcoming tasks or informs users if there
+     *         are no tasks within that time frame.
+     */
+    private String buildReminderMessage(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            return NO_UPCOMING_TASKS_REMINDER_ERROR;
+        }
+
+        StringBuilder sb = new StringBuilder(UPCOMING_TASKS_WITHIN_THE_NEXT_48_HOURS);
+        for (int i = 0; i < tasks.size(); i++) {
+            // Prints list of upcoming tasks in numerical order.
+            sb.append(i + 1).append(". ").append(tasks.get(i).toString()).append("\n");
+        }
+        return sb.toString().trim();
+    }
+
     /**
      * Searches for tasks that contain the given keyword in their description.
      *
