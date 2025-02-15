@@ -1,5 +1,6 @@
 package shagbot.commands;
 
+import shagbot.exceptions.ShagBotDateException;
 import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.Event;
 import shagbot.tasks.TaskList;
@@ -29,9 +30,16 @@ public class HandleEventCommand extends Commands {
         if (parts.length < 3) {
             throw new ShagBotException(INVALID_EVENT_FORMAT_ERROR_MESSAGE);
         }
-        Event event = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
-        taskList.addTask(event);
-        ui.printTaskAdded(event.toString(), taskList.getTasks().length);
+        try {
+            Event event = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
+            event.validateDate();
+            taskList.addTask(event);
+            ui.printTaskAdded(event.toString(), taskList.getTasks().length);
+        } catch (ShagBotDateException e) {
+            ui.printErrorMessage(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            ui.printErrorMessage(INVALID_EVENT_FORMAT_ERROR_MESSAGE);
+        }
         return true;
     }
 }

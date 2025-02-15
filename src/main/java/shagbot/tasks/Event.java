@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import shagbot.exceptions.ShagBotDateException;
+
 /**
  * Represents a task that is of the 'Event' category.
  */
@@ -99,6 +101,16 @@ public class Event extends Task {
      */
     public void setEnd(LocalDateTime newEnd) {
         this.end = newEnd;
+    }
+
+    /**
+     * Verifies that start date/time is earlier than the end date/time entered.
+     */
+    public void validateDate() throws ShagBotDateException {
+        if (!this.start.isBefore(this.end)) {
+            throw new ShagBotDateException("Start date and time "
+                    + "must be before end date and time.");
+        }
     }
 }
 

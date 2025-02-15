@@ -34,7 +34,8 @@ public class Parser {
     private static final String DEADLINE = "deadline";
     private static final String NO_INPUT_ERROR_MESSAGE = "No input provided. Please enter a valid command.";
     private static final String INVALID_COMMANDS_ERROR_MESSAGE = "OOPSIE!! Unknown command. "
-            + "Please try one of the valid commands.";
+            + "Consider only these valid commands:\n\nlist, todo, deadline, event, "
+            + "mark, unmark, delete, task on, find, snooze or bye.";
     private static final String UNEXPECTED_ERROR_MESSAGE = "OOPSIE!! Unexpected error occurred...";
     private static final String INVALID_TASK_COMMAND_ERROR_MESSAG = "OOPSIE!! Invalid 'task' command. "
             + "Did you mean 'task on <date>'?";
@@ -44,6 +45,8 @@ public class Parser {
             + "Please try again.";
     private static final String SPECIFY_TASK_TO_SNOOZE_AND_NEW_DATE_ERROR_MESSAGE = "OOPSIE!! Please specify which "
             + "task to snooze and new date/time.";
+    private static final String ENTER_TASK_NUMBER_ERROR_MESSAGE = "Please enter your task number behind your command. "
+            + "Examples:\n\n" + "Mark <Number>\n" + "Unmark <Number>\n" + "Delete <Number>\n";
 
     private final TaskList taskList;
     private final Ui ui;
@@ -157,7 +160,7 @@ public class Parser {
             }
             return taskNumber - 1;
         } catch (NumberFormatException e) {
-            throw new ShagBotException(INVALID_TASK_NUMBER_ERROR_MESSAGE);
+            throw new ShagBotException(ENTER_TASK_NUMBER_ERROR_MESSAGE);
         }
     }
 

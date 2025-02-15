@@ -9,7 +9,7 @@ import shagbot.util.Ui;
  * This class handles the "delete" command entered by user.
  */
 public class HandleDeleteCommand extends Commands {
-    public static final String NO_TASKS_ERROR_MESSAGE = "No tasks at the moment.";
+    public static final String NO_TASKS_ERROR_MESSAGE = "Nothing to delete. No tasks at the moment.";
     public static final String PLEASE_ENTER_A_NUMBER = "OOPSIE!! Task number is out of range! "
             + "Please enter a number from 1 to ";
     private final int taskIndex;
