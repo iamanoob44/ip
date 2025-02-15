@@ -58,26 +58,10 @@ public class Ui {
     }
 
     /**
-     * Prints the greeting message.
-     */
-    protected void printGreeting() {
-        displayMessage("Hello! I'm " + botName + "\nWhat can I do for you?");
-    }
-
-    /**
      * Prints the exit message.
      */
     protected void printExit() {
         displayMessage(GOODBYE_MESSAGE);
-    }
-
-    /**
-     * Echoes user input back to them.
-     *
-     * @param input The user input.
-     */
-    protected void echo(String input) {
-        displayMessage(input);
     }
 
     /**
