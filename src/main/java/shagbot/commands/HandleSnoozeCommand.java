@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import shagbot.exceptions.ShagBotDateException;
 import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.Deadline;
 import shagbot.tasks.Event;
@@ -110,8 +111,13 @@ public class HandleSnoozeCommand extends Commands {
         } catch (DateTimeParseException e) {
             throw new ShagBotException(SNOOZE_EVENT_FAIL_ERROR_MESSAGE);
         }
-        event.setStart(newStart);
-        event.setEnd(newEnd);
+        try {
+            event.setStart(newStart);
+            event.setEnd(newEnd);
+            event.validateDate();
+        } catch (ShagBotDateException e) {
+            throw new ShagBotException(e.getMessage());
+        }
 
         String message = "This event has been rescheduled:  " + event.getDescription() + "\n\nFrom: "
                 + newStart.format(formatter) + "\nTo: " + newEnd.format(formatter);
