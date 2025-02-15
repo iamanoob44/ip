@@ -2,14 +2,15 @@ package shagbot.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import shagbot.exceptions.ShagBotException;
+import shagbot.tasks.Deadline;
+import shagbot.tasks.Event;
 import shagbot.tasks.Task;
 import shagbot.tasks.TaskList;
+import shagbot.tasks.Todo;
 
 
 public class ParserTest {
@@ -45,7 +46,7 @@ public class ParserTest {
         int numOfValidTasks = 5;
         Task[] tasks = taskList.getTasks();
         assertEquals(numOfValidTasks, tasks.length,
-                "Task list should contain the correct number of valid tasks.");
+                "Task list should contain the correct number of valid tasks, which is 5.");
 
         for (int i = 0; i < numOfValidTasks; i++) {
             assertTrue(tasks[i] instanceof Task,
@@ -54,12 +55,6 @@ public class ParserTest {
                     "Task description at index " + i + " should match.");
         }
     }
-
-
-
-
-
-
 
     @Test
     void testParseCommand_byeCommand() {
@@ -85,9 +80,9 @@ public class ParserTest {
         Ui ui = new Ui("Shagbot");
         Parser parser = new Parser(taskList, ui);
 
-        taskList.getTasksForTesting().add(new Task("Task 1"));
-        taskList.getTasksForTesting().add(new Task("Task 2"));
-        taskList.getTasksForTesting().add(new Task("Task 3"));
+        taskList.getTasksForTesting().add(new Todo("Task 1"));
+        taskList.getTasksForTesting().add(new Deadline("Task 2", "24/04/2002 1900"));
+        taskList.getTasksForTesting().add(new Event("Task 3", "24/04/2002 2000", "26/04/2005 1800"));
 
         String validCommand = "mark 1";
         parser.parseCommand(validCommand);
@@ -109,14 +104,12 @@ public class ParserTest {
                 "Task 3 should be unmarked.");
 
         String negativeCommand = "mark -2";
-        ShagBotException exceptionForNegative = assertThrows(ShagBotException.class, () ->
-                parser.handleMarkCommand(negativeCommand, true)
-        );
-        assertEquals("OOPSIE!! Task number cannot be less than 1! Please try again.",
-                exceptionForNegative.getMessage(), "Negative task numbers are not allowed");
-
+        parser.parseCommand(negativeCommand);
+        String errorMessage = ui.getLastMessage();
+        String expectedError = "WOOP WOOP!!! OOPSIE!! Task number cannot be less than 1! Please try again.";
+        assertEquals(expectedError, errorMessage, "Negative task numbers "
+                + "should display an appropriate error message.");
     }
-
 }
 
 

@@ -17,17 +17,17 @@ public class TaskListTest {
 
     @BeforeEach
     void setUp() {
-        task1 = new Task("Task 1");
-        task2 = new Task("Task 2");
-        task3 = new Task("Task 3");
-        task4 = new Task("Task 4");
+        task1 = new Deadline("Task 1", "22/4/2002 2000");
+        task2 = new Deadline("Task 2", "23/4/2002 2000");
+        task3 = new Event("Task 3", "19/4/2002 1800", "21/4/2002 2006");
+        task4 = new Todo("Task 4");
 
         taskList = new TaskList(new Task[]{task1, task2, task3, task4});
     }
 
     @Test
     void testAddTask() {
-        Task newTask = new Task("Task 5");
+        Task newTask = new Todo("Task 5");
         taskList.addTask(newTask);
         Task[] tasks = taskList.getTasks();
 

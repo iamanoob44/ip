@@ -43,7 +43,7 @@ public class Ui {
      *
      * @param message The message to be stored and displayed.
      */
-    protected void displayMessage(String message) {
+    public void displayMessage(String message) {
         lastMessage = message;
         System.out.println(message);
     }
@@ -60,7 +60,7 @@ public class Ui {
     /**
      * Prints the exit message.
      */
-    protected void printExit() {
+    public void printExit() {
         displayMessage(GOODBYE_MESSAGE);
     }
 
@@ -70,7 +70,7 @@ public class Ui {
      * @param task The task added.
      * @param taskCount Total number of tasks after adding.
      */
-    protected void printTaskAdded(String task, int taskCount) {
+    public void printTaskAdded(String task, int taskCount) {
         displayMessage("Got it. I've added this task:\n  " + task
                 + "\nNow you have " + taskCount + " tasks in the list.");
     }
@@ -80,7 +80,7 @@ public class Ui {
      *
      * @param tasks An array of added tasks to display.
      */
-    protected void printTaskList(Task[] tasks) {
+    public void printTaskList(Task[] tasks) {
         if (tasks.length == 0) {
             displayMessage(TASK_LIST_IS_EMPTY_MESSAGE);
             return;
@@ -100,7 +100,7 @@ public class Ui {
      *
      * @param task The task marked as done.
      */
-    protected void printTaskMarked(Task task) {
+    public void printTaskMarked(Task task) {
         displayMessage(MARKED_THIS_TASK_AS_DONE_MESSAGE + task);
     }
 
@@ -109,7 +109,7 @@ public class Ui {
      *
      * @param task The task marked as not done.
      */
-    protected void printTaskUnmarked(Task task) {
+    public void printTaskUnmarked(Task task) {
         displayMessage(MARKED_THIS_TASK_AS_NOT_DONE_YET_MESSAGE + task);
     }
 
@@ -128,7 +128,7 @@ public class Ui {
      * @param task The deleted task.
      * @param tasksSoFar The number of remaining tasks.
      */
-    protected void printTaskDeleted(Task task, int tasksSoFar) {
+    public void printTaskDeleted(Task task, int tasksSoFar) {
         displayMessage("Noted. I've removed this task:\n  " + task
                 + "\nNow you have " + tasksSoFar + " tasks in the list.");
     }
@@ -139,7 +139,7 @@ public class Ui {
      * @param date The date to filter tasks by.
      * @param tasks The task list.
      */
-    protected void printTasksOnDate(LocalDate date, Task[] tasks) {
+    public void printTasksOnDate(LocalDate date, Task[] tasks) {
         StringBuilder sb = new StringBuilder("Tasks on "
                 + date.format(DateTimeFormatter.ofPattern(DATE_FORMAT)) + ":\n");
         boolean isTaskFound = false;
@@ -163,7 +163,7 @@ public class Ui {
      *
      * @param tasks An array of matched tasks.
      */
-    protected void printAnyMatchingTasks(Task[] tasks) {
+    public void printAnyMatchingTasks(Task[] tasks) {
         if (tasks.length == 0) {
             displayMessage(NO_MATCHING_TASKS_FOUND_MESSAGE);
             return;
