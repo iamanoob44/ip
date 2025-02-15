@@ -3,7 +3,6 @@ package shagbot;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-// import java.util.Scanner;
 
 import shagbot.tasks.Task;
 import shagbot.tasks.TaskList;
@@ -55,36 +54,6 @@ public class Shagbot {
             ui.printErrorMessage("Failed to load tasks: " + e.getMessage());
         }
     }
-
-    // This code commented works for text-based UI setup of Shagbot
-    //    /**
-    //     * Starts Shagbot's user-interaction loop for text-based UI.
-    //     */
-    //    public void start() {
-    //        ui.printGreeting();
-    //        Scanner scanner = new java.util.Scanner(System.in);
-    //
-    //        while (true) {
-    //            String userInput = scanner.nextLine().trim();
-    //            if (!parser.parseCommand(userInput)) {
-    //                break;
-    //            }
-    //
-    //            // Save any tasks after each command given
-    //            try {
-    //                storage.saveTasksToFile(new ArrayList<>(List.of(taskList.getTasks())));
-    //            } catch (IOException e) {
-    //                ui.printErrorMessage("Failed to save tasks: " + e.getMessage());
-    //            }
-    //        }
-    //        scanner.close();
-    //    }
-    //
-    //    public static void main(String[] args) {
-    //        Shagbot shagbot = new Shagbot("shagbot");
-    //        shagbot.start();
-    //    }
-    //
 
     /**
      * Retrieves the response based on the user's input.
