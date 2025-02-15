@@ -48,6 +48,7 @@ public class TaskListTest {
 
     @Test
     void testGetTask() {
+        // We are testing the getTask(int index), not the getTasks() method.
         assertEquals(task1, taskList.getTask(0), "Task at index 0 should be Task 1");
         assertEquals(task2, taskList.getTask(1), "Task at index 1 should be Task 2");
         assertEquals(task3, taskList.getTask(2), "Task at index 2 should be Task 3");
@@ -60,13 +61,19 @@ public class TaskListTest {
         taskList.unmarkTask(0);
         taskList.markTask(1);
         taskList.markTask(2);
+        taskList.markTask(3);
         taskList.unmarkTask(1);
         taskList.markTask(2);
+        taskList.unmarkTask(3);
+        taskList.markTask(0);
         taskList.markTask(1);
+        taskList.unmarkTask(0);
+        taskList.unmarkTask(3);
 
-        assertFalse(taskList.getTask(0).isDone(), "Task 1 should be unmarked as not done");
-        assertTrue(taskList.getTask(1).isDone(), "Task 2 should be marked as done");
-        assertTrue(taskList.getTask(2).isDone(), "Task 3 should be marked as done");
-        assertFalse(taskList.getTask(3).isDone(), "Task 4 should be unmarked as not done");
+        // isDone() method used to retrieve completion status of the task, acts as a getter.
+        assertFalse(task1.isDone(), "Task 1 should be unmarked as not done");
+        assertTrue(task2.isDone(), "Task 2 should be marked as done");
+        assertTrue(task3.isDone(), "Task 3 should be marked as done");
+        assertFalse(task4.isDone(), "Task 4 should be unmarked as not done");
     }
 }

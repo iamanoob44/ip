@@ -90,7 +90,7 @@ public class Parser {
      * @return The command, which will be parsed and handled accordingly.
      * @throws ShagBotException If the input is invalid or invalid command found.
      */
-    private Commands parseInputToCommand(String input) throws ShagBotException {
+    Commands parseInputToCommand(String input) throws ShagBotException {
         if (input == null || input.trim().isEmpty()) {
             throw new ShagBotException(NO_INPUT_ERROR_MESSAGE);
         }
@@ -152,7 +152,7 @@ public class Parser {
      * @return Zero-based index of the task.
      * @throws ShagBotException If task number is not within range.
      */
-    private int parseTaskIndex(String description) throws ShagBotException {
+    int parseTaskIndex(String description) throws ShagBotException {
         try {
             int taskNumber = Integer.parseInt(description.split(" ")[0]);
             if (taskNumber < 1) {
