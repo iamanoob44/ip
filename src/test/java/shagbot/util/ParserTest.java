@@ -2,10 +2,15 @@ package shagbot.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import shagbot.commands.Commands;
+import shagbot.commands.HandleTaskOnCommand;
+import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.Deadline;
 import shagbot.tasks.Event;
 import shagbot.tasks.Task;
@@ -14,12 +19,20 @@ import shagbot.tasks.Todo;
 
 
 public class ParserTest {
+    private TaskList taskList;
+    private Ui ui;
+    private Parser parser;
+
+    @BeforeEach
+    void setUp() {
+        taskList = new TaskList();
+        ui = new Ui("Shagbot");
+        parser = new Parser(taskList, ui);
+    }
+
 
     @Test
-    void testParseCommandDoTasksCommand() {
-        TaskList taskList = new TaskList();
-        Ui ui = new Ui("Shagbot");
-        Parser parser = new Parser(taskList, ui);
+    void testParseCommand_doTasksCommand() {
 
         String[] commands = {
             "todo Read a book",
@@ -58,9 +71,6 @@ public class ParserTest {
 
     @Test
     void testParseCommand_byeCommand() {
-        TaskList taskList = new TaskList();
-        Ui ui = new Ui("Shagbot");
-        Parser parser = new Parser(taskList, ui);
 
         boolean result = parser.parseCommand("bye");
         boolean secondResult = parser.parseCommand("Todo borrow");
@@ -75,10 +85,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testHandleMarkCommand() {
-        TaskList taskList = new TaskList();
-        Ui ui = new Ui("Shagbot");
-        Parser parser = new Parser(taskList, ui);
+    public void testParseCommand_handleMarkOrUnmarkCommand() {
 
         taskList.getTasksForTesting().add(new Todo("Task 1"));
         taskList.getTasksForTesting().add(new Deadline("Task 2", "24/04/2002 1900"));
@@ -110,6 +117,73 @@ public class ParserTest {
         assertEquals(expectedError, errorMessage, "Negative task numbers "
                 + "should display an appropriate error message.");
     }
+
+    @Test
+    void testParseTaskIndex() throws ShagBotException {
+        int firstResult = parser.parseTaskIndex("3"); // Mark 3, Delete 3, Unmark 3
+        int secondResult = parser.parseTaskIndex("5"); // Mark 5, Delete 5, Unmark 5
+        int thirdResult = parser.parseTaskIndex("11"); // Mark 11, Delete 11, Unmark 11
+
+        // Invalid command was entered since index cannot be less than 1
+        ShagBotException error = assertThrows(ShagBotException.class, () -> parser.parseTaskIndex("-1"));
+        String expectedErrorMessage = "OOPSIE!! Task number cannot be less than 1! Please try again.";
+
+        assertEquals(2, firstResult);
+        assertEquals(4, secondResult);
+        assertEquals(10, thirdResult);
+        assertEquals(expectedErrorMessage, error.getMessage());
+    }
+    @Test
+    void testParseInputToCommand_validTaskOnCommand() throws ShagBotException {
+        String expectedErrorMessage = "OOPSIE!! Unknown command. "
+                + "Consider only these valid commands:\n\nlist, todo, deadline, event, "
+                + "mark, unmark, delete, task on, find, snooze or bye.";
+
+        Commands firstValidCommand = parser.parseInputToCommand("task on 16/02/2025");
+        Commands secondValidCommand = parser.parseInputToCommand("task on 24/04/2025");
+        Commands invalidCommand = parser.parseInputToCommand("find perry");
+
+        ShagBotException error = assertThrows(ShagBotException.class, () -> parser
+                .parseInputToCommand("taskon 24/04/2025"));
+        assertTrue(firstValidCommand instanceof HandleTaskOnCommand,
+                "Should return a HandleTaskOnCommand instance");
+        assertTrue(secondValidCommand instanceof HandleTaskOnCommand,
+                "Should return a HandleTaskOnCommand instance");
+        assertFalse(invalidCommand instanceof HandleTaskOnCommand,
+                "This is not a HandleTaskOnCommand instance");
+        assertEquals(expectedErrorMessage, error.getMessage(), "This is not a HandleTaskOnCommand "
+                + " instance due to wrong format ");
+    }
+
+    @Test
+    void testParseInputToCommand_invalidCommand() {
+        ShagBotException firstError = assertThrows(ShagBotException.class, () -> {
+            parser.parseInputToCommand("belhhhhh");
+        });
+
+        ShagBotException secondError = assertThrows(ShagBotException.class, () -> {
+            parser.parseInputToCommand("todos borrow a book"); // should be todo borrow a book
+        });
+
+
+        String expectedErrorMessage = "OOPSIE!! Unknown command. Consider only these valid commands:\n\nlist, "
+                + "todo, deadline, event, mark, unmark, delete, task on, find, snooze or bye.";
+        assertEquals(expectedErrorMessage, firstError.getMessage());
+        assertEquals(expectedErrorMessage, secondError.getMessage());
+    }
+
+    @Test
+    void testParseInputToCommand_blankCommand() {
+        ShagBotException blankInputError = assertThrows(ShagBotException.class, () -> {
+            parser.parseInputToCommand(" ");
+        });
+
+        String expectedErrorMessage = "No input provided. Please enter a valid command.";
+        assertEquals(expectedErrorMessage, blankInputError.getMessage());
+    }
 }
+
+
+
 
 
