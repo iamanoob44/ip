@@ -11,6 +11,7 @@ import shagbot.util.Ui;
 public class HandleUnmarkCommand extends Commands {
     private static final String PLEASE_ENTER_A_NUMBER_FROM_1_TO = "OOPSIE!! Task number is out of range! "
             + "Please enter a number from 1 to ";
+    private static final String NO_TASKS_AT_THE_MOMENT_ERROR_MESSAGE = "Nothing to unmark. No tasks at the moment";
     private final int taskIndex;
 
     /**
@@ -26,6 +27,9 @@ public class HandleUnmarkCommand extends Commands {
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
         assert ui != null : "ui cannot be null.";
         int numOfTasks = taskList.getTasks().length;
+        if (numOfTasks == 0) {
+            throw new ShagBotException(NO_TASKS_AT_THE_MOMENT_ERROR_MESSAGE);
+        }
         if (taskIndex < 0 || taskIndex >= numOfTasks) {
             throw new ShagBotException(PLEASE_ENTER_A_NUMBER_FROM_1_TO + numOfTasks + ".");
         }
