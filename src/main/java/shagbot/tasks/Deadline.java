@@ -67,7 +67,8 @@ public class Deadline extends Task {
         return "[D]" + super.toString() + " (by: " + byTiming.format(OUTPUT_FORMATTER) + ")";
     }
     /**
-     * Set new timing for the deadline task through the Snooze/Reschedule feature.
+     * Sets a new timing for the deadline task through the Snooze/Reschedule feature.
+     *
      * @param newByTiming The {@link LocalDateTime} object representing the task's new deadline.
      */
     public void setByTiming(LocalDateTime newByTiming) {

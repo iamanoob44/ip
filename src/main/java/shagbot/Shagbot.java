@@ -57,6 +57,7 @@ public class Shagbot {
 
     /**
      * Retrieves the response based on the user's input.
+     *
      * @param input The command entered by the user.
      * @return The response retrieved, which is of string representation.
      */

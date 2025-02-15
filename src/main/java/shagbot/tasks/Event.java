@@ -84,7 +84,8 @@ public class Event extends Task {
     }
 
     /**
-     * Set new start timing for the event in the list.
+     * Sets the new start timing for the event in the list.
+     *
      * @param newStart The {@link LocalDateTime} object representing the event task's new start time.
      */
     public void setStart(LocalDateTime newStart) {
@@ -92,7 +93,8 @@ public class Event extends Task {
     }
 
     /**
-     * Set new end timing for the event in the list.
+     * Sets the new end timing for the event in the list.
+     *
      * @param newEnd The {@link LocalDateTime} object representing the event task's new end time.
      */
     public void setEnd(LocalDateTime newEnd) {
