@@ -32,8 +32,8 @@ Shagbot helps users efficiently manage and organize their daily tasks, ensuring 
 | **Command** | **Purpose** | **Example** |
 |------------|------------|------------|
 | `todo <task_name>` | Adds a new To-Do task. | `todo Buy groceries` |
-| `deadline <task_name> /by <due_date-time>` | Adds a new Deadline task. | `deadline CS2103T Assignment /by 20/2/2025 2359` |
-| `event <task_name> /from <start_date-time> /to <end_date-time>` | Adds an Event. | `event Project meeting /from 20/3/2025 1400 /to 20/3/2025 1600` |
+| `deadline <task_name> /by <due_date-time>` | Adds a new task with deadline. | `deadline CS2103T Assignment /by 20/2/2025 2359` |
+| `event <task_name> /from <start_date-time> /to <end_date-time>` | Adds a new Event. | `event Project meeting /from 20/3/2025 1400 /to 20/3/2025 1600` |
 
 #### **🔧 Managing your Tasks**
 | **Command** | **Purpose** | **Example** |
@@ -48,9 +48,19 @@ Shagbot helps users efficiently manage and organize their daily tasks, ensuring 
 #### **🔍 Search & Reminders**
 | **Command** | **Purpose** | **Example** |
 |------------|------------|------------|
-| `find <keyword>` | Searches for tasks with a keyword. | `find meeting` |
+| `find <keyword>` | Searches for tasks given a keyword. | `find meeting` |
 | `reminder` | Shows tasks due within the next 48 hours. | `reminder` |
 
 ---
 
 Shagbot keeps you **organized and on track** so nothing slips through the cracks! 💡
+
+---
+Credits/Attribution:
+
+Photo by <a href="https://unsplash.com/@ninjason?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Jason Leung</a> on <a href="https://unsplash.com/photos/yellow-and-gray-robot-toy-1DjbGRDh7-E?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+Photo by <a href="https://unsplash.com/@christnerfurt?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Christian Erfurt</a> on <a href="https://unsplash.com/photos/man-covering-face-with-both-hands-while-sitting-on-bench-sxQz2VfoFBE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+      
+
+      
