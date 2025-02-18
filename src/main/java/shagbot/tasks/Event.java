@@ -7,16 +7,18 @@ import java.time.format.DateTimeParseException;
 import shagbot.exceptions.ShagBotDateException;
 
 /**
- * Represents a task that is of the 'Event' category.
+ * Represents a task of type 'Event'.
  */
 public class Event extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER =
             DateTimeFormatter.ofPattern("dd/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
-    private static final String INVALID_DATE_FORMAT = "Invalid date format. Please use 'dd/M/yyyy HHmm'.";
+    private static final String INVALID_DATE_FORMAT =
+            "Invalid date format. Please use 'dd/M/yyyy HHmm'.";
     private LocalDateTime start;
     private LocalDateTime end;
+
     /**
      * Constructor for the {@code Event} class with the specified description of event,
      * start timing and end timing of the event.
@@ -29,8 +31,8 @@ public class Event extends Task {
         super(desc);
         // Assert statements
         assert desc != null && !desc.trim().isEmpty() : "Description of event cannot be null or empty.";
-        assert start != null && !start.trim().isEmpty() : "Start time cannot be null or empty.";
-        assert end != null && !end.trim().isEmpty() : "End time cannot be null or empty.";
+        assert start != null && !start.trim().isEmpty() : "Event start time cannot be null or empty.";
+        assert end != null && !end.trim().isEmpty() : "Event end time cannot be null or empty.";
         // Parse start and end times
         this.start = parseStringToDateTime(start);
         this.end = parseStringToDateTime(end);
@@ -39,9 +41,9 @@ public class Event extends Task {
     /**
      * Parses a string representation of date and time into a {@link LocalDateTime} Object.
      *
-     * @param dateTimeStr The string representation of date and time.
-     * @return The parsed {@link LocalDateTime} object representing the deadline.
-     * @throws IllegalArgumentException if provided date or time is invalid.
+     * @param dateTimeStr The string representation of the date and time.
+     * @return The parsed {@link LocalDateTime} object representing the date and time.
+     * @throws IllegalArgumentException If the provided date or time is invalid.
      */
     private LocalDateTime parseStringToDateTime(String dateTimeStr) {
         try {
@@ -52,18 +54,18 @@ public class Event extends Task {
     }
 
     /**
-     * Retrieves the start timing of the event.
+     * Retrieves the start date/time of the event.
      *
-     * @return The {@link LocalDateTime} object representing the event's start time.
+     * @return The {@link LocalDateTime} object representing the event's start date/time.
      */
     public LocalDateTime getStart() {
         return start;
     }
 
     /**
-     * Retrieves the end timing of the event.
+     * Retrieves the end date/time of the event.
      *
-     * @return The {@link LocalDateTime} object representing the event's end time.
+     * @return The {@link LocalDateTime} object representing the event's end date/time.
      */
     public LocalDateTime getEnd() {
         return end;
@@ -72,32 +74,32 @@ public class Event extends Task {
     /**
      * Returns a string representation of the {@code Event} Task.
      * The format includes the task type "[E]", the description from the
-     * parent {@link Task} class, and the start and end timings.
+     * parent {@link Task} class, and the start and end date/times.
      *
      * @return A string representation of the Event Task.
      */
     @Override
     public String toString() {
         //Assert statements
-        assert start != null : "Start time should not be null.";
-        assert end != null : "End time should not be null.";
+        assert start != null : "Event start time should not be null.";
+        assert end != null : "Event end time should not be null.";
         return "[E]" + super.toString() + " (from: " + start.format(OUTPUT_FORMATTER)
                 + " to: " + end.format(OUTPUT_FORMATTER) + ")";
     }
 
     /**
-     * Sets the new start timing for the event in the list.
+     * Sets the new start date/time for the event in the list.
      *
-     * @param newStart The {@link LocalDateTime} object representing the event task's new start time.
+     * @param newStart The {@link LocalDateTime} object representing the event task's new start date/time.
      */
     public void setStart(LocalDateTime newStart) {
         this.start = newStart;
     }
 
     /**
-     * Sets the new end timing for the event in the list.
+     * Sets the new end date/time for the event in the list.
      *
-     * @param newEnd The {@link LocalDateTime} object representing the event task's new end time.
+     * @param newEnd The {@link LocalDateTime} object representing the event task's new end date/time.
      */
     public void setEnd(LocalDateTime newEnd) {
         this.end = newEnd;

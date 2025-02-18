@@ -8,24 +8,25 @@ import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 /**
- * This class handles the "find" command entered by user.
+ * This class represents a command to find tasks using a keyword entered.
  */
-public class HandleFindCommand extends Commands {
+public class FindCommand extends Command {
     private static final String INVALID_FIND_ERROR_MESSAGE = "OOPSIE!! Please enter 'find' <something> again.";
     private final String keyword;
 
     /**
-     * Constructor for the {@code HandleFindCommand } class.
+     * Constructor for the {@code FindCommand} class.
      *
      * @param keyword The keyword to search for in the task descriptions.
      */
-    public HandleFindCommand(String keyword) {
-        assert keyword != null : "the keyword to filter through the tasks containing the keyword must not be empty";
+    public FindCommand(String keyword) {
+        assert keyword != null : "Keyword must not be null.";
         this.keyword = keyword;
     }
 
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
+        assert ui != null : "ui instance cannot be null when executing command.";
         if (keyword.isEmpty()) {
             throw new ShagBotException(INVALID_FIND_ERROR_MESSAGE);
         }

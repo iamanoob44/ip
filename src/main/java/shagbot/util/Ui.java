@@ -8,10 +8,10 @@ import shagbot.tasks.Event;
 import shagbot.tasks.Task;
 
 /**
- * Represents a Ui class that handles user interactions with Shagbot.
+ * Represents the Ui class that handles user interactions with Shagbot.
  */
 public class Ui {
-    public static final String MATCHING_TASKS_IN_THE_LIST = "Here are the matching tasks in your list:\n";
+    private static final String MATCHING_TASKS_IN_THE_LIST = "Here are the matching tasks in your list:\n";
     private static final String DATE_FORMAT = "MMM dd yyyy";
     private static final String GOODBYE_MESSAGE = "Bye. Hope to see you again soon!";
     private static final String TASK_LIST_IS_EMPTY_MESSAGE = "Your task list is empty!";
@@ -29,9 +29,9 @@ public class Ui {
     private String lastMessage; // Stores the latest message for GUI display
 
     /**
-     * Constructor for {@code Ui} class for the given chatbot name.
+     * Constructor for {@code Ui} class, using the given chatbot name.
      *
-     * @param botName The name of the chatbot.
+     * @param botName The name of the chatbot, in this case, it is {@code shagbot}.
      */
     public Ui(String botName) {
         this.botName = botName;
@@ -181,12 +181,18 @@ public class Ui {
      *
      * @param task The task to check.
      * @param date The date to compare against.
-     * @return True if the task is on the given date, false otherwise.
+     * @return {@code true} if the task is on the given date, {@code false} otherwise.
      */
     private boolean isTaskOnDateFound(Task task, LocalDate date) {
-        return (task instanceof Deadline deadline && deadline.getByTiming().toLocalDate().equals(date))
-                || (task instanceof Event event
-                        && (event.getStart().toLocalDate().equals(date) || event.getEnd().toLocalDate().equals(date)));
+        if (task instanceof Deadline deadline) {
+            return deadline.getByTiming().toLocalDate().equals(date);
+        }
+        if (task instanceof Event event) {
+            LocalDate start = event.getStart().toLocalDate();
+            LocalDate end = event.getEnd().toLocalDate();
+            return (start.equals(date) || end.equals(date));
+        }
+        return false;
     }
 }
 

@@ -7,25 +7,25 @@ import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 /**
- * This class handles the "event" command entered by user.
+ * This class represents a command to add events.
  */
-public class HandleEventCommand extends Commands {
-    public static final String INVALID_EVENT_FORMAT_ERROR_MESSAGE = "OOPSIE!! Invalid 'event' format. "
-            + "Use: event <description> /from dd/M/yyyy hhmm /to dd/M/yyyy hhmm.";
+public class EventCommand extends Command {
+    private static final String INVALID_EVENT_FORMAT_ERROR_MESSAGE =
+            "OOPSIE!! Invalid 'event' format. " + "Use: event <description> /from dd/M/yyyy hhmm /to dd/M/yyyy hhmm.";
     private final String description;
 
     /**
-     * Constructor for the {@code HandleEventCommand } class.
+     * Constructor for the {@code EventCommand} class.
      *
      * @param description Description of the {@link Event} task.
      */
-    public HandleEventCommand(String description) {
+    public EventCommand(String description) {
         this.description = description;
     }
 
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
-        assert ui != null : "ui cannot be null.";
+        assert ui != null : "ui instance cannot be null when executing command.";
         String[] parts = description.split(" /from | /to ", 3);
         if (parts.length < 3) {
             throw new ShagBotException(INVALID_EVENT_FORMAT_ERROR_MESSAGE);

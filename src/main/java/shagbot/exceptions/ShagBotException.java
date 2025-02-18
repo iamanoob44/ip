@@ -1,12 +1,12 @@
 package shagbot.exceptions;
 
 /**
- * Represents a shagbotexception due to invalid commands or inputs.
+ * This class represents an exception caused by invalid commands or inputs in ShagBot.
  */
 public class ShagBotException extends Exception {
 
     /**
-     * Constructor for the {@code ShagBotException} class for specified exceptions.
+     * Constructor for the {@code ShagBotException} class.
      * This exception is thrown to indicate errors specific to {@link shagbot.Shagbot} operations.
      *
      * @param message Error message displayed for exceptions.
@@ -14,6 +14,5 @@ public class ShagBotException extends Exception {
     public ShagBotException(String message) {
         super(message);
     }
-
 }
 

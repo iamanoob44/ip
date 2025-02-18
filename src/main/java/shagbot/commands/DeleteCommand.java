@@ -6,26 +6,26 @@ import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 /**
- * This class handles the "delete" command entered by user.
+ * This class represents a command to delete tasks.
  */
-public class HandleDeleteCommand extends Commands {
-    public static final String NO_TASKS_ERROR_MESSAGE = "Nothing to delete. No tasks at the moment.";
-    public static final String PLEASE_ENTER_A_NUMBER = "OOPSIE!! Task number is out of range! "
-            + "Please enter a number from 1 to ";
+public class DeleteCommand extends Command {
+    private static final String NO_TASKS_ERROR_MESSAGE = "Nothing to delete. No tasks at the moment.";
+    private static final String PLEASE_ENTER_A_NUMBER =
+            "OOPSIE!! Task number is out of range! " + "Please enter a number from 1 to ";
     private final int taskIndex;
 
     /**
-     * Constructor for the {@code HandleDeleteCommand } class.
+     * Constructor for the {@code DeleteCommand} class.
      *
      * @param taskIndex The index corresponding to the task to be deleted.
      */
-    public HandleDeleteCommand(int taskIndex) {
+    public DeleteCommand(int taskIndex) {
         this.taskIndex = taskIndex;
     }
 
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
-        assert ui != null : "ui cannot be null.";
+        assert ui != null : "ui instance cannot be null when executing command";
         int numOfTasks = taskList.getTasks().length;
         if (numOfTasks == 0) {
             throw new ShagBotException(NO_TASKS_ERROR_MESSAGE);

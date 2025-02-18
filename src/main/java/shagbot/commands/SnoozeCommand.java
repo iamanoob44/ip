@@ -13,18 +13,20 @@ import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 /**
- * This class handles the "snooze" command entered by user.
+ * This class represents a command to snooze or reschedule a task.
  */
-public class HandleSnoozeCommand extends Commands {
+public class SnoozeCommand extends Command {
     private static final String SNOOZE_DEADLINE_FAIL_ERROR_MESSAGE = "To snooze a deadline, use: snooze <index> "
             + "/by dd/M/yyyy HHmm";
     private static final String SNOOZE_EVENT_FAIL_ERROR_MESSAGE = "To snooze an event, use: snooze <index> "
             + "/from dd/M/yyyy HHmm /to dd/M/yyyy HHmm";
     private static final String INVALID_DATE_FORMAT_ERROR_MESSAGE = "OOPSIE!! Invalid date format: "
             + "Please use 'dd/M/yyyy HHmm'.";
-    private static final String CANNOT_SNOOZE_TODO_ERROR_MESSAGE = "We only can snooze/reschedule deadlines or events.";
+    private static final String CANNOT_SNOOZE_TODO_ERROR_MESSAGE =
+            "We only can snooze/reschedule deadlines or events.";
     private static final String DATE_FORMAT_WITH_TIME = "dd/M/yyyy HHmm";
-    private static final String DEADLINE_HAS_BEEN_RESCHEDULD_TO = "  , deadline of this task has been rescheduled to: ";
+    private static final String DEADLINE_HAS_BEEN_RESCHEDULED_TO =
+            "  , deadline of this task has been rescheduled to: ";
     private static final String PLEASE_ENTER_A_NUMBER_FROM_1_TO = "OOPSIE!! Task number is out of range! "
             + "Please enter a number from 1 to ";
     private final int taskIndex;
@@ -32,18 +34,19 @@ public class HandleSnoozeCommand extends Commands {
 
 
     /**
-     * Constructor for the {@code HandleSnoozeCommand} class.
+     * Constructor for the {@code SnoozeCommand} class.
      *
      * @param taskIndex Index of the task to be snoozed.
      * @param dateTimeInfo String representation of the new scheduling information for the task.
      */
-    public HandleSnoozeCommand(int taskIndex, String dateTimeInfo) {
+    public SnoozeCommand(int taskIndex, String dateTimeInfo) {
         this.taskIndex = taskIndex;
         this.dateTimeInfo = dateTimeInfo;
     }
 
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
+        assert ui != null : "ui instance cannot be null when executing command.";
         int numOfTasks = taskList.getTasks().length;
         if (taskIndex < 0 || taskIndex >= numOfTasks) {
             throw new ShagBotException(PLEASE_ENTER_A_NUMBER_FROM_1_TO + numOfTasks + ".");
@@ -63,7 +66,6 @@ public class HandleSnoozeCommand extends Commands {
      *
      * @param deadline Deadline task to be snoozed or rescheduled.
      * @param ui The Ui instance to display message.
-     *
      * @return {@code true} if the deadline was successfully rescheduled, else {@code false}.
      * @throws ShagBotException If the date/time format is invalid.
      */
@@ -79,7 +81,7 @@ public class HandleSnoozeCommand extends Commands {
             throw new ShagBotException(INVALID_DATE_FORMAT_ERROR_MESSAGE);
         }
         deadline.setByTiming(newByTiming);
-        String message = "For this task: " + deadline.getDescription() + DEADLINE_HAS_BEEN_RESCHEDULD_TO
+        String message = "For this task: " + deadline.getDescription() + DEADLINE_HAS_BEEN_RESCHEDULED_TO
                 + newByTiming.format(DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_TIME));
         ui.displayMessage(message);
         return true;
@@ -90,8 +92,7 @@ public class HandleSnoozeCommand extends Commands {
      *
      * @param event Event task to be snoozed or rescheduled.
      * @param ui The Ui instance to display message.
-     *
-     * @return {@code true} if the event was successfully rescheduled, else {@code false}.
+     * @return {@code true} If the event was successfully rescheduled, else {@code false}.
      * @throws ShagBotException If the date/time format is invalid.
      */
     private boolean snoozeEvent(Event event, Ui ui) throws ShagBotException {

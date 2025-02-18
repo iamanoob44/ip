@@ -1,18 +1,18 @@
 package shagbot.util;
 
-import shagbot.commands.Commands;
-import shagbot.commands.HandleByeCommand;
-import shagbot.commands.HandleDeadlineCommand;
-import shagbot.commands.HandleDeleteCommand;
-import shagbot.commands.HandleEventCommand;
-import shagbot.commands.HandleFindCommand;
-import shagbot.commands.HandleListCommand;
-import shagbot.commands.HandleMarkCommand;
-import shagbot.commands.HandleReminderCommand;
-import shagbot.commands.HandleSnoozeCommand;
-import shagbot.commands.HandleTaskOnCommand;
-import shagbot.commands.HandleTodoCommand;
-import shagbot.commands.HandleUnmarkCommand;
+import shagbot.commands.ByeCommand;
+import shagbot.commands.Command;
+import shagbot.commands.DeadlineCommand;
+import shagbot.commands.DeleteCommand;
+import shagbot.commands.EventCommand;
+import shagbot.commands.FindCommand;
+import shagbot.commands.ListCommand;
+import shagbot.commands.MarkCommand;
+import shagbot.commands.ReminderCommand;
+import shagbot.commands.SnoozeCommand;
+import shagbot.commands.TaskOnCommand;
+import shagbot.commands.TodoCommand;
+import shagbot.commands.UnmarkCommand;
 import shagbot.exceptions.ShagBotException;
 import shagbot.tasks.TaskList;
 
@@ -35,9 +35,9 @@ public class Parser {
     private static final String NO_INPUT_ERROR_MESSAGE = "No input provided. Please enter a valid command.";
     private static final String INVALID_COMMANDS_ERROR_MESSAGE = "OOPSIE!! Unknown command. "
             + "Consider only these valid commands:\n\nlist, todo, deadline, event, "
-            + "mark, unmark, delete, task on, find, snooze or bye.";
+            + "mark, unmark, delete, task on, find, snooze, reminder or bye.";
     private static final String UNEXPECTED_ERROR_MESSAGE = "OOPSIE!! Unexpected error occurred...";
-    private static final String INVALID_TASK_COMMAND_ERROR_MESSAG = "OOPSIE!! Invalid 'task' command. "
+    private static final String INVALID_TASK_COMMAND_ERROR_MESSAGE = "OOPSIE!! Invalid 'task' command. "
             + "Did you mean 'task on <date>'?";
     private static final String INVALID_TASK_NUMBER_ERROR_MESSAGE = "OOPSIE!! Invalid task number entered. "
             + "Please try again!!";
@@ -69,12 +69,12 @@ public class Parser {
      * Parses a user command and executes the corresponding action.
      *
      * @param inputCommand The user's command to parse and process accordingly.
-     * @return True if {@link shagbot.Shagbot} continues running, False for exit
+     * @return {@code true} if the application continues running, {@code false} if it exits.
      */
     public boolean parseCommand(String inputCommand) {
         try {
-            Commands parsedCommands = parseInputToCommand(inputCommand);
-            return parsedCommands.executeCommand(taskList, ui);
+            Command parsedCommand = parseInputToCommand(inputCommand);
+            return parsedCommand.executeCommand(taskList, ui);
         } catch (ShagBotException e) {
             ui.printErrorMessage(e.getMessage());
         } catch (Exception e) {
@@ -90,7 +90,7 @@ public class Parser {
      * @return The command, which will be parsed and handled accordingly.
      * @throws ShagBotException If the input is invalid or invalid command found.
      */
-    Commands parseInputToCommand(String input) throws ShagBotException {
+    Command parseInputToCommand(String input) throws ShagBotException {
         if (input == null || input.trim().isEmpty()) {
             throw new ShagBotException(NO_INPUT_ERROR_MESSAGE);
         }
@@ -101,40 +101,40 @@ public class Parser {
 
         switch (mainCommand) {
         case BYE:
-            return new HandleByeCommand();
+            return new ByeCommand();
 
         case LIST:
-            return new HandleListCommand();
+            return new ListCommand();
 
         case MARK:
-            return new HandleMarkCommand(parseTaskIndex(description));
+            return new MarkCommand(parseTaskIndex(description));
 
         case UNMARK:
-            return new HandleUnmarkCommand(parseTaskIndex(description));
+            return new UnmarkCommand(parseTaskIndex(description));
 
         case TODO:
-            return new HandleTodoCommand(description);
+            return new TodoCommand(description);
 
         case DEADLINE:
-            return new HandleDeadlineCommand(description);
+            return new DeadlineCommand(description);
 
         case EVENT:
-            return new HandleEventCommand(description);
+            return new EventCommand(description);
 
         case DELETE:
-            return new HandleDeleteCommand(parseTaskIndex(description));
+            return new DeleteCommand(parseTaskIndex(description));
 
         case TASK:
             return parseTaskOnCommand(description);
 
         case FIND:
-            return new HandleFindCommand(description);
+            return new FindCommand(description);
 
         case SNOOZE:
             return parseSnoozeCommand(description);
 
         case REMINDER:
-            return new HandleReminderCommand();
+            return new ReminderCommand();
 
         default:
             throw new ShagBotException(INVALID_COMMANDS_ERROR_MESSAGE);
@@ -145,12 +145,12 @@ public class Parser {
      * Parses the task index from the provided command description.
      * <p>
      * This method expects the first token of the description to be a number,
-     * which will be then converted to a zero-based index.
+     * which will be then converted to a zeroed-based index.
      * </p>
      *
      * @param description The command description containing the task number or index.
-     * @return Zero-based index of the task.
-     * @throws ShagBotException If task number is not within range.
+     * @return Zeroed-based index of the task.
+     * @throws ShagBotException If task index is not within the range.
      */
     int parseTaskIndex(String description) throws ShagBotException {
         try {
@@ -168,26 +168,26 @@ public class Parser {
      * Parses a 'task on' command, with the keyword "task" already processed.
      *
      * @param description Command description which is expected to start with "on ".
-     * @return A {@link HandleTaskOnCommand} instance, coupled with the provided date string.
+     * @return A {@link TaskOnCommand} instance, coupled with the provided date string.
      * @throws ShagBotException If the command description does not start with "on ".
      */
-    private Commands parseTaskOnCommand(String description) throws ShagBotException {
+    private Command parseTaskOnCommand(String description) throws ShagBotException {
         if (description.startsWith("on ")) {
             String dateString = description.substring(3).trim();
-            return new HandleTaskOnCommand(dateString);
+            return new TaskOnCommand(dateString);
         }
-        throw new ShagBotException(INVALID_TASK_COMMAND_ERROR_MESSAG);
+        throw new ShagBotException(INVALID_TASK_COMMAND_ERROR_MESSAGE);
     }
 
     /**
      * Parses a "snooze" command through the task index and new date/time information.
      *
-     * @param description The command description containing task index and rescheduling information of the time.
-     * @return A {@link HandleSnoozeCommand} instance, coupled with its extracted task index and date/time info.
+     * @param description The command description containing task index and the rescheduled date/time.
+     * @return A {@link SnoozeCommand} instance, coupled with its extracted task index and date/time info.
      * @throws ShagBotException If description does not contain both a task index and scheduling information, or
      *                          invalid task index.
      */
-    private Commands parseSnoozeCommand(String description) throws ShagBotException {
+    private Command parseSnoozeCommand(String description) throws ShagBotException {
         String[] parts = description.split(" ", 2);
         if (parts.length < 2) {
             throw new ShagBotException(SPECIFY_TASK_TO_SNOOZE_AND_NEW_DATE_ERROR_MESSAGE);
@@ -198,7 +198,7 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new ShagBotException(INVALID_TASK_NUMBER_ERROR_MESSAGE);
         }
-        return new HandleSnoozeCommand(taskIndex, parts[1].trim());
+        return new SnoozeCommand(taskIndex, parts[1].trim());
     }
 }
 

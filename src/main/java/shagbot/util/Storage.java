@@ -36,7 +36,7 @@ public class Storage {
      * Loads saved tasks from the file.
      * <p>
      * This method also utilises try-with-resources to ensure the {@code BufferedReader} is
-     * automatically closed after reading the file, increasing maintainability.
+     * automatically closed after reading the file, increasing code maintainability.
      * </p>
      *
      * @return An {@link ArrayList} of saved tasks loaded from the file.
@@ -149,7 +149,8 @@ public class Storage {
     /**
      * Converts a {@code Task} object into a file format for saving to file.
      *
-     * @param task The {@code Todo}, {@code Event}, or {@code Deadline} task to convert to the data.txt file.
+     * @param task The {@code Todo}, {@code Event}, or {@code Deadline} task to convert to string representation
+     *             and saved to the dataoftasks.txt file.
      * @return A string representation of the task in file format.
      * @throws IllegalArgumentException If task type is invalid and not supported.
      */
@@ -172,7 +173,7 @@ public class Storage {
     /**
      * Formats date using the predefined date format specified.
      *
-     * @param date The date to format for deadline and event tasks..
+     * @param date The date to format for deadline and event tasks.
      * @return A formatted date string.
      */
     private String formattedDateOfTask(java.time.LocalDateTime date) {

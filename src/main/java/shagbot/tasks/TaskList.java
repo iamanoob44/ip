@@ -4,26 +4,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A class that helps to manage the tasks in Shagbot.
+ * A class that helps to manage tasks in the Shagbot application.
  */
 public class TaskList {
     private final ArrayList<Task> tasks;
 
 
     /**
-     * Default Constructor for {@code TaskList} class.
+     * Default constructor for {@code TaskList} class.
      * Constructs an empty TaskList.
-     *
      */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
     /**
-     * Constructor for {@code TasKList} used for JUnit Testing only.
-     * Constructs an {@code ArrayList} array with an initial set of tasks.
+     * Constructor for {@code TaskList} used for JUnit Testing only.
+     * Constructs an {@code ArrayList} with an initial set of tasks.
      *
-     * @param initialTasks Accepts a task array used for JUnit Testing.
+     * @param initialTasks Accepts a task array used for JUnit Testing only.
      */
     public TaskList(Task[] initialTasks) {
         this.tasks = new ArrayList<>(Arrays.asList(initialTasks));
@@ -38,7 +37,7 @@ public class TaskList {
      * @param task The task to add.
      */
     public void addTask(Task task) {
-        assert task != null : "Task cannot be of null value.";
+        assert task != null : "Task cannot be null.";
         tasks.add(task);
     }
 
@@ -83,7 +82,7 @@ public class TaskList {
 
 
     /**
-     * Marks a task as done by index.
+     * Marks a task as done by its index.
      *
      * @param index The index of the task to mark.
      */
@@ -92,7 +91,7 @@ public class TaskList {
     }
 
     /**
-     * Marks a task as not done by index.
+     * Marks a task as not done by its index.
      *
      * @param index The index of the task to unmark.
      */

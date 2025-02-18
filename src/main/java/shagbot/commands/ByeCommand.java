@@ -5,12 +5,12 @@ import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 /**
- * This class handles the "bye" command entered by user.
+ * This class represents a command that handles the termination of the program when the user enters "bye".
  */
-public class HandleByeCommand extends Commands {
+public class ByeCommand extends Command {
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
-        assert ui != null : "ui cannot be null.";
+        assert ui != null : "ui instance cannot be null when command is executed.";
         ui.printExit();
         return false;
     }

@@ -25,8 +25,8 @@ public class MainWindow extends AnchorPane {
 
     private Shagbot shagbot;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
-    private Image shagBotImage = new Image(this.getClass().getResourceAsStream("/images/shagbot.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/users.png"));
+    private Image shagBotImage = new Image(this.getClass().getResourceAsStream("/images/shagbots.png"));
 
     /**
      * Initialise the GUI

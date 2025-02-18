@@ -5,12 +5,12 @@ import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 /**
- * This class handles the "list" command entered by user.
+ * This class represents a command to list all tasks.
  */
-public class HandleListCommand extends Commands {
+public class ListCommand extends Command {
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
-        assert ui != null : "ui cannot be null.";
+        assert ui != null : "ui instance cannot be null when executing command.";
         ui.printTaskList(taskList.getTasks());
         return true;
     }

@@ -12,15 +12,18 @@ import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 /**
- * The class handles the "reminder" command entered by user.
+ * The class represents a command to remind users of any upcoming tasks within 48 hours.
  */
-public class HandleReminderCommand extends Commands {
-    private static final String NO_UPCOMING_TASKS_REMINDER_ERROR = "No upcoming tasks within the next 48 hours.";
-    private static final String UPCOMING_TASKS_WITHIN_THE_NEXT_48_HOURS = "Upcoming tasks within the next 48 hours:\n";
+public class ReminderCommand extends Command {
+    private static final String NO_UPCOMING_TASKS_REMINDER_ERROR =
+            "No upcoming tasks within the next 48 hours.";
+    private static final String UPCOMING_TASKS_WITHIN_THE_NEXT_48_HOURS =
+            "Upcoming tasks within the next 48 hours:\n";
     private static final int WINDOW_PERIOD = 48;
 
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
+        assert ui != null : "ui instance cannot be null when executing command.";
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime windowEnd = currentTime.plusHours(WINDOW_PERIOD);
 
@@ -37,7 +40,7 @@ public class HandleReminderCommand extends Commands {
      *
      * @param task The task from which to extract the time information.
      * @return The {@link LocalDateTime} representation of the time for the task, or {@code null} if
-     *         task is not neither a deadline nor an event.
+     *         the task is neither a deadline nor an event.
      */
     private LocalDateTime getTaskTime(Task task) {
         if (task instanceof Deadline) {
@@ -55,7 +58,6 @@ public class HandleReminderCommand extends Commands {
      * @param taskTime Time associated with the task.
      * @param windowStart Beginning of window.
      * @param windowEnd End of window.
-     *
      * @return {@code true} if {@code taskTime} is strictly after {@code windowStart} and also strictly before
      *         {@code windowEnd} ; Within the Window Period. Otherwise, it returns {@code false}.
      */
@@ -69,8 +71,8 @@ public class HandleReminderCommand extends Commands {
      * @param taskList List of tasks to search and filter through.
      * @param windowStart Beginning of window.
      * @param windowEnd End of window.
-     *
-     * @return a {@link List} of tasks that within the specified window; if no tasks found, an empty list is returned.
+     * @return A {@link List} of tasks that occur within the specified window;
+     *         if no tasks are found, an empty list is returned.
      */
     private List<Task> getUpcomingTasks(TaskList taskList, LocalDateTime windowStart, LocalDateTime windowEnd) {
         List<Task> upcomingTasks = new ArrayList<>();
@@ -87,7 +89,6 @@ public class HandleReminderCommand extends Commands {
      * Builds the reminder message from the list of upcoming tasks within the 48 hours period.
      *
      * @param upcomingTasks List of upcoming tasks.
-     *
      * @return A formatted reminder message listing all the upcoming tasks, or a message indicating no tasks are found
      *         if there are no upcoming tasks in the list.
      */

@@ -5,16 +5,17 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * Represents a task that is of the 'Deadline' category.
+ * Represents a task of type 'Deadline'.
  */
 public class Deadline extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER =
             DateTimeFormatter.ofPattern("dd/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER =
-            DateTimeFormatter.ofPattern("MMM"
-                    + " dd yyyy, h:mma");
-    private static final String INVALID_DATE_MESSAGE = "Invalid date format. Please use 'dd/M/yyyy HHmm'.";
+            DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
+    private static final String INVALID_DATE_MESSAGE =
+            "Invalid date format. Please use 'dd/M/yyyy HHmm'.";
     private LocalDateTime byTiming;
+
     /**
      * Constructor for the {@code Deadline} class with specified description
      * of task and its deadline.
@@ -25,8 +26,10 @@ public class Deadline extends Task {
     public Deadline(String desc, String byTiming) {
         super(desc);
         // Assert statements
-        assert desc != null && !desc.trim().isEmpty() : "Description of deadline task cannot be null or empty.";
-        assert byTiming != null && !byTiming.trim().isEmpty() : "Deadline timing cannot be null or empty.";
+        assert desc != null && !desc.trim().isEmpty() : "Deadline task description cannot be null or empty.";
+        assert byTiming != null : "Deadline timing cannot be null.";
+        assert !byTiming.trim().isEmpty() : "Deadline timing cannot be empty.";
+
         this.byTiming = parseStringToDateTime(byTiming);
     }
 
@@ -35,7 +38,7 @@ public class Deadline extends Task {
      *
      * @param dateTimeStr The string representation of date and time.
      * @return The parsed {@link LocalDateTime} object representing the deadline.
-     * @throws IllegalArgumentException if provided date or time is invalid.
+     * @throws IllegalArgumentException If the provided date or time format is invalid.
      */
     private LocalDateTime parseStringToDateTime(String dateTimeStr) {
         try {
@@ -59,13 +62,14 @@ public class Deadline extends Task {
      * The format includes the task type "[D]", the description from the
      * parent {@link Task} class, and the date and timing of the deadline.
      *
-     * @return A string representation of the Deadline Task.
+     * @return A string representation of the deadline task.
      */
     @Override
     public String toString() {
-        assert this.byTiming != null : "byTiming should never be null when calling toString.";
+        assert this.byTiming != null : "byTiming should never be null when calling toString().";
         return "[D]" + super.toString() + " (by: " + byTiming.format(OUTPUT_FORMATTER) + ")";
     }
+
     /**
      * Sets a new timing for the deadline task through the Snooze/Reschedule feature.
      *

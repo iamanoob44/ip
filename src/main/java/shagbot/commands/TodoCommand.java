@@ -6,24 +6,25 @@ import shagbot.tasks.Todo;
 import shagbot.util.Ui;
 
 /**
- * This class handles the "todo" command entered by user.
+ * This class represents a command to add a todo task.
  */
-public class HandleTodoCommand extends Commands {
-    private static final String INVALID_TODO_ERROR_MESSAGE = "OOPSIE!! Description for 'todo' task cannot be empty.";
+public class TodoCommand extends Command {
+    private static final String INVALID_TODO_ERROR_MESSAGE =
+            "OOPSIE!! Description for 'todo' task cannot be empty.";
     private final String description;
 
     /**
-     * Constructor for the {@code HandleToDoCommand} class.
+     * Constructor for the {@code TodoCommand} class.
      *
      * @param description The description of the {@link Todo} task.
      */
-    public HandleTodoCommand(String description) {
+    public TodoCommand(String description) {
         this.description = description;
     }
 
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
-        assert ui != null : "ui cannot be null.";
+        assert ui != null : "ui instance cannot be null when executing a command.";
         if (description.isEmpty()) {
             throw new ShagBotException(INVALID_TODO_ERROR_MESSAGE);
         }

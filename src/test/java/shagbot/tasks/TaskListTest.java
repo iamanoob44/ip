@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
+/**
+ * A test class to test certain methods of {@link TaskList}.
+ */
 public class TaskListTest {
     private TaskList taskList;
     private Task task1;
@@ -15,6 +17,9 @@ public class TaskListTest {
     private Task task3;
     private Task task4;
 
+    /**
+     * Initialise a test setup for testing.
+     */
     @BeforeEach
     void setUp() {
         task1 = new Deadline("Task 1", "22/4/2002 2000");
@@ -25,6 +30,9 @@ public class TaskListTest {
         taskList = new TaskList(new Task[]{task1, task2, task3, task4});
     }
 
+    /**
+     * Test the {@code addTask()} feature in {@link TaskList}.
+     */
     @Test
     void testAddTask() {
         Task newTask = new Todo("Task 5");
@@ -35,6 +43,9 @@ public class TaskListTest {
         assertEquals(newTask, tasks[4], "Last task should be Task 5");
     }
 
+    /**
+     * Test the {@code deleteTask()} feature in {@link TaskList}.
+     */
     @Test
     void testDeleteTask() {
         Task deletedTask = taskList.deleteTask(2);
@@ -46,6 +57,9 @@ public class TaskListTest {
         assertEquals(task4, tasks[2], "Third task should be Task 4");
     }
 
+    /**
+     * Test the {@code getTask(int index)} feature in {@link TaskList}.
+     */
     @Test
     void testGetTask() {
         // We are testing the getTask(int index), not the getTasks() method.
@@ -55,6 +69,9 @@ public class TaskListTest {
         assertEquals(task4, taskList.getTask(3), "Task at index 3 should be Task 4");
     }
 
+    /**
+     * Test the {@code markTask()} and {@code unmarkTask()} features in {@link TaskList}.
+     */
     @Test
     void testMarkOrUnmarkTask() {
         taskList.markTask(0);

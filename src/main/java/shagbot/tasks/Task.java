@@ -14,7 +14,7 @@ public class Task {
      * @param desc The description of the task.
      */
     public Task(String desc) {
-        assert desc != null && !desc.trim().isEmpty() : "Task description cannot be null or empty";
+        assert desc != null && !desc.trim().isEmpty() : "Task description cannot be null or empty.";
         this.description = desc;
         this.isDone = false;
     }
@@ -62,6 +62,5 @@ public class Task {
     public String toString() {
         return "[" + (isDone ? "X" : " ") + "] " + description;
     }
-
 }
 

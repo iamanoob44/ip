@@ -6,25 +6,25 @@ import shagbot.tasks.TaskList;
 import shagbot.util.Ui;
 
 /**
- * This class handles the "deadline" command entered by user.
+ * This class represents a command to add a deadline task.
  */
-public class HandleDeadlineCommand extends Commands {
-    private static final String INVALID_DEADLINE_ERROR_MESSAGE = "OOPSIE!! Invalid format. Use: deadline <description>"
-            + " /by <dd/M/yyyy hhmm>.";
+public class DeadlineCommand extends Command {
+    private static final String INVALID_DEADLINE_ERROR_MESSAGE =
+            "OOPSIE!! Invalid format. Use: deadline <description>" + " /by <dd/M/yyyy hhmm>.";
     private final String description;
 
     /**
-     * Constructor for the {@code HandleDeadlineCommand } class.
+     * Constructor for the {@code DeadlineCommand} class.
      *
      * @param description Description of the deadline task.
      */
-    public HandleDeadlineCommand(String description) {
+    public DeadlineCommand(String description) {
         this.description = description;
     }
 
     @Override
     public boolean executeCommand(TaskList taskList, Ui ui) throws ShagBotException {
-        assert ui != null : "ui cannot be null.";
+        assert ui != null : "ui instance cannot be null when executing a command.";
         String[] parts = description.split(" /by ", 2);
         if (parts.length < 2) {
             throw new ShagBotException(INVALID_DEADLINE_ERROR_MESSAGE);
