@@ -10,9 +10,11 @@ Shagbot helps users efficiently manage and organize their daily tasks, ensuring 
 
 ## **2️⃣ Get Started**
 ### **To get started with shagbot,**
-1. **Go [here](https://github.com/iamanoob44/ip/releases "here")**
-2. **Navigate** to the directory which contains `shagbot.jar`.
-3. **Run `java -jar shagbot.jar` **
+1. **Go to v0.3, click [here](https://github.com/iamanoob44/ip/releases "here")**
+2. **Download the files and navigate** to the directory which contains `shagbot.jar`.
+3.**Run** ```Java
+java -jar shagbot.jar
+```
 4. **Enjoy** the various features!
 
 ---
