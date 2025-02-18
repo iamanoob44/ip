@@ -5,7 +5,7 @@
 
 ## **1️⃣ Goal**
 Shagbot helps users efficiently manage and organize their daily tasks, ensuring they never miss deadlines or forget important events.
-
+![My showcase](https://github.com/iamanoob44/ip/raw/master/docs/Ui.png)
 ---
 
 ## **2️⃣ Get Started**
