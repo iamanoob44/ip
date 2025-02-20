@@ -4,12 +4,14 @@ Hi there! *Shagbot* is your personal task manager, making it effortless to add, 
 ---
 
 ## **1️⃣ Goal**
+
 Shagbot helps users efficiently manage and organize their daily tasks, ensuring they never miss deadlines or forget important events.
 ---
 ![My showcase](https://github.com/iamanoob44/ip/raw/master/docs/Ui.png)
 ---
 
 ## **2️⃣ Get Started**
+
 ### **To get started with shagbot,**
 1. **Go to v0.3, click [here](https://github.com/iamanoob44/ip/releases "here")**
 2. **Download the files and navigate** to the directory which contains `shagbot.jar`.
@@ -19,23 +21,28 @@ Shagbot helps users efficiently manage and organize their daily tasks, ensuring 
 ---
 
 ## **3️⃣ Details**
+
 ### **⚡ Basic Commands**
+
 | **Command** | **Purpose** | **Example** |
 |------------|------------|------------|
 | `list` | Displays all tasks. | `list` |
 | `bye` | Exits the application. | `bye` |
 
 ### **📝 Task Management**
+
 📌 **All date-time inputs must follow this format:** `DD/M/YYYY HHHH` *(Example: 17/2/2025 1530)*
 
 #### **✅ Adding your Tasks**
-| **Command** | **Purpose** | **Example** |
-|------------|------------|------------|
-| `todo <task_name>` | Adds a new To-Do task. | `todo Buy groceries` |
-| `deadline <task_name> /by <due_date-time>` | Adds a new task with deadline. | `deadline CS2103T Assignment /by 20/2/2025 2359` |
-| `event <task_name> /from <start_date-time> /to <end_date-time>` | Adds a new Event. | `event Project meeting /from 20/3/2025 1400 /to 20/3/2025 1600` |
+
+| **Command** | **Purpose** | **Example** | **Output** |
+|------------|------------|------------|------------|
+| `todo <task_name>` | Adds a new To-Do task. | `todo Buy groceries` | ```Got it. I've added this task: [T][ ] Buy groceries```
+| `deadline <task_name> /by <due_date-time>` | Adds a new task with deadline. | `deadline CS2103T Assignment /by 20/2/2025 2359` | ``` Got it. I've added this task: [D][ ] CS2103T Assignment (by: Feb 20 2025, 11:59pm)```
+| `event <task_name> /from <start_date-time> /to <end_date-time>` | Adds a new Event. | `event Project meeting /from 20/3/2025 1400 /to 20/3/2025 1600` | ```Got it. I've added this task: [E][ ] Project meeting (from: Mar 20 2025, 2:00pm to: Mar 20 2025, 4:00pm)```
 
 #### **🔧 Managing your Tasks**
+
 | **Command** | **Purpose** | **Example** |
 |------------|------------|------------|
 | `mark <task_number>` | Marks a task as completed. | `mark 2` |
@@ -46,6 +53,7 @@ Shagbot helps users efficiently manage and organize their daily tasks, ensuring 
 | `task on <DD/M/YYYY>` | Searches for tasks on a specific date. | `task on 20/3/2025` |
 
 #### **🔍 Search & Reminders**
+
 | **Command** | **Purpose** | **Example** |
 |------------|------------|------------|
 | `find <keyword>` | Searches for tasks given a keyword. | `find meeting` |
