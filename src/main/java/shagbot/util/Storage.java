@@ -20,6 +20,15 @@ import shagbot.tasks.Todo;
 public class Storage {
     private static final String DATE_FORMAT = "dd/M/yyyy HHmm";
     private static final String INVALID_TASK_TYPE_ERROR_MESSAGE = "Invalid task type";
+    private static final String COMPLETE_TASK = "1";
+    private static final String TODO = "T";
+    private static final String DEADLINE = "D";
+    private static final String EVENT = "E";
+    private static final String INVALID_TODO_FORMAT = "Invalid Todo format, skipping line: ";
+    private static final String INVALID_DEADLINE_FORMAT = "Invalid Deadline format, skipping line: ";
+    private static final String INVALID_EVENT_FORMAT = "Invalid Event format, skipping line: ";
+    private static final String UNSUPPORTED_TASK_TYPE = "Unsupported task type, skipping line: ";
+    private static final String ERROR_PARSING_LINE = "Error parsing line: ";
     private final String filePath;
 
     /**
@@ -81,35 +90,35 @@ public class Storage {
         }
 
         String type = parts[0];
-        boolean isDone = "1".equals(parts[1]);
+        boolean isDone = COMPLETE_TASK.equals(parts[1]);
         String description = parts[2];
 
         try {
             switch (type) {
-            case "T":
+            case TODO:
                 if (parts.length != 3) {
-                    System.err.println("Invalid Todo format, skipping line: " + line);
+                    System.err.println(INVALID_TODO_FORMAT + line);
                     return null;
                 }
                 return createTodo(description, isDone);
-            case "D":
+            case DEADLINE:
                 if (parts.length != 4) {
-                    System.err.println("Invalid Deadline format, skipping line: " + line);
+                    System.err.println(INVALID_DEADLINE_FORMAT + line);
                     return null;
                 }
                 return createDeadline(description, parts[3], isDone);
-            case "E":
+            case EVENT:
                 if (parts.length != 5) {
-                    System.err.println("Invalid Event format, skipping line: " + line);
+                    System.err.println(INVALID_EVENT_FORMAT + line);
                     return null;
                 }
                 return createEvent(description, parts[3], parts[4], isDone);
             default:
-                System.err.println("Unsupported task type, skipping line: " + line);
+                System.err.println(UNSUPPORTED_TASK_TYPE + line);
                 return null;
             }
         } catch (Exception e) {
-            System.err.println("Error parsing line: " + line);
+            System.err.println(ERROR_PARSING_LINE + line);
             e.printStackTrace();
             return null;
         }
@@ -193,7 +202,7 @@ public class Storage {
      */
     private String taskToFileFormat(Task task) {
         assert task != null : "Task cannot be null";
-        var completionStatus = (task.isDone() ? "1" : "0") + " | " + task.getDescription();
+        var completionStatus = (task.isDone() ? COMPLETE_TASK : "0") + " | " + task.getDescription();
 
         if (task instanceof Deadline deadline) {
             return "D | " + completionStatus + " | " + formattedDateOfTask(deadline.getByTiming());
