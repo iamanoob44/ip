@@ -88,15 +88,15 @@ public class ParserTest {
     @Test
     void testParseCommand_byeCommand() {
 
-        boolean result = parser.parseCommand("bye");
-        boolean secondResult = parser.parseCommand("Todo borrow");
-        boolean thirdResult = parser.parseCommand("Deadline ....");
-        boolean fourthResult = parser.parseCommand("mark 2");
+        boolean isFirstTrue = parser.parseCommand("bye");
+        boolean isSecondTrue = parser.parseCommand("Todo borrow");
+        boolean isThirdTrue = parser.parseCommand("Deadline ....");
+        boolean isFourthTrue = parser.parseCommand("mark 2");
 
-        assertFalse(result, "The 'bye' command should return false after executing.");
-        assertTrue(secondResult, "Todo command should return true after executing.");
-        assertTrue(thirdResult, "Deadline command should return true after executing.");
-        assertTrue(fourthResult, "Mark/Unmark command should return true after executing.");
+        assertFalse(isFirstTrue, "The 'bye' command should return false after executing.");
+        assertTrue(isSecondTrue, "Todo command should return true after executing.");
+        assertTrue(isThirdTrue, "Deadline command should return true after executing.");
+        assertTrue(isFourthTrue, "Mark/Unmark command should return true after executing.");
 
     }
 
