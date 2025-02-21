@@ -14,8 +14,8 @@ Shagbot helps users efficiently manage and organize their daily tasks, ensuring 
 
 ### **To get started with shagbot,**
 1. **Go to v0.3, click [here](https://github.com/iamanoob44/ip/releases "here")**
-2. **Download the files and navigate** to the directory which contains `shagbot.jar`.
-3. **Run** `java -jar shagbot.jar`
+2. **Download the files and navigate** to the directory which contains `Shagbot.jar`.
+3. **Run** `java -jar Shagbot.jar`
 4. **Enjoy** the various features!
 
 ---
@@ -56,7 +56,7 @@ Shagbot helps users efficiently manage and organize their daily tasks, ensuring 
 
 | **Command** | **Purpose** | **Example** |
 |------------|------------|------------|
-| `find <keyword>` | Searches for tasks given a keyword. | `find meeting` |
+| `find <keyword>` | Searches for tasks given a keyword (Case Sensitive) . | `find meeting` |
 | `reminder` | Shows tasks due within the next 48 hours. | `reminder` |
 
 ---
