@@ -25,6 +25,7 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.setMinHeight(400);
             stage.setMinWidth(700);
+            stage.setTitle("Shagbot");
             fxmlLoader.<MainWindow>getController().setShagbot(shagbot); // inject the Shagbot instance
             stage.show();
         } catch (IOException e) {
