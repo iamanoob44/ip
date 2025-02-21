@@ -50,55 +50,69 @@ public class Storage {
             // Create the file and directory if they don't exist
             file.getParentFile().mkdirs();
             file.createNewFile();
+            return tasks;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(" \\| ");
-                // One way to check if lines are erroneous entries / corrupted file
-                if (parts.length < 3) {
-                    // Log an error, skip this line and display to users errors on the text interface
-                    System.err.println("Skipping corrupted line: " + line);
-                    continue;
-                }
-
-                String type = parts[0];
-                boolean isDone = parts[1].equals("1");
-                String description = parts[2];
-
-
-                switch (type) {
-                case "T":
-                    // For Todo, expect exactly 3 parts only
-                    if (parts.length != 3) {
-                        System.err.println("Invalid Todo format, skipping line: " + line);
-                        continue;
-                    }
-                    tasks.add(createTodo(description, isDone));
-                    break;
-                case "D":
-                    // For Deadline, expect exactly 4 parts only
-                    if (parts.length != 4) {
-                        System.err.println("Invalid Deadline format, skipping line: " + line);
-                        continue;
-                    }
-                    tasks.add(createDeadline(description, parts[3], isDone));
-                    break;
-                case "E":
-                    // For Event, expect exactly 5 parts only
-                    if (parts.length != 5) {
-                        System.err.println("Invalid Event format, skipping line: " + line);
-                        continue;
-                    }
-                    tasks.add(createEvent(description, parts[3], parts[4], isDone));
-                    break;
-                default:
-                    System.err.println("Unsupported task type, skipping line: " + line);
+                Task task = parseTask(line);
+                if (task != null) {
+                    tasks.add(task);
                 }
             }
         }
         return tasks;
+    }
+
+    /**
+     * Parses a line from the storage file into a {@code Task} object.
+     *
+     * @param line The line to parse, expected to be formatted as per the task type.
+     * @return The corresponding {@code Task} object, or {@code null} if parsing fails.
+     */
+    private Task parseTask(String line) {
+        String[] parts = line.split(" \\| ");
+
+        // One way to check if lines are erroneous entries / corrupted file
+        if (parts.length < 3) {
+            System.err.println("Skipping corrupted line: " + line);
+            return null;
+        }
+
+        String type = parts[0];
+        boolean isDone = "1".equals(parts[1]);
+        String description = parts[2];
+
+        try {
+            switch (type) {
+            case "T":
+                if (parts.length != 3) {
+                    System.err.println("Invalid Todo format, skipping line: " + line);
+                    return null;
+                }
+                return createTodo(description, isDone);
+            case "D":
+                if (parts.length != 4) {
+                    System.err.println("Invalid Deadline format, skipping line: " + line);
+                    return null;
+                }
+                return createDeadline(description, parts[3], isDone);
+            case "E":
+                if (parts.length != 5) {
+                    System.err.println("Invalid Event format, skipping line: " + line);
+                    return null;
+                }
+                return createEvent(description, parts[3], parts[4], isDone);
+            default:
+                System.err.println("Unsupported task type, skipping line: " + line);
+                return null;
+            }
+        } catch (Exception e) {
+            System.err.println("Error parsing line: " + line);
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
