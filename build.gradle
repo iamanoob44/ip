@@ -48,7 +48,7 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "shagbot"
+    archiveBaseName = "Shagbot"
     archiveClassifier = null
 }
 
