@@ -36,7 +36,10 @@ AnchorPane {
 
 .scroll-bar {
     -fx-font-size: 10px;  /* Change width of scroll bar. */
-    -fx-background-color: main-color;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #0A192F;
 }
 
 .scroll-bar .thumb {
