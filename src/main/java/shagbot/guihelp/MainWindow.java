@@ -1,5 +1,6 @@
 package shagbot.guihelp;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -8,12 +9,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import shagbot.Shagbot;
 
 /**
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+
+    private static final int MAX_MESSAGES_IN_DIALOGUE = 7;
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -24,7 +28,6 @@ public class MainWindow extends AnchorPane {
     private Button sendButton;
 
     private Shagbot shagbot;
-
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/users.png"));
     private Image shagBotImage = new Image(this.getClass().getResourceAsStream("/images/shagbots.png"));
 
@@ -60,13 +63,19 @@ public class MainWindow extends AnchorPane {
             return; // Ignore empty input
         }
 
-        String response = shagbot.getResponse(input); // Process command
+        String response = shagbot.getResponse(input);
 
-        // Display user input and bot response
+        // Add new dialog nodes
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getShagBotDialog(response, shagBotImage)
         );
+
+        // Remove older messages if there is too many of them, since it will affect the performance of Shagbot
+        if (dialogContainer.getChildren().size() > MAX_MESSAGES_IN_DIALOGUE) {
+            dialogContainer.getChildren().remove(0,
+                    dialogContainer.getChildren().size() - MAX_MESSAGES_IN_DIALOGUE);
+        }
 
         userInput.clear();
 
@@ -81,7 +90,9 @@ public class MainWindow extends AnchorPane {
      */
     private void closeApplication() {
         Stage stage = (Stage) userInput.getScene().getWindow();
-        stage.close();
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> stage.close());
+        delay.play();
     }
 }
 

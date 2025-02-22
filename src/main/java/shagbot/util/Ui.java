@@ -45,7 +45,6 @@ public class Ui {
      */
     public void displayMessage(String message) {
         lastMessage = message;
-        System.out.println(message);
     }
 
     /**
